@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>App_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>App Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>New Student: I have a high school diploma or equivalent like the GED and want to attend College for the first time.</fullName>
+                <default>false</default>
+                <label>New Student: I have a high school diploma or equivalent like the GED and want to attend College for the first time.</label>
+            </value>
+            <value>
+                <fullName>International Student: I'm a student from outside the United States.</fullName>
+                <default>false</default>
+                <label>International Student: I'm a student from outside the United States.</label>
+            </value>
+            <value>
+                <fullName>Returning Student: I'm a previous Pima student wanting to take classes.</fullName>
+                <default>false</default>
+                <label>Returning Student: I'm a previous Pima student wanting to take classes.</label>
+            </value>
+            <value>
+                <fullName>High School Student: I'm currently a high school student wanting to take college courses for both high school and college credit (Dual Enrollment) or college credit only (Early Admission).</fullName>
+                <default>false</default>
+                <label>High School Student: I'm currently a high school student wanting to take college courses for both high school and college credit (Dual Enrollment) or college credit only (Early Admission).</label>
+            </value>
+            <value>
+                <fullName>Transfer Student: I'm transferring to Pima from another college or university and have never applied to Pima before.</fullName>
+                <default>false</default>
+                <label>Transfer Student: I'm transferring to Pima from another college or university and have never applied to Pima before.</label>
+            </value>
+            <value>
+                <fullName>Guest Student: I'm a student at another college or university and would just like to take a few other classes at Pima.</fullName>
+                <default>false</default>
+                <label>Guest Student: I'm a student at another college or university and would just like to take a few other classes at Pima.</label>
+            </value>
+            <value>
+                <fullName>Adult Basic Education Student: I want to prepare for a High School Equivalency (HSE) exam like the GED, learn/improve my English, improve my basic skills in reading, writing or math, or learn about citizenship.</fullName>
+                <default>false</default>
+                <label>Adult Basic Education Student: I want to prepare for a High School Equivalency (HSE) exam like the GED, learn/improve my English, improve my basic skills in reading, writing or math, or learn about citizenship.</label>
+            </value>
+            <value>
+                <fullName>Community/Personal Development Student: I'm interested in noncredit courses or workshops for personal interest.</fullName>
+                <default>false</default>
+                <label>Community/Personal Development Student: I'm interested in noncredit courses or workshops for personal interest.</label>
+            </value>
+            <value>
+                <fullName>Workforce/Professional Student: I'm interested in workforce/skills training, Continuing Education Units (CEU) or taking classes arranged through my employer.</fullName>
+                <default>false</default>
+                <label>Workforce/Professional Student: I'm interested in workforce/skills training, Continuing Education Units (CEU) or taking classes arranged through my employer.</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

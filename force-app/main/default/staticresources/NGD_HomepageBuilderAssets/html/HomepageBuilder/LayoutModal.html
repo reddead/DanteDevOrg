@@ -1,0 +1,153 @@
+<form name="form" ng-submit="save()" novalidate>
+    <input style="display:none" />
+    <!--solve chrome autofill issue-->
+    <div class="slds slds-modal slds-modal_large slds-fade-in-open">
+        <div class="slds-modal__container">
+            <div class="slds-modal__header">
+                <button tooltip-placement="left" uib-tooltip-html="HomepageLayoutTooltip" tooltip-class="homepage-builder-tooltip_info" class="slds-button slds-button_icon homepage-builder-icon_info" type="button" title="Help">
+                    <svg class="slds-button__icon slds-button__icon_large">
+                        <use xlink:href="" ng-href="{{res.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#info"></use>
+                    </svg>
+                </button>
+                <button class="slds-button slds-button_icon-inverse slds-modal__close" ng-click="cancel()" type="button">
+                    <svg class="slds-button__icon slds-button__icon_large">
+                        <use xlink:href="" ng-href="{{res.NGD_SLDS}}/assets/icons/action-sprite/svg/symbols.svg#close"></use>
+                    </svg>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <h2 class="slds-text-heading_medium">Homepage Layout</h2>
+            </div>
+            <div class="slds-modal__content slds-p-around_medium">
+                <div dz-page-message ng-if="form.$invalid&&form.$submitted">
+                    Please review the validation errors
+                </div>
+                <h3 class="slds-section-title_divider">
+                    Homepage Layout Detail
+                </h3>
+
+                <div class="slds-grid grid-column-2">
+                    <div dz-input label="Name" ng-model="hl.Name" ng-required="true">
+                    </div>
+                    <div class="slds-grid ">
+                        <div dz-checkbox label="Active" ng-model="hl[namespacePrefix+'Is_Active__c']">
+                        </div>
+                        <div dz-checkbox label="Set Default" ng-model="hl[namespacePrefix+'Default__c']" ng-change="setDefaultActive(hl)">
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="slds-section-title_divider">
+                    Display Criteria
+                </h3>
+                <div ng-if="hl[namespacePrefix+'Default__c']">
+                    *Display criteria will not be evaluated if Set Default checkbox above is marked to true. <br />*Default layout is displayed if there is not any other layout meeting the display criteria.
+                </div>
+
+                <section st-table="hlcList" st-safe-src="hlcListSafe" ng-if="!hl[namespacePrefix+'Default__c']">
+                    <div class="slds-grid">
+                        <div class="slds-grow" ng-class="{ 'slds-has-error' : criteriaLogicErrorMessage&&form.$submitted}">
+                            <div class="slds-input-has-icon slds-input-has-icon_right">
+                                <svg class="slds-input__icon">
+                              		<use xlink:href="" ng-href="{{res.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#filterList"></use>
+                              	</svg>
+                                <input placeholder="Filter Logic ... e.g. ( 1 AND 2 ) OR 3 , if blank default to all AND" class="slds-input" type="text" ng-model="hl[namespacePrefix+'Criteria_Filter_Logic__c']" ng-change="validateCriteriaLogic(hl[namespacePrefix + 'Criteria_Filter_Logic__c'],hlcList)" name="Criteria_Filter_Logic__c" />
+                            </div>
+                            <div ng-if="criteriaLogicErrorMessage&&form.$submitted" class="slds-form-element__help">{{criteriaLogicErrorMessage}}</div>
+                        </div>
+                    </div>
+                    <table class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal">
+                        <thead>
+                            <tr class="slds-text-heading_label">
+                                <th st-sort="order">
+                                    <span class="slds-truncate">Order</span>
+                                </th>
+                                <th st-sort="objectName">
+                                    <span class="slds-truncate">Object</span>
+                                </th>
+                                <th st-sort="fieldName">
+                                    <span class="slds-truncate">Field</span>
+                                </th>
+                                <th st-sort="operator">
+                                    <span class="slds-truncate">Operator</span>
+                                </th>
+                                <th st-sort="fieldValueType">
+                                    <span class="slds-truncate">Type</span>
+                                </th>
+                                <th st-sort="fieldValue">
+                                    <span class="slds-truncate">Value</span>
+                                </th>
+                                <!-- <th>
+                                    <span class="slds-truncate">Action</span>
+                                </th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr st-select-row="hlc" ng-repeat="hlc in hlcList" >
+                                <td data-label="Order">
+                                    <span>{{hlc.order}}</span>
+                                </td>
+                                <td data-label="Object" class="slds-is-required" ng-class="{ 'slds-has-error' : hlcList.length==1&&!hlc.objectName&&form.$submitted}">
+                                    <div class="slds-select_container">
+                                        <select class="slds-select" ng-model="hlc.objectName" ng-change="spliceCriteria(hlc.order-1,'{{hlc.objectName}}',hlc.objectName,hlc);" ng-required="hlcList.length==1">
+                                            <option ng-repeat="item in objectOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                                    </div>
+                                    <div ng-if="hlcList.length==1&&!hlc.objectName&&form.$submitted" class="slds-form-element__help">This field is required</div>
+                                </td>
+                                <td data-label="Field" class="slds-is-required" ng-class="{ 'slds-has-error' : hlc.objectName&&!hlc.fieldName&&form.$submitted}">
+                                    <div class="slds-input-has-icon slds-input-has-icon_right">
+                                        <svg class="slds-input__icon" ng-click="openSelectFieldModal(hlc);">
+                                          <use xlink:href="" ng-href="{{res.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#search">
+                                          </use>
+                                        </svg>
+                                        <input id="CriteriaField" class="slds-input" ng-model="hlc.fieldName" type="text" ng-click="openSelectFieldModal(hlc);" placeholder="Select a field..." uib-tooltip="{{hlc.fieldName}}" tooltip-placement="top" ng-required="hlc.objectName" ng-disabled="!hlc.objectName" ng-readonly="hlc.objectName"/>
+                                    </div>
+                                    <div ng-if="hlc.objectName&&!hlc.fieldName&&form.$submitted" class="slds-form-element__help">This field is required</div>
+                                </td>
+                                <td data-label="Operator" class="slds-is-required" ng-class="{ 'slds-has-error' : hlc.objectName&&!hlc.operator&&form.$submitted}">
+                                    <div class="slds-select_container">
+                                        <select class="slds-select" ng-model="hlc.operator" ng-required="hlc.fieldName" ng-disabled="!hlc.objectName">
+                                            <option ng-repeat="item in operatorOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                                    </div>
+                                    <div ng-if="hlc.objectName&&!hlc.operator&&form.$submitted" class="slds-form-element__help">This field is required</div>
+                                </td>
+                                <td data-label="Type" class="slds-is-required" ng-class="{ 'slds-has-error' : hlc.objectName&&!hlc.fieldValueType&&form.$submitted}">
+                                    <div class="slds-select_container">
+                                        <select class="slds-select" ng-model="hlc.fieldValueType" ng-required="hlc.fieldName" ng-disabled="!hlc.objectName">
+                                            <option ng-repeat="item in typeOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                                    </div>
+                                    <div ng-if="hlc.objectName&&!hlc.fieldValueType&&form.$submitted" class="slds-form-element__help">This field is required</div>
+                                </td>
+                                <td data-label="Value">
+                                    <div dz-field-value ng-model="hlc.fieldValue" field-type="hlc.fieldType" field-option="hlc.fieldOption" ng-disabled="!hlc.objectName">
+                                    </div>
+                                </td>
+                                <!-- <td data-label="Action">
+                                    <button type="button" ng-click="removeCriteria($index)" class="slds-button slds-button_neutral" ng-if="($index != hlcList.length-1)">
+                                        <img src="{{res.NGD_SLDS}}/assets/icons/utility/delete_120.png"/>
+                                    </button>
+                                </td> -->
+                            </tr>
+
+                        </tbody>
+                        <tfoot>
+                            <!-- <tr>
+                                <td colspan="5" st-pagination="''" st-items-by-page="6" st-displayed-pages="5"></td>
+                            </tr> -->
+                        </tfoot>
+                    </table>
+                </section>
+
+            </div>
+            <div class="slds-modal__footer slds-modal__footer_directional">
+                <div class="slds-x-small-buttons_horizontal">
+                    <button class="slds-button slds-button_neutral" ng-click="cancel()" type="button">Cancel</button>
+                    <button class="slds-button slds-button_brand" type="submit">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</form>

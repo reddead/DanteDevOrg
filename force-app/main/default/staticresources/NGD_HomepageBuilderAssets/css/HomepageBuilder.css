@@ -1,0 +1,16 @@
+abbr[title] {
+  text-decoration: none;
+}
+
+
+/*.slds-checkbox [type="checkbox"][disabled] + .slds-checkbox__label .slds-checkbox--faux{
+  background-color: rgb(21, 137, 238);
+  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+PHN2ZyB4bWxucz0iaHR0c…AgMi44bC0zMy42IDMzLjZjLTAuOSAwLjktMiAxLjQtMy4yIDEuNHoiPjwvcGF0aD48L3N2Zz4=);
+  background-size: cover;
+  border-color: rgb(21, 137, 238);
+  box-shadow: 0 0 3px #0070d2;
+}*/
+
+.slds-checkbox [type="checkbox"][disabled] + .slds-checkbox__label .slds-checkbox--faux:after {
+    border-color: rgb(21, 137, 238);
+}

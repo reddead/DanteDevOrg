@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Area_of_Study__c</fullName>
+    <externalId>false</externalId>
+    <label>Area of Study</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Arts, Humanities &amp; Communication</fullName>
+                <default>false</default>
+                <label>Arts, Humanities &amp; Communication</label>
+            </value>
+            <value>
+                <fullName>Business Programs</fullName>
+                <default>false</default>
+                <label>Business Programs</label>
+            </value>
+            <value>
+                <fullName>Computer Information Technology</fullName>
+                <default>false</default>
+                <label>Computer Information Technology</label>
+            </value>
+            <value>
+                <fullName>Education Programs</fullName>
+                <default>false</default>
+                <label>Education Programs</label>
+            </value>
+            <value>
+                <fullName>General Studies or Undecided</fullName>
+                <default>false</default>
+                <label>General Studies or Undecided</label>
+            </value>
+            <value>
+                <fullName>Health-Related Professions</fullName>
+                <default>false</default>
+                <label>Health-Related Professions</label>
+            </value>
+            <value>
+                <fullName>Public Safety Programs</fullName>
+                <default>false</default>
+                <label>Public Safety Programs</label>
+            </value>
+            <value>
+                <fullName>Science &amp; Engineering</fullName>
+                <default>false</default>
+                <label>Science &amp; Engineering</label>
+            </value>
+            <value>
+                <fullName>Social Sciences</fullName>
+                <default>false</default>
+                <label>Social Sciences</label>
+            </value>
+            <value>
+                <fullName>Trade Professions</fullName>
+                <default>false</default>
+                <label>Trade Professions</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

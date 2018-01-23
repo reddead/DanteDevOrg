@@ -1,0 +1,107 @@
+$tooltip-color: #16325c;
+$tooltip--box-shadow-color: rgba(0, 0, 0, 0.16);
+$salesforce-font-stack: "Salesforce Sans", Arial, sans-serif;
+
+body {
+	font-family: $salesforce-font-stack;
+	line-height: 1.5;
+	color: #16325c;
+}
+
+label {
+	max-width: inherit;
+	font-weight: normal;
+}
+
+.tooltip {
+	font-family: $salesforce-font-stack;
+	line-height: 1.5;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+
+	&.top {
+		.tooltip-arrow {
+			border-top-color: $tooltip-color;
+		}
+	}
+
+	&.bottom {
+		.tooltip-arrow {
+			border-bottom-color: $tooltip-color;
+		}
+	}
+
+	&.left {
+		.tooltip-arrow {
+			border-left-color: $tooltip-color;
+		}
+	}
+
+	&.right {
+		.tooltip-arrow {
+			border-right-color: $tooltip-color;
+		}
+	}
+
+	.tooltip-inner {
+		text-align: left;
+		background-color: $tooltip-color;
+		box-shadow: 0 2px 3px 0 $tooltip--box-shadow-color;
+		padding: 0.5rem 0.75rem;
+	}
+
+	&.in {
+		opacity: 1;
+	}
+}
+
+.modal {
+	&.fade,
+	&.in {
+		.modal-dialog {
+			-webkit-transform: none;
+			-ms-transform: none;
+			-o-transform: none;
+			transform: none;
+		}
+	}
+}
+
+.slds-table_bordered {
+	border-bottom: 0;
+
+	tbody {
+		td {
+			vertical-align: baseline;
+		}
+	}
+
+	tfoot {
+		td {
+			padding: 0 !important;
+			border-top: 1px solid #d8dde6;
+			text-align: center !important;
+		}
+	}
+}
+@media (max-width: 48em) {
+	/*fix tooltip not render properly*/
+	.slds-max-medium-table_stacked-horizontal {
+		td {
+			overflow: visible;
+		}
+	}
+	/*fix position of the icon on the right*/
+	.slds-max-medium-table_stacked-horizontalv {
+		td {
+			& > div {
+				clear: both;
+			}
+		}
+	}
+}
+@media (max-width: 768px) {
+	.slds-button-group {
+		justify-content: flex-end;
+	}
+}

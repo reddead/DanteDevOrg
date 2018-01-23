@@ -1,0 +1,112 @@
+<form name="form" ng-submit="next(true)" novalidate onsubmit="debugValidation();" dz-form-read-only="{{application.Application_Submitted__c}}">
+    <input style="display:none" />
+    <dz-page-message message="Please review the validation errors" ng-if="form.$invalid&&form.$submitted"></dz-page-message>
+    <section>
+        <div class="slds-section-title--divider">
+            <div class="slds-text-heading--medium">
+                Personal Data
+            </div>
+        </div>
+
+        <fieldset class="slds-form--compound" columns="2">
+            <div class="slds-form-element__group">
+                <div class="slds-form-element__row">
+                    <dz-input label="Legal First Name" model="contact.FirstName">
+                    </dz-input>
+
+                    <dz-input label="Preferred First Name (ex. Your legal name is Daniel, but you go by Dan)" model="contact.Preferred_First_Name__c">
+                    </dz-input>
+                </div>
+                <div class="slds-form-element__row">
+                    <dz-input label="Middle Name" model="contact.Middle_Initial__c">
+                    </dz-input>
+                </div>
+                <div class="slds-form-element__row">
+                    <dz-input label="Last Name" model="contact.LastName" required="true">
+                    </dz-input>
+
+                    <dz-input label="Previous Last Name" model="contact.Previous_Last_Name__c">
+                    </dz-input>
+                </div>
+                <div class="slds-form-element__row">
+                    <div dz-select label="Suffix (Jr., Sr., III)" model="contact.Suffix__c">
+                    </div>
+                </div>
+                <div class="slds-form-element__row">
+                    <dz-date-picker label="Date of Birth MM-DD-YYYY" model="contact.Date_of_Birth__c" required="true">
+                    </dz-date-picker>
+                </div>
+                <div class="slds-form-element__row">
+                    <dz-select label="Gender" model="contact.Gender__c" required="true">
+                    </dz-select>
+
+                    <dz-input label="Other Gender" model="contact.Other_Gender__c" ng-if="contact.Gender__c=='Other'">
+                    </dz-input>
+                </div>
+                <div class="slds-form-element__row">
+                    <dz-select label="Are you Hispanic or Latino?" model="contact.Hispanic_or_Latino__c">
+                    </dz-select>
+                </div>
+
+                <div class="slds-form-element__row">
+                    <dz-multiselect label="Select from following races" model="contact.Multi_Ethnicity__c" required="true">
+                    </dz-multiselect>
+                </div>
+
+                <div class="slds-form-element__row">
+                    <dz-select-radio label="Select one of the following races" model="contact.Ethnicity__c" required="true">
+                    </dz-select-radio>
+                </div>
+
+                <div class="slds-form-element__row">
+                    <dz-select label="Citizenship Status" model="contact.Citizenship__c" required="true">
+                    </dz-select>
+
+                    <dz-select label="What Visa type do you plan to study on?" model="contact.Visa_Type__c" required="true" ng-if="contact.Citizenship__c=='Non-Permanent Resident of the U.S.'">
+                    </dz-select>
+
+                    <dz-input label="Social Security Number" model="contact.SSN__c" ssn="true" placeholder="###-##-####" ng-if="contact.Citizenship__c=='U.S. Citizen'||contact.Citizenship__c=='U.S. Permanent Resident'||contact.Citizenship__c=='Refugee'||contact.Citizenship__c=='Asylee'">
+                    </dz-input>
+                </div>
+
+                <div class="slds-form-element__row" ng-if="contact.Citizenship__c=='Non-Permanent Resident of the U.S.'">
+                    <dz-select label="Do you hold dual citizenship?" model="contact.Dual_Citizen__c" required="true">
+                    </dz-select>
+
+                    <dz-select label="What is your country of citizenship?" model="contact.Non_US_Country_of_Citizenship__c" required="true" ng-if="contact.Dual_Citizen__c=='No'">
+                    </dz-select>
+                </div>
+
+                <div class="slds-form-element__row" ng-if="contact.Dual_Citizen__c=='Yes'">
+                    <dz-select label="Select the first country in which you hold dual citizenship." model="contact.Dual_Citizenship_Country_1__c">
+                    </dz-select>
+
+                    <dz-select label="Select the second country in which you hold dual citizenship." model="contact.Dual_Citizenship_Country_2__c">
+                    </dz-select>
+                </div>
+
+                <div class="slds-form-element__row" ng-if="contact.Dual_Citizen__c=='Yes'">
+                    <dz-select label="Under what country's passport do you plan to study in the U.S.?" model="contact.Primary_Dual_Passport__c">
+                    </dz-select>
+                </div>
+
+                <div class="slds-form-element__row" ng-if="contact.Dual_Citizen__c=='No'">
+                    <dz-input label="Passport Number" model="contact.Passport_Number__c">
+                    </dz-input>
+
+                    <dz-date-picker label="Passport Expiration" model="contact.Passport_Expiration_Date__c">
+                    </dz-date-picker>
+                </div>
+
+                <div class="slds-form-element__row">
+                    <dz-checkbox label="I have completed this section of the application. Selecting this box will update this section as complete on the application checklist." model="contact.Personal_Data_Section__c" required="true">
+                    </dz-checkbox>
+                </div>
+            </div>
+        </fieldset>
+    </section>
+    <div class="slds-x-small-buttons--horizontal">
+        <button class="slds-button slds-button--brand" type="button" ng-click="next(false)">Save</button>
+        <button class="slds-button slds-button--brand" type="submit">Next</button>
+    </div>
+</form>

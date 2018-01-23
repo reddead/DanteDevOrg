@@ -1,0 +1,131 @@
+<div class="slds">
+    <form name="userForm" ng-submit="userForm.$valid&&save()" novalidate>
+        <input style="display:none" /> <!--solve chrome autofill issue-->
+        <div aria-hidden="false" role="dialog" class="slds-modal slds-fade-in-open" style="overflow: auto;">
+            <div class="slds-modal__container" style="padding:0">
+                <div class="slds-modal__header">
+                    <h2 class="slds-text-heading--medium">College</h2>
+                    <button class="slds-button slds-button--icon-inverse slds-modal__close" ng-click="cancel()" type="button">
+                        <svg aria-hidden="true" class="slds-button__icon slds-button__icon--large">
+                            <use xlink:href="/resource/SLDS/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                        </svg>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                </div>
+                <div class="slds-modal__content" style="overflow: inherit;">
+                    <div class="dz-page-messages" ng-show="userForm.$invalid&&userForm.$submitted">
+                        <svg aria-hidden="true" class="slds-icon slds-icon--small">
+                            <use xlink:href="/resource/SLDS/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+                        </svg>
+                        Please review the validation errors
+                    </div>
+                    <div>
+                        <section>
+                            <fieldset class="slds-form--compound">
+                                <div class="form-element__group">
+                                    <!--slds-form-element__row START-->
+                                    <div class="slds-form-element__row dz-typeahead">
+                                        <!--slds-form-element__control START-->
+                                        <div class="slds-form-element__control slds-size--1-of-1 slds-is-required" ng-class="{ 'slds-has-error' : userForm.collegeTypeAhead.$invalid&&(userForm.collegeTypeAhead.$dirty||userForm.$submitted)}" style="padding-right:0">
+                                            <span class="slds-form-element__label">College/University Name</span>
+                                            <div class="slds-input-has-icon slds-input-has-icon--right">
+                                                <svg aria-hidden="true" class="slds-input__icon">
+                                                    <use xlink:href="/resource/SLDS/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+                                                </svg>
+                                                <input class="slds-input" ng-model="ehmc.collegeTypeAhead" name="collegeTypeAhead" type="text" uib-typeahead="item as item.Name for item in searchCollege($viewValue)" typeahead-loading="loadingSchools" typeahead-no-results="noResults" placeholder="Search by school name" ng-required="true">
+                                            </div>
+                                            <i ng-show="loadingSchools" class="fa fa-refresh fa-spin"></i>
+                                            <div ng-show="noResults">
+                                                <i class="glyphicon glyphicon-remove"></i> No Results Found, Please manually type in
+                                            </div>
+                                            <div ng-messages="userForm.collegeTypeAhead.$error" ng-if="userForm.collegeTypeAhead.$invalid&&(userForm.collegeTypeAhead.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                                <div ng-messages-include="/resource/Utilities/template/MessageTemplate.html"></div>
+                                            </div>
+                                        </div>
+                                        <!--slds-form-element__control END-->
+                                    </div>
+                                    <!--slds-form-element__row END-->
+
+                                    <!--slds-form-element__row START-->
+                                    <div class="slds-form-element__row">
+                                        <!--slds-form-element__control START-->
+                                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                                            <span class="slds-form-element__label">Country</span>
+                                            <div class="slds-select_container">
+                                                <select class="slds-select" ng-model="collegeEH.Country__c">
+                                                    <option ng-repeat="item in ehmc.Country__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!--slds-form-element__control END-->
+                                        <!--slds-form-element__control START-->
+                                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                                            <span class="slds-form-element__label">City</span>
+                                            <input class="slds-input" ng-model="collegeEH.City__c" type="text" />
+                                        </div>
+                                        <!--slds-form-element__control END-->
+                                    </div>
+                                    <!--slds-form-element__row END-->
+                                    <!--slds-form-element__row START-->
+                                    <div class="slds-form-element__row" ng-if="collegeEH.Country__c=='UNITED STATES OF AMERICA'">
+                                        <!--slds-form-element__control START-->
+                                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                                            <span class="slds-form-element__label">State</span>
+                                            <div class="slds-select_container">
+                                                <select class="slds-select" ng-model="collegeEH.State__c" clear-hidden>
+                                                    <option ng-repeat="item in ehmc.State__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!--slds-form-element__control END-->
+                                    </div>
+                                    <!--slds-form-element__row END-->
+
+                                    <!--slds-form-element__row START-->
+                                    <div class="slds-form-element__row">
+                                        <!--slds-form-element__control START-->
+                                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Degree__c.$invalid&&(userForm.Degree__c.$dirty||userForm.$submitted)}">
+                                            <span class="slds-form-element__label">Degree</span>
+                                            <div class="slds-select_container">
+                                                <select class="slds-select" ng-model="collegeEH.Degree__c" name="Degree__c" ng-required="true">
+                                                    <option ng-repeat="item in ehmc.Degree__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                                </select>
+                                            </div>
+                                            <div ng-messages="userForm.Degree__c.$error" ng-if="userForm.Degree__c.$invalid&&(userForm.Degree__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                                <div ng-messages-include="/resource/Utilities/template/MessageTemplate.html"></div>
+                                            </div>
+                                        </div>
+                                        <!--slds-form-element__control END-->
+                                        <!--slds-form-element__control START-->
+                                        <div class="dz-date-picker slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 date-picker-static slds-is-required " ng-if="collegeEH.Degree__c!='No Degree Earned'" ng-class="{ 'slds-has-error' : userForm.Graduation_Date_mm_dd_yyyy__c.$invalid&&(userForm.Graduation_Date_mm_dd_yyyy__c.$dirty||userForm.$submitted)}">
+                                            <span class="slds-form-element__label">Graduation Date</span>
+                                            <div class="slds-input-has-icon slds-input-has-icon--right">
+                                                <svg aria-hidden="true" class="slds-input__icon" ng-click="openGraduation_Date_mm_dd_yyyy__cPicker($event)">
+                                                    <use xlink:href="/resource/SLDS/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
+                                                </svg>
+                                                <input class="slds-input" ng-model="collegeEH.Graduation_Date_mm_dd_yyyy__c" datepicker-localdate ng-click="openGraduation_Date_mm_dd_yyyy__cPicker($event)" type="text" name="Graduation_Date_mm_dd_yyyy__c" uib-datepicker-popup="MM-dd-yyyy" is-open="datePickerStatus.openedGraduation_Date_mm_dd_yyyy__c" show-button-bar="false" show-weeks="false" on-open-focus="false" ng-required="true" clear-hidden />
+                                            </div>
+                                            <div ng-messages="userForm.Graduation_Date_mm_dd_yyyy__c.$error" ng-if="userForm.Graduation_Date_mm_dd_yyyy__c.$invalid&&(userForm.Graduation_Date_mm_dd_yyyy__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                                <div ng-messages-include="/resource/Utilities/template/MessageTemplate.html"></div>
+                                            </div>
+                                        </div>
+                                        <!--slds-form-element__control END-->
+                                    </div>
+                                    <!--slds-form-element__row END-->
+
+                                </div>
+                            </fieldset>
+                        </section>
+                    </div>
+                </div>
+                <div class="slds-modal__footer slds-modal__footer--directional">
+                    <div class="slds-x-small-buttons--horizontal">
+                        <button class="slds-button slds-button--neutral" ng-click="cancel()" type="button">Cancel</button>
+                        <button class="slds-button slds-button--brand" type="submit">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"></div>
+    </form>
+</div>

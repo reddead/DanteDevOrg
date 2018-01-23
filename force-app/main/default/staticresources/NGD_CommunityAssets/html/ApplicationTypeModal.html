@@ -1,0 +1,35 @@
+<div class="slds">
+    <div aria-hidden="false" role="dialog" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container" style="width:80%;max-width: inherit;">
+            <div class="slds-modal__header">
+                <h2 class="slds-text-heading--medium">Select Application Type</h2>
+                <button class="slds-button slds-button--icon-inverse slds-modal__close" ng-click="cancel()" type="button">
+                    <svg aria-hidden="true" class="slds-button__icon slds-button__icon--large">
+                        <use xlink:href="/resource/SLDS/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    </svg>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+            </div>
+            <div class="slds-modal__content">
+                <div class="row" ng-repeat="item in atmc.appType">
+                    <div class="col-md-4" ng-repeat="option in item.options">
+                        <div class="dz-application-type" ng-click="setAppType(option)">
+                            <h3>
+                                <p style="margin-bottom: 10px; text-align: center; color: antiquewhite" class="slds-text-heading--small">{{option.substring(0,option.indexOf(":"))}}</p>
+                            </h3>
+                            <p style="text-align: center;">{{option.substring(option.indexOf(":")+1,option.length)}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-modal__footer slds-modal__footer--directional">
+                <div class="slds-x-small-buttons--horizontal">
+                    <button class="slds-button slds-button--neutral" ng-click="cancel()" type="button">Back</button>
+                    <!--<button class="slds-button slds-button--brand" type="submit">Save</button>-->
+                </div>
+            </div>
+        </div>
+</div>
+<div class="slds-backdrop slds-backdrop--open"></div>
+
+</div>

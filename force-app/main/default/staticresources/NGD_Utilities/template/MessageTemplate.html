@@ -1,0 +1,8 @@
+<div ng-message="required">This field is required</div>
+<!--<div ng-message="minlength">This field is too short, at least 3 characters</div>-->
+<div ng-message="minlength" ng-if="userForm.Phone.$invalid||userForm.OtherPhone.$invalid">Please ensure the phone number entered is correct</div>
+<div ng-message="maxlength" ng-if="userForm.Middle_Initial__c.$invalid">This field is too long, no more than 2 characters</div>
+<div ng-message="email">This needs to be a valid email</div>
+<div ng-message="date">Incorrect format, should be mm-dd-yyyy</div>
+<!--<div ng-message="date">Incorrect format, should be yyyy-mm-dd</div>-->
+

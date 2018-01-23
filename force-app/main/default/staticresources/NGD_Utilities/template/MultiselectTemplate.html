@@ -1,0 +1,65 @@
+<!--<pre class="code">{{modelAsJson}}</pre>-->
+<div class="slds-picklist--draggable slds-grid">
+    <div class="slds-form-element">
+        <span class="slds-form-element__label" aria-label="select-1">Available </span>
+        <div class="slds-picklist slds-picklist--multi">
+            <ul class="slds-picklist__options slds-picklist__options--multi shown slds-input" dnd-list="model.lists.A">
+                <li ng-repeat="item in model.lists.A"
+                    dnd-draggable="item"
+                    dnd-moved="model.lists.A.splice($index, 1);multiselect(null,model)"
+                    dnd-effect-allowed="move"
+                    dnd-selected="model.selected = item"
+                    ng-class="{'dz-multiselect-selected': model.selected === item}" class="slds-picklist__item" ng-dblclick="multiselect('toRight',model)">
+                    <span class="slds-truncate" style="white-space:normal!important">
+                        <span>{{item.value}}</span>
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="slds-grid slds-grid--vertical">
+        <button class="slds-button slds-button--icon-container" ng-click="multiselect('toRight',model)" type="button">
+            <svg aria-hidden="true" class="slds-button__icon">
+                <use xlink:href="" ng-href="{{con.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+            </svg>
+            <span class="slds-assistive-text">Arrow left</span>
+        </button>
+        <button class="slds-button slds-button--icon-container" ng-click="multiselect('toLeft',model)" type="button">
+            <svg aria-hidden="true" class="slds-button__icon">
+                <use xlink:href="" ng-href="{{con.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+            </svg>
+            <span class="slds-assistive-text">Arrow right</span>
+        </button>
+    </div>
+    <div class="slds-form-element">
+        <span class="slds-form-element__label" aria-label="select-2">Chosen</span>
+        <div class="slds-picklist slds-picklist--multi">
+            <ul class="slds-picklist__options slds-picklist__options--multi shown slds-input" dnd-list="model.lists.B">
+                <li ng-repeat="item in model.lists.B"
+                    dnd-draggable="item"
+                    dnd-moved="model.lists.B.splice($index, 1);multiselect(null,model)"
+                    dnd-effect-allowed="move"
+                    dnd-selected="model.selected = item"
+                    ng-class="{'dz-multiselect-selected': model.selected === item}" class="slds-picklist__item" ng-dblclick="multiselect('toLeft',model)">
+                    <span class="slds-truncate" style="white-space:normal!important">
+                        <span>{{item.value}}</span>
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--<div class="slds-grid slds-grid--vertical">
+        <button class="slds-button slds-button--icon-container">
+            <svg aria-hidden="true" class="slds-button__icon">
+                <use xlink:href="/resource/1447973949000/SLDS0120/assets/icons/utility-sprite/svg/symbols.svg#up"></use>
+            </svg>
+            <span class="slds-assistive-text">Arrow up</span>
+        </button>
+        <button class="slds-button slds-button--icon-container">
+            <svg aria-hidden="true" class="slds-button__icon">
+                <use xlink:href="/resource/1447973949000/SLDS0120/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            </svg>
+            <span class="slds-assistive-text">Arrow down</span>
+        </button>
+    </div>-->
+</div>

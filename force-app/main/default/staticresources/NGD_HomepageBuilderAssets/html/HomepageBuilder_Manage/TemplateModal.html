@@ -1,0 +1,262 @@
+<div class="slds slds-modal slds-modal_large slds-fade-in-open">
+	<div class="slds-modal__container">
+		<div class="slds-modal__header">
+			<button tooltip-placement="left" uib-tooltip-html="tooltip" tooltip-class="homepage-builder-tooltip_info" class="slds-button slds-button_icon homepage-builder-icon_info" type="button" title="Help">
+          <svg class="slds-button__icon slds-button__icon_large">
+              <use xlink:href="" ng-href="{{res.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#info"></use>
+          </svg>
+      </button>
+			<button class="slds-button slds-button_icon-inverse slds-modal__close" ng-click="cancel()" type="button">
+          <svg class="slds-button__icon slds-button__icon_large">
+              <use xlink:href="" ng-href="{{res.NGD_SLDS}}/assets/icons/action-sprite/svg/symbols.svg#close"></use>
+          </svg>
+          <span class="slds-assistive-text">Close</span>
+      </button>
+
+			<h2 class="slds-text-heading_medium">Homepage Template</h2>
+		</div>
+
+		<div class="slds-modal__content slds-p-around_medium slds-grid">
+			<div class="slds-size_1-of-1 slds-large-size_5-of-12 slds-p-right_small">
+				<section st-table="htList" st-safe-src="htListSafe">
+					<div class="slds-grid slds-m-bottom_small">
+						<div class="slds-grow slds-p-right_xx-large">
+							<span class="slds-input-has-icon slds-input-has-icon_right">
+												<svg class="slds-input__icon">
+													<use xlink:href="" ng-href="{{res.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+												</svg>
+												<input st-search="Name" placeholder="Search..." class="slds-input" type="search"/>
+										</span>
+						</div>
+						<button class="slds-button slds-button_neutral" title="Refresh" ng-click="refresh();">
+								<i class="fa fa-refresh"></i>
+						</button>
+						<button class="slds-button slds-button_neutral" ng-click="new()">New</button>
+					</div>
+
+					<form name="htListForm" novalidate>
+						<table class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal">
+							<thead>
+								<tr class="slds-text-heading_label">
+									<th st-sort-default="true" st-sort="Name" class="slds-is-sortable">
+										<span class="slds-truncate">Name</span>
+									</th>
+									<th st-sort="Is_Active__c" class="slds-is-sortable">
+										<span class="slds-truncate">Active</span>
+									</th>
+									<th>
+										<span class="slds-truncate">Action</span>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr st-select-row="ht" ng-repeat="ht in htList">
+									<td data-label="Name">
+										<div class="slds-truncate">
+											<a ng-click="edit(ht)">
+														{{ht.Name}}
+													</a>
+											<span class="slds-badge" ng-if="ht[namespacePrefix+'Default__c']">Default</span>
+											<span class="slds-badge" ng-if="homepageTemplatePreview==ht.Id">Preview</span>
+										</div>
+									</td>
+									<td data-label="Active">
+										<div class="slds-truncate">
+											<div dz-checkbox ng-model="ht[namespacePrefix+'Is_Active__c']" ng-click="setActive(ht)" ng-disabled="ht[namespacePrefix+'Default__c']">
+											</div>
+										</div>
+									</td>
+									<td data-label="Action">
+										<div class="slds-button-group">
+											<button class="slds-button slds-button_icon-border" title="Edit" ng-click="edit(ht)">
+												    <svg class="slds-button__icon">
+												      <use xlink:href="" ng-href="{{res.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+												    </svg>
+												  </button>
+											<button class="slds-button slds-button_icon-border " title="Preview" ng-click="preview(ht)">
+												    <svg class="slds-button__icon">
+												      <use xlink:href="" ng-href="{{res.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#preview"></use>
+												    </svg>
+												  </button>
+											<button class="slds-button slds-button_icon-border" title="Copy" ng-click="copy(ht)">
+												    <svg class="slds-button__icon">
+												      <use xlink:href="" ng-href="{{res.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#copy"></use>
+												    </svg>
+												  </button>
+											<button class="slds-button slds-button_icon-more" title="Delete" ng-click="delete(ht)">
+												    <svg class="slds-button__icon">
+												      <use xlink:href="" ng-href="{{res.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#delete"></use>
+												    </svg>
+												  </button>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr>
+									<td class="text-center" colspan="5" st-pagination="" st-items-by-page="5" st-displayed-pages="5"></td>
+								</tr>
+							</tfoot>
+						</table>
+					</form>
+				</section>
+			</div>
+			<form name="form" class="slds-size_1-of-1 slds-large-size_7-of-12 slds-p-left_small" ng-submit="save()" novalidate>
+				<input style="display:none" />
+				<!--solve chrome autofill issue-->
+				<div dz-page-message ng-if="form.$invalid&&form.$submitted">
+					Please review the validation errors
+				</div>
+				<div ng-if="!selectedTemplate">
+					<div class="slds-text-heading_small">
+						Please select new/edit homepage template in the list
+					</div>
+				</div>
+				<div ng-if="selectedTemplate">
+					<button class="slds-button slds-button_brand slds-m-bottom_small" type="submit">Save</button>
+					<h3 class="slds-section-title_divider">
+              Homepage template Detail
+          </h3>
+
+					<div class="slds-grid grid-column-2">
+						<div dz-input label="Name" ng-model="selectedTemplate.Name" ng-required="true">
+						</div>
+						<div class="slds-grid ">
+							<div dz-checkbox label="Active" ng-model="selectedTemplate[namespacePrefix+'Is_Active__c']">
+							</div>
+							<div dz-checkbox label="Set Default" ng-model="selectedTemplate[namespacePrefix+'Default__c']" ng-change="setDefaultActive(selectedTemplate)">
+							</div>
+							<!-- <div dz-checkbox label="Set Preview" ng-model="selectedTemplate[namespacePrefix+'Preview__c']">
+							</div> -->
+						</div>
+						<div>
+						</div>
+					</div>
+
+					<div class="slds-grid grid-column-1">
+						<div dz-textarea label="Header" ng-model="selectedTemplate[namespacePrefix+'Header__c']" rows="10" style="flex-grow: 1;">
+						</div>
+						<div dz-textarea label="Footer" ng-model="selectedTemplate[namespacePrefix+'Footer__c']" rows="10" style="flex-grow: 1;">
+						</div>
+					</div>
+
+					<h3 class="slds-section-title_divider">
+          	Display Criteria
+          </h3>
+					<div ng-if="selectedTemplate[namespacePrefix+'Default__c']">
+						*Display criteria will not be evaluated if Set Default checkbox above is marked to true. <br />*Default Widget is displayed if there is not any other widget meeting the display criteria.
+					</div>
+
+					<section st-table="htcList" st-safe-src="htcListSafe" ng-if="!selectedTemplate[namespacePrefix+'Default__c']">
+						<div class="slds-grid">
+							<div class="slds-grow" ng-class="{ 'slds-has-error' : criteriaLogicErrorMessage&&form.$submitted}">
+								<div class="slds-input-has-icon slds-input-has-icon_right">
+									<svg class="slds-input__icon">
+                              		<use xlink:href="" ng-href="{{res.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#filterList"></use>
+                              	</svg>
+									<input placeholder="Filter Logic ... e.g. ( 1 AND 2 ) OR 3 , if blank default to all AND" class="slds-input" type="text" ng-model="selectedTemplate[namespacePrefix+'Criteria_Filter_Logic__c']" ng-change="validateCriteriaLogic(selectedTemplate[namespacePrefix + 'Criteria_Filter_Logic__c'],htcList)"
+									 name="Criteria_Filter_Logic__c" />
+								</div>
+								<div ng-if="criteriaLogicErrorMessage&&form.$submitted" class="slds-form-element__help">{{criteriaLogicErrorMessage}}</div>
+							</div>
+						</div>
+						<table class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal">
+							<thead>
+								<tr class="slds-text-heading_label">
+									<th st-sort="order">
+										<span class="slds-truncate">Order</span>
+									</th>
+									<th st-sort="objectName">
+										<span class="slds-truncate">Object</span>
+									</th>
+									<th st-sort="fieldName">
+										<span class="slds-truncate">Field</span>
+									</th>
+									<th st-sort="operator">
+										<span class="slds-truncate">Operator</span>
+									</th>
+									<th st-sort="fieldValueType">
+										<span class="slds-truncate">Type</span>
+									</th>
+									<th st-sort="fieldValue">
+										<span class="slds-truncate">Value</span>
+									</th>
+									<!-- <th>
+                                    <span class="slds-truncate">Action</span>
+                                </th> -->
+								</tr>
+							</thead>
+							<tbody>
+								<tr st-select-row="htc" ng-repeat="htc in htcList">
+									<td data-label="Order">
+										<span>{{htc.order}}</span>
+									</td>
+									<td data-label="Object" class="slds-is-required" ng-class="{ 'slds-has-error' : htcList.length==1&&!htc.objectName&&form.$submitted}">
+										<div class="slds-select_container">
+											<select class="slds-select" ng-model="htc.objectName" ng-change="spliceCriteria(htc.order-1,'{{htc.objectName}}',htc.objectName,htc);" ng-required="htcList.length==1">
+                                            <option ng-repeat="item in objectOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+										</div>
+										<div ng-if="htcList.length==1&&!htc.objectName&&form.$submitted" class="slds-form-element__help">This field is required</div>
+									</td>
+									<td data-label="Field" class="slds-is-required" ng-class="{ 'slds-has-error' : htc.objectName&&!htc.fieldName&&form.$submitted}">
+										<div class="slds-input-has-icon slds-input-has-icon_right">
+											<svg class="slds-input__icon" ng-click="openSelectFieldModal(htc);">
+                                          <use xlink:href="" ng-href="{{res.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#search">
+                                          </use>
+                                        </svg>
+											<input id="CriteriaField" class="slds-input" ng-model="htc.fieldName" type="text" ng-click="openSelectFieldModal(htc);" placeholder="Select a field..." uib-tooltip="{{htc.fieldName}}" tooltip-placement="top" ng-required="htc.objectName" ng-disabled="!htc.objectName"
+											 ng-readonly="htc.objectName" />
+										</div>
+										<div ng-if="htc.objectName&&!htc.fieldName&&form.$submitted" class="slds-form-element__help">This field is required</div>
+									</td>
+									<td data-label="Operator" class="slds-is-required" ng-class="{ 'slds-has-error' : htc.objectName&&!htc.operator&&form.$submitted}">
+										<div class="slds-select_container">
+											<select class="slds-select" ng-model="htc.operator" ng-required="htc.fieldName" ng-disabled="!htc.objectName">
+                                            <option ng-repeat="item in operatorOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+										</div>
+										<div ng-if="htc.objectName&&!htc.operator&&form.$submitted" class="slds-form-element__help">This field is required</div>
+									</td>
+									<td data-label="Type" class="slds-is-required" ng-class="{ 'slds-has-error' : htc.objectName&&!htc.fieldValueType&&form.$submitted}">
+										<div class="slds-select_container">
+											<select class="slds-select" ng-model="htc.fieldValueType" ng-required="htc.fieldName" ng-disabled="!htc.objectName">
+                                            <option ng-repeat="item in typeOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+										</div>
+										<div ng-if="htc.objectName&&!htc.fieldValueType&&form.$submitted" class="slds-form-element__help">This field is required</div>
+									</td>
+									<td data-label="Value">
+										<div dz-field-value ng-model="htc.fieldValue" field-type="htc.fieldType" field-option="htc.fieldOption" ng-disabled="!htc.objectName">
+										</div>
+									</td>
+									<!-- <td data-label="Action">
+                                    <button type="button" ng-click="removeCriteria($index)" class="slds-button slds-button_neutral" ng-if="($index != htcList.length-1)">
+                                        <img src="{{res.NGD_SLDS}}/assets/icons/utility/delete_120.png"/>
+                                    </button>
+                                </td> -->
+								</tr>
+
+							</tbody>
+							<tfoot>
+								<!-- <tr>
+                                <td colspan="5" st-pagination="''" st-items-by-page="6" st-displayed-pages="5"></td>
+                            </tr> -->
+							</tfoot>
+						</table>
+					</section>
+
+					<button class="slds-button slds-button_brand slds-m-top_small" type="submit">Save</button>
+				</div>
+			</form>
+		</div>
+
+		<div class="slds-modal__footer slds-modal__footer_directional">
+			<div class="slds-x-small-buttons_horizontal">
+				<button class="slds-button slds-button_neutral" ng-click="cancel()" type="button">Cancel</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="slds-backdrop slds-backdrop_open">
+</div>

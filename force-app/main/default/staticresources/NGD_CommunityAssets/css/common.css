@@ -1,0 +1,978 @@
+/**********Fix for css conflicts Starts************/
+
+legend {
+	font-size: inherit;
+	color: inherit;
+}
+
+/**********Fix for css conflicts Ends************/
+
+
+/******************************new slds 2.0 END******************************/
+
+/******************************new slds 2.0 END******************************/
+
+/******************************new slds 2.0 END******************************/
+
+abbr[title] {
+	text-decoration: none;
+}
+
+.slds .dz-svg {
+	fill: #4f6a92;
+}
+
+/*****tooltip START*******/
+
+.slds .slds-dropdown-trigger:hover .dz-tooltip, .slds .slds-dropdown-trigger:focus .dz-tooltip {
+	-webkit-transition: opacity 0.1s linear, visibility 0.1s linear;
+	opacity: 1;
+	text-align: left;
+	top: -14px;
+	transition: opacity 0.1s linear, visibility 0.1s linear;
+	visibility: visible;
+}
+
+.slds .slds-dropdown-trigger .dz-tooltip {
+	visibility: hidden;
+	opacity: 0;
+	-webkit-transition: opacity 0.1s linear, visibility 0.1s linear;
+	transition: opacity 0.1s linear, visibility 0.1s linear;
+	display: inline-block;
+	position: absolute;
+	right: 100%;
+	max-width: 800px;
+	background: #4f6a92;
+	top: -14px;
+	text-align: left;
+}
+
+.slds .dz-tooltip ul li {
+	list-style-position: inside;
+	word-wrap: break-word;
+}
+
+@media only screen and (min-width: 480px) {
+	.slds .slds-dropdown-trigger .dz-tooltip {
+		min-width: 400px;
+	}
+}
+
+@media only screen and (min-width: 768px) {
+	.slds .slds-dropdown-trigger .dz-tooltip {
+		min-width: 600px;
+	}
+}
+
+@media only screen and (max-width: 1023px) {
+	.slds .slds-dropdown-trigger .dz-tooltip {
+		max-width: 600px;
+	}
+}
+
+@media only screen and (max-width: 767px) {
+	.slds .slds-dropdown-trigger .dz-tooltip {
+		max-width: 400px;
+	}
+}
+
+@media only screen and (max-width: 479px) {
+	.slds .slds-dropdown-trigger .dz-tooltip {
+		width: 190px;
+	}
+}
+
+.dz-tooltip-button--right {
+	padding-left: 12px;
+}
+
+/*****tooltip END*******/
+
+/*****dz-action-img START*******/
+
+.dz-action-img {
+	vertical-align: top;
+}
+
+/*****dz-action-img END*******/
+
+/*****dz-action-button START*******/
+
+.dz-action-button {
+	border: none;
+	height: 1.5rem;
+	width: 3.5rem;
+}
+
+/*****dz-action-button END*******/
+
+/*****checkbox START*******/
+
+.slds-checkbox [type="checkbox"][disabled]+.slds-checkbox--faux:after, .slds-checkbox [type="checkbox"][disabled]~.slds-checkbox--faux:after, .slds-checkbox [type="checkbox"][disabled]+.slds-checkbox__label .slds-checkbox--faux:after {
+	border-color: #1589ee;
+}
+
+/*****checkbox END*******/
+
+/*****date-picker START*******/
+
+.dz-date-picker-top .dropdown-menu {
+	top: -269px !important;
+}
+
+/*****date-picker END*******/
+
+/*****modal START*******/
+
+.slds .slds-modal__content {
+	padding: 16px;
+}
+
+/*****modal END*******/
+
+/*****dropdown/tip START*******/
+
+dz-input .slds-dropdown-trigger, dz-select .slds-dropdown-trigger, dz-multiselect .slds-dropdown-trigger, dz-select-radio .slds-dropdown-trigger, dz-date-picker .slds-dropdown-trigger, dz-checkbox .slds-dropdown-trigger, div[dz-input] .slds-dropdown-trigger, div[dz-select] .slds-dropdown-trigger, div[dz-multiselect] .slds-dropdown-trigger, div[dz-select-radio] .slds-dropdown-trigger, div[dz-date-picker] .slds-dropdown-trigger, div[dz-checkbox] .slds-dropdown-trigger {
+	width: 100%;
+}
+
+dz-input .slds-dropdown, dz-select .slds-dropdown, dz-multiselect .slds-dropdown, dz-select-radio .slds-dropdown, dz-date-picker .slds-dropdown, dz-checkbox .slds-dropdown, div[dz-input] .slds-dropdown, div[dz-select] .slds-dropdown, div[dz-multiselect] .slds-dropdown, div[dz-select-radio] .slds-dropdown, div[dz-date-picker] .slds-dropdown, div[dz-checkbox] .slds-dropdown {
+	background-color: #4f6a92;
+	color: white;
+	width: 100%;
+	max-width: inherit;
+	padding-left: 0.25rem;
+}
+
+.dz-tip-open {
+	visibility: visible !important;
+	opacity: 1 !important;
+	transition: opacity 0.1s linear, visibility 0.1s linear !important;
+}
+
+/*****dropdown/tip END*******/
+
+/*****form START*******/
+
+.slds-form--horizontal {
+	text-align: left;
+}
+
+/*****form END*******/
+
+/*****form element row START*******/
+
+.slds-form-element__row {
+	justify-content: space-between;
+	flex-wrap: wrap;
+	align-items: baseline;
+}
+
+.slds-form-element__row>span[ng-if], .slds-form-element__row>div[ng-if], span[ng-if]>span[ng-if], span[ng-if]>div[ng-if], div[ng-if]>span[ng-if], div[ng-if]>div[ng-if] {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+/*****form element row END*******/
+
+/*****form element START*******/
+
+.slds-radio {
+	display: block;
+}
+
+dz-input, dz-select, dz-multiselect, dz-select-radio, dz-date-picker, dz-checkbox, dz-page-message {
+	display: block;
+}
+
+dz-multiselect .slds-picklist--draggable {
+	overflow-x: auto;
+}
+
+/*****form element END*******/
+
+body {
+	font-family: inherit;
+	/*min-height: 100%;*/
+}
+
+label {
+	font-weight: inherit;
+}
+
+/******************************new slds 2.0 END******************************/
+
+/******************************new slds 2.0 END******************************/
+
+/******************************new slds 2.0 END******************************/
+
+/*---------------------------------FROM HomepageBuilder_ng.css---------------------------------*/
+
+/*****************select[disabled] Style Start******************/
+
+.slds .slds-select[disabled] {
+	background-color: #e0e5ee !important;
+}
+
+/*****************select[disabled] Style END******************/
+
+/*****************Section Header Style Start******************/
+
+.slds-section-title--divider {
+	margin: 0 0 10px 0 !important;
+	box-shadow: 1px 1px 5px;
+}
+
+.slds .slds-section-title--divider:first-child {
+	margin-top: 0;
+}
+
+/*****************side by side checkbox Style Start******************/
+
+@media (min-width: 768px) {
+	.dz-faux {
+		vertical-align: super !important;
+	}
+}
+
+/*****************side by side checkbox Style End******************/
+
+/*****************Section Header Style END******************/
+
+/***********pagination Style Start*****************/
+
+.pagination>li>a {
+	text-decoration: none;
+}
+
+.pagination>li>a:hover {
+	cursor: pointer;
+	text-decoration: none;
+}
+
+/***********pagination Style Start*****************/
+
+/*****************dz-evn Style Start******************/
+
+.dz-env {
+	/*background-color: #4f6a92;*/
+	margin-bottom: 25px;
+	border-radius: 4px;
+	box-shadow: 2px 2px 5px black;
+	color: white;
+	height: 150px;
+	cursor: pointer;
+	padding: 15px 5px 0 5px;
+	overflow: auto;
+}
+
+.dz-env:hover {
+	transform: translate(0, 2px);
+}
+
+.dz-env:active {
+	transform: translate(0, 4px);
+}
+
+/*****************dz-evn Style Start******************/
+
+/************************typehead search Style Css Start************************/
+
+.dz-typeahead ul.dropdown-menu {
+	margin-top: 5px;
+	padding: 8px 0 8px 0;
+	background-color: #FFF;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-radius: 8px;
+	box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+	text-align: left;
+	overflow-y: auto;
+	position: absolute;
+}
+
+.dz-typeahead ul.dropdown-menu li {
+	padding: 3px 20px;
+	line-height: 24px;
+}
+
+.dz-typeahead ul.dropdown-menu li.active, .dz-typeahead ul.dropdown-menu li:hover {
+	cursor: pointer;
+	color: #fff;
+	background-color: #0097cf;
+}
+
+.dz-typeahead ul.dropdown-menu li.active>a, .dz-typeahead ul.dropdown-menu li:hover>a {
+	color: #fff;
+	transition: color 0.1s linear 0s;
+	background: inherit;
+}
+
+.dz-typeahead .dropdown-menu>li>a {
+	display: inline;
+	/*boostrap conflicts*/
+	padding: 0;
+	/*boostrap conflicts*/
+	white-space: normal;
+	/*boostrap conflicts*/
+	border-bottom: none;
+	/*boostrap conflicts*/
+}
+
+.dz-typeahead .dropdown-menu>.active>a:hover, .dz-typeahead .dropdown-menu>a:hover {
+	background-color: inherit;
+}
+
+/************************typehead search Style Css End************************/
+
+/*.slds .slds-checkbox [type="checkbox"][disabled] > .slds-checkbox--faux:after, .slds .slds-checkbox [type="checkbox"][disabled] ~ .slds-checkbox--faux:after {
+    border-color: #1589ee;
+}*/
+
+/************************datepicker Style Css Start************************/
+
+table[aria-activedescendant^="datepicker"] {
+	border-collapse: inherit !important;
+	border-spacing: 2px !important;
+}
+
+.dz-date-picker:hover {
+	cursor: pointer;
+	fill: #0070D2 !important;
+}
+
+/************************datepicker Style Css End************************/
+
+/************************multiselect Style Css Start************************/
+
+/*make text none selectable, solve unwanted multiselect issue*/
+
+ul[dnd-list], ul[dnd-list]>li {
+	position: relative;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.dz-multiselect-selected {
+	background-color: #f4f6f9;
+	cursor: pointer;
+}
+
+/*when multiselect cannot be fully seen, make it x-scrollable, only applies this class to outer <section>/<div> for FireFox re-size issue*/
+
+.dz-multiselect-scroll-x {
+	overflow-x: auto;
+}
+
+/************************multiselect Style Css End************************/
+
+/************************Required Field Style Css Start************************/
+
+/*make red asterisk align to column start*/
+
+.slds .slds-is-required>.slds-form-element__label::before {
+	position: inherit;
+}
+
+/*fix red asterisk alignment for checkbox*/
+
+.slds .slds-is-required>.slds-checkbox [type="checkbox"]~.slds-form-element__label::before {
+	position: inherit;
+}
+
+/*when error message shows, make element vertical aligment to top, so layout does not break */
+
+.slds-has-error, .slds td {
+	vertical-align: top;
+}
+
+/************************Required Field Style Css Start************************/
+
+/*****************Modal Style Start******************/
+
+/*get rid of bootstrap style*/
+
+.modal.fade .modal-dialog {
+	transform: none;
+}
+
+/*****************Modal Style End******************/
+
+/*****************Page header Style Start******************/
+
+/*head no shrink*/
+
+.slds-page-header {
+	white-space: nowrap;
+}
+
+/*****************Page header Style End******************/
+
+/*****************Table Style Start******************/
+
+.dz-border .slds-select_container {
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+section.dz-border {
+	/*min-width: 310px;*/
+	background-color: white;
+	/*border-radius: .25rem;
+    border: 1px solid rgb(216, 221, 230);*/
+	border: none !important;
+}
+
+.dz-table-search {
+	/*padding: 1rem 1.5rem 0.5rem 1.5rem;*/
+	padding-bottom: 1rem;
+}
+
+.dz-column-sortable {
+	cursor: pointer;
+}
+
+/*place paginaton center and add top padding to even bottom padding*/
+
+tfoot>tr>td>nav {
+	text-align: center;
+	padding-top: 0.25rem;
+}
+
+/*****************Table Style End******************/
+
+/*****************Popover Style Start******************/
+
+.dz-popover {
+	background-color: #4f6a92 !important;
+	color: white;
+	text-align: center;
+}
+
+.dz-popover[class*="slds-nubbin--bottom"] {
+	margin-bottom: 10px !important;
+}
+
+/*solve text cannot be seen */
+
+.slds .slds-nubbin--bottom:before, .slds .slds-nubbin--bottom:after {
+	z-index: -1;
+}
+
+/*solve table shrink overlap issue, popover got covered cannot be seen*/
+
+.slds .slds-max-medium-table--stacked-horizontal td {
+	overflow: inherit;
+}
+
+/*****************Popover Style End******************/
+
+/*****************One/Two Column Style Start******************/
+
+/*fix always one column bug*/
+
+.slds-form-element__row label:nth-of-type(1), .slds-form-element__row .slds-form-element__control:nth-of-type(1) {
+	padding-right: 8px;
+}
+
+.slds-form-element__row label:nth-of-type(2), .slds-form-element__row .slds-form-element__control:nth-of-type(2) {
+	margin-left: -3.7px;
+}
+
+/*when screen size smaller than 768, one column and no extra space left*/
+
+@media only screen and (max-width: 767px) {
+	.slds .slds-form--compound .slds-form-element__control {
+		padding-left: 0px !important;
+		padding-right: 0px !important;
+	}
+	.slds .slds-form--compound .slds-form-element__row {
+		margin-bottom: 0;
+	}
+	.slds-form-element__row label:nth-of-type(1), .slds-form-element__row .slds-form-element__control:nth-of-type(1) {
+		padding-right: 0;
+		margin-bottom: 0.5rem;
+	}
+	.slds-form-element__row label:nth-of-type(2), .slds-form-element__row .slds-form-element__control:nth-of-type(2) {
+		margin-left: 0;
+		padding-left: 0;
+		margin-bottom: 0.5rem;
+	}
+}
+
+/*****************One/Two Column Style End******************/
+
+/*****************Smart Table Style Start******************/
+
+.st-selected {
+	/*background-color: #F0F8FC !important;*/
+}
+
+.st-sort-ascent:before {
+	content: '\25B2';
+}
+
+.st-sort-descent:before {
+	content: '\25BC';
+}
+
+/*****************Smart Table Style End******************/
+
+/*---------------------------------FROM HomepageBuilder_ng.css---------------------------------*/
+
+/*****************a tag Style Start******************/
+
+a.dz-not-clickable {
+	pointer-events: none;
+	cursor: default;
+	color: #16325c !important;
+}
+
+a.dz-not-clickable:link, a.dz-not-clickable:hover, a.dz-not-clickable:active, a.dz-not-clickable:visited {
+	text-decoration: none !important;
+}
+
+/*****************a tag END******************/
+
+/*****************apex pagemessages Style Start******************/
+
+span[id*="pagemessages"] .message.errorM3 {
+	padding: 1rem;
+	color: #FFF;
+	background: #C23934 none repeat scroll 0% 0%;
+	box-shadow: 2px 2px 5px black;
+	border-radius: 3px;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+
+span[id*="pagemessages"] .message .messageText, span[id*="pagemessages"] .message h4 {
+	color: white;
+}
+
+/*****************apex pagemessages Style Start******************/
+
+/*****************dz-application-type Style Start******************/
+
+.dz-application-type {
+	background-color: #4f6a92;
+	margin-bottom: 25px;
+	border-radius: 4px;
+	box-shadow: 2px 2px 5px black;
+	color: white;
+	height: 150px;
+	cursor: pointer;
+	padding: 10px 5px 0 5px;
+	overflow: auto;
+}
+
+.dz-application-type:hover {
+	transform: translate(0, 2px);
+}
+
+.dz-application-type:active {
+	transform: translate(0, 4px);
+}
+
+/*****************dz-application-type Style Start******************/
+
+/*****************Table Style Start******************/
+
+/*make th border-top: none;*/
+
+.slds .slds-table--bordered, .slds .slds-table--bordered th {
+	border-top: none;
+}
+
+/*****************Table Style END******************/
+
+/*****************Modal Style Start******************/
+
+/*get rid of bootstrap style*/
+
+.modal.fade .modal-dialog {
+	transform: none;
+}
+
+/*****************Modal Style End******************/
+
+/*****************Button Style Start******************/
+
+.dz-dz-action-button {
+	border: none !important;
+	height: 1.5rem;
+	width: 3.5rem;
+}
+
+.dz-dz-action-img {
+	vertical-align: top !important;
+}
+
+/*****************Button Style End******************/
+
+/*****************Section Header Style Start******************/
+
+.slds-section-title--divider {
+	margin: 0 0 1rem 0 !important;
+	box-shadow: 1px 1px 5px;
+}
+
+.slds .slds-section-title--divider:first-child {
+	margin-top: 0;
+}
+
+/*****************Section Header Style END******************/
+
+/*****************Form Popover Style Start******************/
+
+.dz-popover-size {
+	width: 100%;
+	/*column wide*/
+}
+
+.dz-form-popover-message {
+	background-color: #4f6a92 !important;
+	color: white;
+	width: 100%;
+	/*column wide*/
+	max-width: inherit !important;
+	padding-left: 0.25rem !important;
+}
+
+.dz-popover-action {
+	background-color: #4f6a92 !important;
+	color: white;
+	width: 100%;
+	/*column wide*/
+	max-width: inherit !important;
+	padding-left: 0.25rem !important;
+	text-align: center;
+}
+
+/*solve table shrink overlap issue, popover got covered cannot be seen*/
+
+.slds .slds-max-medium-table--stacked-horizontal td {
+	overflow: inherit;
+}
+
+.dz-form-popover-message-open {
+	visibility: visible !important;
+	opacity: 1 !important;
+	transition: opacity 0.1s linear, visibility 0.1s linear !important;
+}
+
+/*****************Popover Style End******************/
+
+/************************multiselect Style Css Start************************/
+
+/*make text none selectable, solve unwanted multiselect issue*/
+
+ul[dnd-list], ul[dnd-list]>li {
+	position: relative;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.dz-multiselect-selected {
+	background-color: #f4f6f9;
+	cursor: pointer;
+}
+
+.dz-multiselect {
+	/*when multiselect cannot be fully seen, make it x-scrollable, only applies this class to outer <section>/<div> for FireFox re-size issue*/
+	overflow-x: auto;
+}
+
+/*.slds .slds-picklist__options {
+    width: 20rem;
+}*/
+
+/************************multiselect Style Css End************************/
+
+/************************datepicker Style Css Start************************/
+
+table[aria-activedescendant^="datepicker"] {
+	border-collapse: inherit !important;
+	border-spacing: 2px !important;
+}
+
+.dz-date-picker svg:hover {
+	cursor: pointer;
+	fill: #0070D2 !important;
+}
+
+/*fix SLDS conflicts*/
+
+.dz-date-picker .dropdown-menu {
+	padding: 5px 0 !important;
+	margin: 2px 0 0 !important;
+}
+
+.dz-date-picker ul.dropdown-menu li {
+	padding: 3px 20px;
+	line-height: 24px;
+}
+
+/************************datepicker Style Css End************************/
+
+/************************logout Style Css Start************************/
+
+#dz-logout {
+	right: 20px;
+	top: 20px;
+	position: absolute;
+}
+
+/************************logout Style Css End************************/
+
+/************************Required Field Style Css Start************************/
+
+.slds .slds-is-required>.slds-form-element__label::before {
+	position: initial;
+}
+
+.slds .slds-is-required>.slds-checkbox [type="checkbox"]~.slds-form-element__label::before {
+	position: initial;
+}
+
+.slds .slds-is-required .slds-dropdown-trigger>.slds-form-element__label::before {
+	content: "*";
+	color: #C23934;
+	position: absolute;
+	left: -0.5rem;
+	position: initial;
+}
+
+/*.slds-form-element__control {
+    vertical-align: top;
+}*/
+
+/************************Required Field Style Css Start************************/
+
+/************************backdrop Style Css Start************************/
+
+slds .slds-backdrop {
+	-webkit-transition-duration: 0.2s;
+	transition-duration: 0.2s;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	visibility: hidden;
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: rgb(168, 183, 199);
+	z-index: 9000;
+}
+
+.slds .slds-backdrop--open {
+	visibility: visible;
+	/*opacity: 0.5;*/
+	-webkit-transition: opacity 0.2s linear;
+	transition: opacity 0.2s linear;
+}
+
+/************************backdrop Style Css End************************/
+
+/************************typehead search Style Css Start************************/
+
+.dz-typeahead ul.dropdown-menu {
+	margin-top: 5px;
+	padding: 8px 0 8px 0;
+	background-color: #FFF;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-radius: 8px;
+	box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+	text-align: left;
+	overflow-y: auto;
+	position: absolute;
+}
+
+.dz-typeahead ul.dropdown-menu li {
+	padding: 3px 20px;
+	line-height: 24px;
+}
+
+.dz-typeahead ul.dropdown-menu li.active, .dz-typeahead ul.dropdown-menu li:hover {
+	cursor: pointer;
+	color: #fff;
+	background-color: #0097cf;
+}
+
+.dz-typeahead ul.dropdown-menu li.active>a, .dz-typeahead ul.dropdown-menu li:hover>a {
+	color: #fff;
+	transition: color 0.1s linear 0s;
+	background: inherit;
+}
+
+.dz-typeahead .dropdown-menu>li>a {
+	display: inline;
+	/*boostrap conflicts*/
+	padding: 0;
+	/*boostrap conflicts*/
+	white-space: normal;
+	/*boostrap conflicts*/
+	border-bottom: none;
+	/*boostrap conflicts*/
+}
+
+.dz-typeahead .dropdown-menu>.active>a:hover, .dz-typeahead .dropdown-menu>a:hover {
+	background-color: inherit;
+}
+
+/************************typehead search Style Css End************************/
+
+/************************Tab Style Css Start************************/
+
+.slds .slds-tabs--default__nav {
+	border-bottom: none;
+	max-width: 950px;
+	margin: 0px auto;
+}
+
+.slds .slds-tabs--default .slds-tabs__item>a {
+	padding: 0 32px 0 0;
+}
+
+/************************Tab  Style Css End************************/
+
+/************************spiner Style Css Start************************/
+
+#loading-image {
+	position: fixed;
+	top: 40%;
+	left: 50%;
+	width: 5rem;
+}
+
+#loading {
+	webkit-transition: opacity .2s;
+	transition: opacity 0.2s;
+	width: 100%;
+	height: 100%;
+	opacity: 0.5;
+	position: fixed;
+	display: none;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	background: rgb(168, 183, 199);
+	z-index: 9000;
+}
+
+/************************spiner Style Css End************************/
+
+/************************Page Message Style Css Start************************/
+
+.dz-page-messages {
+	padding: 1rem;
+	color: #FFF;
+	background: #C23934 none repeat scroll 0% 0%;
+	box-shadow: 2px 2px 5px black;
+	border-radius: 3px;
+	/*margin-top: 1rem;*/
+	margin-bottom: 1rem;
+}
+
+.dz-page-messages img {
+	margin-right: 0.75rem;
+}
+
+/************************Page Message  Style Css End************************/
+
+/************************Layout Style Css Start************************/
+
+form {
+	margin-left: 0.1px;
+	/*fix firefox select dropdown right border not displaying*/
+}
+
+html {
+	/*height: 100%;*/
+	margin: 0;
+}
+
+label {
+	font-weight: inherit;
+	/*fix boostrap conflicts*/
+}
+
+/*#container {
+	min-height: 100%;
+	position: relative;
+	margin: 0 auto;
+	overflow: hidden;
+}*/
+
+/*#header {
+	max-width: 950px;
+	margin: 0 auto;
+	position: relative;
+}*/
+
+/*#content {
+	padding-bottom: 107px;*/
+	/*Height of the footer*/
+	/*margin: 0 auto;
+	max-width: 950px;*/
+	/*for nav normal to anchor*/
+	/*position: relative;
+}*/
+
+/*#footer {
+    margin: 0 auto;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 106px;
+}*/
+
+/* Height of the footer*/
+
+/*when screen size smaller than 768, one column and no extra space left*/
+
+@media only screen and (max-width: 767px) {
+	.slds .slds-form--compound .slds-form-element__row {
+		margin-bottom: 0;
+	}
+	/*.slds-form-element__row label:nth-of-type(1),*/
+	.slds-form-element__row .slds-form-element__control:nth-of-type(1) {
+		padding-right: 0;
+		margin-bottom: 0.5rem;
+	}
+	/*.slds-form-element__row label:nth-of-type(2),*/
+	.slds-form-element__row .slds-form-element__control:nth-of-type(2) {
+		margin-left: 0;
+		padding-left: 0;
+		margin-bottom: 0.5rem;
+	}
+	form {
+		margin-left: 0;
+		/*fix firefox select dropdown right border not displaying*/
+	}
+	.dz-table-action {
+		float: right;
+	}
+	#loading-image {
+		left: 40%;
+	}
+	#pcclogo {
+		padding-right: 50px;
+	}
+}
+
+/************************Layout Style Css End************************/

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>I_20_Form_Release_Method__c</fullName>
+    <externalId>false</externalId>
+    <label>I 20 Form Release Method</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Mail to my Primary (Permanent/Home) Address</fullName>
+                <default>false</default>
+                <label>Mail to my Primary (Permanent/Home) Address</label>
+            </value>
+            <value>
+                <fullName>Mail to my Secondary (Local/Mailing) Address</fullName>
+                <default>false</default>
+                <label>Mail to my Secondary (Local/Mailing) Address</label>
+            </value>
+            <value>
+                <fullName>In-person Pick-up (You will be emailed when it is available)</fullName>
+                <default>false</default>
+                <label>In-person Pick-up (You will be emailed when it is available)</label>
+            </value>
+            <value>
+                <fullName>Mail to my Third Party Representative (A Release Form with be required)</fullName>
+                <default>false</default>
+                <label>Mail to my Third Party Representative (A Release Form with be required)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

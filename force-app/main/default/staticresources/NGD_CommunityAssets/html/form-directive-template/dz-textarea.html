@@ -1,0 +1,13 @@
+<div ng-class="{ 'slds-has-error' : currentField.$invalid && (currentField.$dirty || currentForm.$submitted)}">
+    <label class="slds-form-element__label" ng-show="label">
+        <span>{{label}}</span>
+    </label>
+    <label class="slds-form-element__label" ng-show="!label">
+        <span ng-transclude></span>
+    </label>
+    <textarea class="slds-textarea" rows="{{rows}}" ng-model="ngModel" ng-model-options="{ allowInvalid: true }" ng-required="ngRequired" ng-init="ngInit()" ng-click="ngClick()" ng-change="setFieldDirty(currentField);ngChange()" placeholder="{{placeholder}}" clear-hidden/>
+
+    <div ng-messages="currentField.$error" ng-if="currentField.$invalid &&(currentField.$dirty||currentForm.$submitted)" class="slds-form-element__help">
+        <div ng-messages-include="{{NGD_Utilities}}/template/MessageTemplate.html"></div>
+    </div>
+</div>

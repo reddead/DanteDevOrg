@@ -1,0 +1,103 @@
+/*.grid-stack * {
+    margin: 0;
+    padding: 0;
+}*/
+
+/*/
+/* grid-stack
+/*/
+
+.grid-stack {
+    /*
+    margin: 0 auto;
+    opacity: .8;
+    -webkit-transition: opacity .6s;
+    -moz-transition: opacity .6s;
+    -o-transition: opacity .6s;
+    -ms-transition: opacity .6s;
+    transition: opacity .6s;
+    margin-top: 10px;
+    */
+    /*margin: 10px auto 0px;*/
+    margin: 0 auto;
+    transition: none;
+    opacity: 1;
+}
+
+.grid-stack-item-content {
+    background: white;
+    /*
+    cursor: pointer;
+    border-radius: 0.5rem;
+    box-shadow: 5px 5px 10px;
+    font-size: 1em;
+    font-weight: bold;
+    text-align: initial;
+    */
+    border: 1px solid #cfd7e6;
+    left: 5px !important;
+    right: 5px !important;
+    background: transparent;
+    /*border: none;*/
+}
+
+.grid-stack-item .placeholder-content {
+    background: #EEF1F6;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    box-shadow: 5px 5px 10px;
+    font-size: 1em;
+    font-weight: bold;
+    text-align: initial;
+    left: 5px !important;
+    right: 5px !important;
+}
+
+.widget-content {
+    /*width:100%;
+    color:#16325c !important;
+    overflow:hidden;*/
+
+    /*height:100%;*/
+}
+
+.widget-delete {
+    padding-left: 16px;
+    padding-right: 16px;
+    cursor: pointer;
+    text-align:right;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.widget-delete a:hover, .widget-delete a:focus {
+    text-decoration: none!important;
+}
+
+ textarea.widget-content{
+    resize: none!important;
+    position: absolute !important;
+    bottom: 21px !important;
+    top: 20px !important;
+    border:none !important;
+    padding: inherit !important;
+    line-height: inherit !important;
+    margin-bottom: inherit !important;
+    max-width: inherit !important;
+}
+
+/*.grid-stack .player,.grid-stack .resizing{
+    background:#00396b;
+    color:white;
+    box-shadow: none !important;
+}*/
+
+/*.grid-stack .preview-holder {
+    border: none!important;
+    background: #EEF1F6!important;
+    border-radius: 0.5rem !important;
+    opacity: 1!important;
+    transition: opacity 0.4s ease-in-out !important;
+    box-shadow: 5px 5px 10px;
+}*/

@@ -1,0 +1,54 @@
+<div ng-class="{ 'slds-has-error' : currentField.$invalid && (currentField.$dirty || currentForm.$submitted)}">
+        <label class="slds-form-element__label" ng-show="label">
+            <span>{{label}}</span>
+        </label>
+        <label class="slds-form-element__label" ng-show="!label">
+            <span ng-transclude></span>
+        </label>
+        <input type="hidden" ng-model="ngModel" ng-model-options="{ allowInvalid: true }" ng-required="ngRequired" ng-init="ngInit()" ng-click="ngClick()" ng-change="ngChange()" clear-hidden/>
+        <div class="slds-picklist--draggable slds-grid">
+            <div class="slds-form-element">
+                <span class="slds-form-element__label">Available </span>
+                <div class="slds-picklist">
+                    <ul class="slds-picklist__options slds-picklist__options--multi slds-input" dnd-list="list.left">
+                        <li ng-repeat="option in list.left" dnd-draggable="option" dnd-moved="list.left.splice($index, 1);select(list);setFieldDirty(currentField)" dnd-effect-allowed="move" dnd-selected="list.selectedOption = option" ng-class="{'dz-multiselect-selected': list.selectedOption === option}"
+                            class="slds-picklist__item" ng-dblclick="select(list,'left');setFieldDirty(currentField)">
+                            <span class="slds-truncate">
+                            {{option.value}}
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="slds-grid slds-grid--vertical">
+                <button class="slds-button slds-button--icon-container" ng-click="select(list,'left');setFieldDirty(currentField)" type="button">
+                <svg class="slds-button__icon">
+                    <use xlink:href="" ng-href="{{NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#right"></use>
+                </svg>
+                <span class="slds-assistive-text">Arrow left</span>
+            </button>
+                <button class="slds-button slds-button--icon-container" ng-click="select(list,'right');setFieldDirty(currentField)" type="button">
+                <svg class="slds-button__icon">
+                    <use xlink:href="" ng-href="{{NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#left"></use>
+                </svg>
+                <span class="slds-assistive-text">Arrow right</span>
+            </button>
+            </div>
+            <div class="slds-form-element">
+                <span class="slds-form-element__label">Chosen</span>
+                <div class="slds-picklist">
+                    <ul class="slds-picklist__options slds-picklist__options--multi slds-input" dnd-list="list.right">
+                        <li ng-repeat="option in list.right" dnd-draggable="option" dnd-moved="list.right.splice($index, 1);select(list);setFieldDirty(currentField)" dnd-effect-allowed="move" dnd-selected="list.selectedOption = option" ng-class="{'dz-multiselect-selected': list.selectedOption === option}"
+                            class="slds-picklist__item" ng-dblclick="select(list,'right');setFieldDirty(currentField)">
+                            <span class="slds-truncate">
+                            {{option.value}}
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    <div ng-messages="currentField.$error" ng-if="currentField.$invalid && (currentField.$dirty || currentForm.$submitted)" class="slds-form-element__help">
+        <div ng-messages-include="{{NGD_Utilities}}/template/MessageTemplate.html"></div>
+    </div>
+</div>

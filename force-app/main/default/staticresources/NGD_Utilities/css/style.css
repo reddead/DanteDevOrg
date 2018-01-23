@@ -1,0 +1,233 @@
+/* line 3, ../scss/_common.scss */
+.slds-notify {
+  margin-bottom: 1rem;
+  box-shadow: 2px 2px 5px black;
+  border-radius: 3px;
+  padding: 1rem;
+  font-weight: normal;
+  justify-content: flex-start;
+}
+
+/* line 12, ../scss/_common.scss */
+.slds-section-title_divider {
+  margin-bottom: 0.75rem;
+}
+
+/* line 16, ../scss/_common.scss */
+.slds-backdrop.loading-image {
+  background-color: transparent;
+}
+
+/* line 20, ../scss/_common.scss */
+.slds-backdrop.loading-image img {
+  position: fixed;
+  top: 40%;
+  left: 46%;
+  width: 3.5rem;
+}
+
+/* line 27, ../scss/_common.scss */
+.slds-grid {
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+/* line 32, ../scss/_common.scss */
+.grid-column-1 > div {
+  flex-basis: 60%;
+}
+
+/* line 36, ../scss/_common.scss */
+.grid-column-2 > div {
+  flex-basis: 50%;
+}
+
+/* line 40, ../scss/_common.scss */
+.grid-column-2 > div:nth-child(odd) {
+  padding-right: 5%;
+}
+
+/* line 44, ../scss/_common.scss */
+.grid-column-2 > div:nth-child(even) {
+  padding-left: 5%;
+}
+
+/* line 48, ../scss/_common.scss */
+.slds-grid[class*='grid-column'] > * {
+  margin-bottom: 0.5rem;
+}
+
+/* line 5, ../scss/_bootstrap-confilcts.scss */
+body {
+  font-family: "Salesforce Sans", Arial, sans-serif;
+  line-height: 1.5;
+  color: #16325c;
+}
+
+/* line 11, ../scss/_bootstrap-confilcts.scss */
+label {
+  max-width: inherit;
+  font-weight: normal;
+}
+
+/* line 16, ../scss/_bootstrap-confilcts.scss */
+.tooltip {
+  font-family: "Salesforce Sans", Arial, sans-serif;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+/* line 23, ../scss/_bootstrap-confilcts.scss */
+.tooltip.top .tooltip-arrow {
+  border-top-color: #16325c;
+}
+/* line 29, ../scss/_bootstrap-confilcts.scss */
+.tooltip.bottom .tooltip-arrow {
+  border-bottom-color: #16325c;
+}
+/* line 35, ../scss/_bootstrap-confilcts.scss */
+.tooltip.left .tooltip-arrow {
+  border-left-color: #16325c;
+}
+/* line 41, ../scss/_bootstrap-confilcts.scss */
+.tooltip.right .tooltip-arrow {
+  border-right-color: #16325c;
+}
+/* line 46, ../scss/_bootstrap-confilcts.scss */
+.tooltip .tooltip-inner {
+  text-align: left;
+  background-color: #16325c;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.16);
+  padding: 0.5rem 0.75rem;
+}
+/* line 53, ../scss/_bootstrap-confilcts.scss */
+.tooltip.in {
+  opacity: 1;
+}
+
+/* line 61, ../scss/_bootstrap-confilcts.scss */
+.modal.fade .modal-dialog, .modal.in .modal-dialog {
+  -webkit-transform: none;
+  -ms-transform: none;
+  -o-transform: none;
+  transform: none;
+}
+
+/* line 70, ../scss/_bootstrap-confilcts.scss */
+.slds-table_bordered {
+  border-bottom: 0;
+}
+/* line 74, ../scss/_bootstrap-confilcts.scss */
+.slds-table_bordered tbody td {
+  vertical-align: baseline;
+}
+/* line 80, ../scss/_bootstrap-confilcts.scss */
+.slds-table_bordered tfoot td {
+  padding: 0 !important;
+  border-top: 1px solid #d8dde6;
+  text-align: center !important;
+}
+
+@media (max-width: 48em) {
+  /*fix tooltip not render properly*/
+  /* line 90, ../scss/_bootstrap-confilcts.scss */
+  .slds-max-medium-table_stacked-horizontal td {
+    overflow: visible;
+  }
+
+  /*fix position of the icon on the right*/
+  /* line 97, ../scss/_bootstrap-confilcts.scss */
+  .slds-max-medium-table_stacked-horizontalv td > div {
+    clear: both;
+  }
+}
+@media (max-width: 768px) {
+  /* line 104, ../scss/_bootstrap-confilcts.scss */
+  .slds-button-group {
+    justify-content: flex-end;
+  }
+}
+/* line 1, ../scss/_homepage-builder.scss */
+.st-sort-ascent:before {
+  content: '\25B2';
+}
+
+/* line 5, ../scss/_homepage-builder.scss */
+.st-sort-descent:before {
+  content: '\25BC';
+}
+
+/* line 3, ../scss/_layout-modal.scss */
+.tooltip.homepage-builder-tooltip_info .tooltip-inner {
+  max-width: 600px;
+}
+/* line 6, ../scss/_layout-modal.scss */
+.tooltip.homepage-builder-tooltip_info .tooltip-inner ul {
+  list-style: disc;
+}
+/* line 9, ../scss/_layout-modal.scss */
+.tooltip.homepage-builder-tooltip_info .tooltip-inner ul li {
+  list-style-position: inside;
+}
+
+/* line 17, ../scss/_layout-modal.scss */
+.homepage-builder-icon_info {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+}
+
+/* line 24, ../scss/_layout-modal.scss */
+.multiSelect .buttonLabel {
+  padding: 0;
+}
+/* line 28, ../scss/_layout-modal.scss */
+.multiSelect .checkboxLayer {
+  position: relative;
+}
+/* line 32, ../scss/_layout-modal.scss */
+.multiSelect .caret {
+  position: absolute;
+  right: 6px;
+  top: 14px;
+}
+/* line 38, ../scss/_layout-modal.scss */
+.multiSelect .helperButton,
+.multiSelect .multiSelectItem,
+.multiSelect .multiSelectItem:not(.multiSelectGroup).selected {
+  color: inherit;
+}
+/* line 44, ../scss/_layout-modal.scss */
+.multiSelect > button {
+  width: 100%;
+  text-align: left;
+  font-size: inherit;
+  color: inherit;
+  padding: 0 1.5rem 0 0.5rem;
+  min-height: calc(1.875rem + (1px * 2)) !important;
+}
+/* line 52, ../scss/_layout-modal.scss */
+.multiSelect > button:focus {
+  outline: 0;
+  border-color: #1589ee;
+  background-color: white;
+  box-shadow: 0 0 3px #0070D2;
+}
+
+@media (max-width: 479px) {
+  /* line 63, ../scss/_layout-modal.scss */
+  .tooltip.homepage-builder-tooltip_info .tooltip-inner {
+    max-width: 200px;
+  }
+}
+@media (max-width: 767px) {
+  /* line 72, ../scss/_layout-modal.scss */
+  .tooltip.homepage-builder-tooltip_info .tooltip-inner {
+    max-width: 300px;
+  }
+}
+/* line 1, ../scss/_widget-modal.scss */
+.slds-badge[ng-if*='Preview'] {
+  background-color: #5c2fda;
+  color: #fff;
+}

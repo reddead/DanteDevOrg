@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Admissions_Status__c</fullName>
+    <externalId>false</externalId>
+    <label>Admissions Status</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Inquiry</fullName>
+                <default>false</default>
+                <label>Inquiry</label>
+            </value>
+            <value>
+                <fullName>Started App</fullName>
+                <default>false</default>
+                <label>Started App</label>
+            </value>
+            <value>
+                <fullName>Submitted App</fullName>
+                <default>false</default>
+                <label>Submitted App</label>
+            </value>
+            <value>
+                <fullName>Complete App</fullName>
+                <default>false</default>
+                <label>Complete App</label>
+            </value>
+            <value>
+                <fullName>Admit</fullName>
+                <default>false</default>
+                <label>Admit</label>
+            </value>
+            <value>
+                <fullName>Deposit</fullName>
+                <default>false</default>
+                <label>Deposit</label>
+            </value>
+            <value>
+                <fullName>File Closed</fullName>
+                <default>false</default>
+                <label>File Closed</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

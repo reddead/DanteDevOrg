@@ -1,0 +1,12 @@
+<div class="slds-input-has-icon slds-input-has-icon--right">
+    <svg class="slds-input__icon" ng-if="!typeAhead.model">
+  		<use xlink:href="" ng-href="{{res.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+  	</svg>
+    <svg class="slds-input__icon" ng-click="clear($event)" ng-if="typeAhead.model">
+      <use xlink:href="" ng-href="{{res.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#clear"></use>
+	  </svg>
+    <input type="text" class="slds-input" ng-model="typeAhead.model" uib-typeahead="option as option.label for option in typeAhead.option | filter:{fieldName:$viewValue} | orderBy:'fieldName'" typeahead-min-length="0" typeahead-on-select="setField($item);" placeholder="Type to filter list..."
+        ng-change="clear($event,true)" dz-type-ahead-display-field-name/>
+</div>
+<input type="hidden" value="{{typeAhead.model.fieldName}}" ng-if="!typeAhead.model.relationshipName" />
+<input type="hidden" value="{{typeAhead.model.relationshipName}}" ng-if="typeAhead.model.relationshipName" />

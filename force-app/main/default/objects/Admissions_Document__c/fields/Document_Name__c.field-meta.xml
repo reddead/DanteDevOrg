@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Document_Name__c</fullName>
+    <externalId>false</externalId>
+    <label>Document Name</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>High School Transcript</fullName>
+                <default>false</default>
+                <label>High School Transcript</label>
+            </value>
+            <value>
+                <fullName>College Transcript</fullName>
+                <default>false</default>
+                <label>College Transcript</label>
+            </value>
+            <value>
+                <fullName>Letter of Recommendation</fullName>
+                <default>false</default>
+                <label>Letter of Recommendation</label>
+            </value>
+            <value>
+                <fullName>Paper Application</fullName>
+                <default>false</default>
+                <label>Paper Application</label>
+            </value>
+            <value>
+                <fullName>Essay</fullName>
+                <default>false</default>
+                <label>Essay</label>
+            </value>
+            <value>
+                <fullName>GI Bill</fullName>
+                <default>false</default>
+                <label>GI Bill</label>
+            </value>
+            <value>
+                <fullName>Housing Application</fullName>
+                <default>false</default>
+                <label>Housing Application</label>
+            </value>
+            <value>
+                <fullName>Visa</fullName>
+                <default>false</default>
+                <label>Visa</label>
+            </value>
+            <value>
+                <fullName>Green Card</fullName>
+                <default>false</default>
+                <label>Green Card</label>
+            </value>
+            <value>
+                <fullName>High School Diploma</fullName>
+                <default>false</default>
+                <label>High School Diploma</label>
+            </value>
+            <value>
+                <fullName>College Diploma</fullName>
+                <default>false</default>
+                <label>College Diploma</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,17 @@
+<div ng-if="message" class="slds-notify slds-notify_alert slds-theme_error slds-theme_alert-texture">
+	<h2>
+    <svg class="slds-icon icon-text-email slds-icon_x-small slds-m-right_x-small">
+      <use xlink:href="" ng-href="{{NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+    </svg>
+    <span>{{message}}</span>
+  </h2>
+</div>
+
+<div ng-if="!message" class="slds-notify slds-notify_alert slds-theme_error slds-theme_alert-texture">
+	<h2>
+    <svg class="slds-icon icon-text-email slds-icon_x-small slds-m-right_x-small">
+      <use xlink:href="" ng-href="{{NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+    </svg>
+    <span ng-transclude></span>
+  </h2>
+</div>

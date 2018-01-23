@@ -1,0 +1,238 @@
+.slds-theme_alert-texture{
+  margin-bottom: 1rem;
+  box-shadow: 2px 2px 5px black;
+  border-radius: 3px;
+  padding: 1rem;
+}
+
+/******fix bootstrap confilcts START******/
+
+label {
+    max-width: inherit;
+    font-weight: normal;
+}
+
+.tooltip.in {
+    opacity: 1;
+}
+
+.tooltip {
+    font-family: "Salesforce Sans", Arial, sans-serif;
+    line-height: 1.5;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.tooltip.top .tooltip-arrow {
+    border-top-color: #16325c;
+}
+
+.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: #16325c;
+}
+
+.tooltip.left .tooltip-arrow {
+    border-left-color: #16325c;
+}
+
+.tooltip.right .tooltip-arrow {
+    border-right-color: #16325c;
+}
+
+.tooltip .tooltip-inner {
+    text-align: left;
+    background-color: #16325c;
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.16);
+    padding: .5rem .75rem;
+}
+
+
+/******fix bootstrap confilcts END******/
+
+
+/******fix confilcts START******/
+
+@media (max-width: 48em) {
+    /*fix tooltip not render properly*/
+    .slds-max-medium-table_stacked-horizontal td {
+        overflow: visible;
+    }
+    /*fix position of the icon on the right*/
+    .slds-max-medium-table_stacked-horizontal td>div {
+        clear: both;
+    }
+}
+
+.slds-table_bordered tbody td {
+    vertical-align: baseline;
+}
+/******fix confilcts END******/
+
+.slds-backdrop.loading-image {
+    background-color: transparent;
+}
+
+.slds-backdrop.loading-image img {
+    position: fixed;
+    top: 40%;
+    left: 46%;
+    width: 3.5rem;
+}
+
+.slds-grid {
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.grid-column-1>div {
+    flex-basis: 60%;
+}
+
+.grid-column-2>div {
+    flex-basis: 50%;
+}
+
+.grid-column-2>div:nth-child(odd) {
+    padding-right: 5%;
+}
+
+.grid-column-2>div:nth-child(even) {
+    padding-left: 5%;
+}
+
+.slds-grid[class*='grid-column']>*{
+  margin-bottom: .5rem;
+}
+
+/******HomepageBbuilder START******/
+
+/*fix bootstrap confilcts START*/
+body {
+  font-family: "Salesforce Sans", Arial, sans-serif;
+  line-height: 1.5;
+  color: #16325c;
+}
+
+.modal.in .modal-dialog,.modal.fade .modal-dialog {
+  -webkit-transform: none;
+  -ms-transform: none;
+  -o-transform: none;
+  transform: none;
+}
+
+.slds-table_bordered{
+  border-bottom: 0;
+}
+
+.slds-table_bordered tfoot td {
+  padding: 0 !important;
+  border-top: 1px solid #d8dde6;
+  text-align: center !important;
+}
+
+@media (max-width: 768px) {
+  .slds-button-group {
+    justify-content: flex-end;
+  }
+}
+
+/*fix bootstrap confilcts END*/
+
+.st-sort-ascent:before {
+  content: '\25B2';
+}
+
+.st-sort-descent:before {
+  content: '\25BC';
+}
+
+/******HomepageBbuilder END******/
+
+/******LayoutModal START******/
+
+.tooltip.homepage-builder-tooltip .tooltip-inner {
+    max-width: 600px;
+}
+
+.tooltip.homepage-builder-tooltip .tooltip-inner ul {
+    list-style: disc;
+}
+
+.tooltip.homepage-builder-tooltip .tooltip-inner ul li {
+    list-style-position: inside;
+}
+
+@media (max-width: 767px) {
+    .tooltip.homepage-builder-tooltip .tooltip-inner {
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 479px) {
+    .tooltip.homepage-builder-tooltip .tooltip-inner {
+        max-width: 200px;
+    }
+}
+
+.homepage-layout-tooltip-icon {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+
+  /*.multiSelect .show {
+    bottom: 34px;
+    right: 0;
+  }
+  div[isteven-multi-select]{
+    position: relative;
+  }*/
+
+  .multiSelect .checkboxLayer {
+    position: relative;
+  }
+
+  .multiSelect>button{
+    width: 100%;
+    text-align: left;
+    font-size: inherit;
+    color:inherit;
+    padding-left: 0.5rem;
+    padding-right: 1.5rem;
+    padding-top: 0;
+    padding-bottom: 0;
+    min-height: calc(1.875rem + (1px * 2)) !important;
+  }
+
+  .multiSelect .buttonLabel {
+      padding: 0;
+  }
+
+  .multiSelect>button:focus{
+    outline: 0;
+    border-color: #1589ee;
+    background-color: white;
+    box-shadow: 0 0 3px #0070D2;
+  }
+
+  .multiSelect .helperButton,.multiSelect .multiSelectItem,.multiSelect .multiSelectItem:not(.multiSelectGroup).selected {
+    color: inherit;
+  }
+
+  .multiSelect .caret {
+    position: absolute;
+    right: 6px;
+    top: 14px;
+  }
+
+  /******LayoutModal END******/
+
+  /******WidgetModal START******/
+
+  .slds-badge[ng-if*='Preview']{
+  	background-color: #5c2fda;
+  	color: #fff;
+  }
+
+    /******WidgetModal END******/

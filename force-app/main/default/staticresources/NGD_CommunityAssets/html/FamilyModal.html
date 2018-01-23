@@ -1,0 +1,123 @@
+<div class="slds">
+    <form name="userForm" ng-submit="userForm.$valid&&save()" novalidate>
+        <input style="display:none" /> <!--solve chrome autofill issue-->
+        <div aria-hidden="false" role="dialog" class="slds-modal slds-fade-in-open" style="overflow: auto;">
+            <div class="slds-modal__container" style="padding:0">
+                <div class="slds-modal__header">
+                    <h2 class="slds-text-heading--medium">Family Member</h2>
+                    <button class="slds-button slds-button--icon-inverse slds-modal__close" ng-click="cancel()" type="button">
+                        <svg aria-hidden="true" class="slds-button__icon slds-button__icon--large">
+                            <use xlink:href="/resource/SLDS/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                        </svg>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                </div>
+                <div class="slds-modal__content" style="overflow: inherit;">
+                    <div class="dz-page-messages" ng-show="userForm.$invalid&&userForm.$submitted">
+                        <svg aria-hidden="true" class="slds-icon slds-icon--small">
+                            <use xlink:href="/resource/SLDS/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+                        </svg>
+                        Please review the validation errors
+                    </div>
+                    <section>
+                        <fieldset class="slds-form--compound">
+                            <div class="form-element__group">
+                                <!--slds-form-element__row START-->
+                                <div class="slds-form-element__row">
+                                    <!--slds-form-element__control START-->
+                                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Relationship__c.$invalid&&(userForm.Relationship__c.$dirty||userForm.$submitted)}">
+                                        <span class="slds-form-element__label">Relationship</span>
+                                        <div class="slds-select_container">
+                                            <select class="slds-select" ng-model="family.Relationship__c" name="Relationship__c" ng-required="true">
+                                                <option ng-repeat="item in fmc.Relationship__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                            </select>
+                                        </div>
+                                        <div ng-messages="userForm.Relationship__c.$error" ng-if="userForm.Relationship__c.$invalid&&(userForm.Relationship__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                            <div ng-messages-include="/resource/Utilities/template/MessageTemplate.html"></div>
+                                        </div>
+                                    </div>
+                                    <!--slds-form-element__control END-->
+                                </div>
+                                <!--slds-form-element__row END-->
+                                <!--slds-form-element__row START-->
+                                <div class="slds-form-element__row">
+                                    <!--slds-form-element__control START-->
+                                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.First_Name__c.$invalid && (userForm.First_Name__c.$dirty || userForm.$submitted)}">
+                                        <span class="slds-form-element__label">First Name</span>
+                                        <input class="slds-input" ng-model="family.First_Name__c" name="First_Name__c" type="text" ng-required="true" />
+                                        <div ng-messages="userForm.First_Name__c.$error" ng-if="userForm.First_Name__c.$invalid &&(userForm.First_Name__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                            <div ng-messages-include="/resource/Utilities/template/MessageTemplate.html"></div>
+                                        </div>
+                                    </div>
+                                    <!--slds-form-element__control END-->
+                                    <!--slds-form-element__control START-->
+                                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Last_Name__c.$invalid && (userForm.Last_Name__c.$dirty || userForm.$submitted)}">
+                                        <span class="slds-form-element__label">Last Name</span>
+                                        <input class="slds-input" ng-model="family.Last_Name__c" name="Last_Name__c" type="text" ng-required="true" />
+                                        <div ng-messages="userForm.Last_Name__c.$error" ng-if="userForm.Last_Name__c.$invalid &&(userForm.Last_Name__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                            <div ng-messages-include="/resource/Utilities/template/MessageTemplate.html"></div>
+                                        </div>
+                                    </div>
+                                    <!--slds-form-element__control END-->
+                                </div>
+                                <!--slds-form-element__row END-->
+                                <!--slds-form-element__row START-->
+                                <div class="slds-form-element__row">
+                                    <!--slds-form-element__control START-->
+                                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Passport_Country_of_Issue__c.$invalid&&(userForm.Passport_Country_of_Issue__c.$dirty||userForm.$submitted)}">
+                                        <span class="slds-form-element__label">From which country is this person's passport issued?</span>
+                                        <div class="slds-select_container">
+                                            <select class="slds-select" ng-model="family.Passport_Country_of_Issue__c" name="Passport_Country_of_Issue__c" ng-required="true">
+                                                <option ng-repeat="item in fmc.Passport_Country_of_Issue__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                            </select>
+                                        </div>
+                                        <div ng-messages="userForm.Passport_Country_of_Issue__c.$error" ng-if="userForm.Passport_Country_of_Issue__c.$invalid&&(userForm.Passport_Country_of_Issue__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                            <div ng-messages-include="/resource/Utilities/template/MessageTemplate.html"></div>
+                                        </div>
+                                    </div>
+                                    <!--slds-form-element__control END-->
+                                </div>
+                                <!--slds-form-element__row END-->
+                                <!--slds-form-element__row START-->
+                                <div class="slds-form-element__row">
+                                    <!--slds-form-element__control START-->
+                                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Passport_Number__c.$invalid && (userForm.Passport_Number__c.$dirty || userForm.$submitted)}">
+                                        <span class="slds-form-element__label">Passport Number</span>
+                                        <input class="slds-input" ng-model="family.Passport_Number__c" name="Passport_Number__c" type="text" ng-required="true" />
+                                        <div ng-messages="userForm.Passport_Number__c.$error" ng-if="userForm.Passport_Number__c.$invalid &&(userForm.Passport_Number__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                            <div ng-messages-include="/resource/Utilities/template/MessageTemplate.html"></div>
+                                        </div>
+                                    </div>
+                                    <!--slds-form-element__control END-->
+                                    <!--slds-form-element__control START-->
+                                    <div class="dz-date-picker slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Passport_Expiration_Date__c.$invalid&&(userForm.Passport_Expiration_Date__c.$dirty||userForm.$submitted)}">
+                                        <span class="slds-form-element__label">Passport Expiration Date</span>
+                                        <div class="slds-input-has-icon slds-input-has-icon--right">
+                                            <svg aria-hidden="true" class="slds-input__icon" ng-click="openPassport_Expiration_Date__cPicker($event)">
+                                                <use xlink:href="" ng-href="/resource/SLDS/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
+                                            </svg>
+                                            <input class="slds-input" ng-model="family.Passport_Expiration_Date__c" datepicker-localdate ng-click="openPassport_Expiration_Date__cPicker($event)" type="text" name="Passport_Expiration_Date__c" uib-datepicker-popup="MM-dd-yyyy" is-open="datePickerStatus.openedPassport_Expiration_Date__c" show-button-bar="false" show-weeks="false" on-open-focus="false" ng-required="true" />
+                                        </div>
+                                        <div ng-messages="userForm.Passport_Expiration_Date__c.$error" ng-if="userForm.Passport_Expiration_Date__c.$invalid&&(userForm.Passport_Expiration_Date__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                            <div ng-messages-include="/resource/Utilities/template/MessageTemplate.html"></div>
+                                        </div>
+                                    </div>
+                                    <!--slds-form-element__control END-->
+                                </div>
+                                <!--slds-form-element__row END-->
+                            </div>
+                        </fieldset>
+                    </section>
+
+                </div>
+                <div class="slds-modal__footer slds-modal__footer--directional">
+                    <div class="slds-x-small-buttons--horizontal">
+                        <button class="slds-button slds-button--neutral" ng-click="cancel()" type="button">Back</button>
+                        <button class="slds-button slds-button--brand" type="submit">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"></div>
+        </form>
+</div>

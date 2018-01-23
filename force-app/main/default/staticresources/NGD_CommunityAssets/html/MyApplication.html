@@ -1,0 +1,1623 @@
+<form name="userForm" ng-submit="submit(true)" novalidate onsubmit="debugValidation();">
+    <input style="display:none" />
+    <!--solve chrome autofill issue-->
+    <div class="dz-page-messages" ng-if="(con.message&&userForm.$submitted)||con.message" style="margin-top:0.5rem">
+        <svg aria-hidden="true" class="slds-icon slds-icon--small">
+            <use xlink:href="/resource/SLDS/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+        </svg> {{con.message}}
+    </div>
+    <!--do not display if My Profile not completed-->
+    <div ng-if="contact.Personal_Data_Section__c&&contact.Contact_Info_Section__c">
+        <section ng-if="!appId&&application==undefined">
+            <div class="slds-section-title--divider">
+                <div class="slds-text-heading--small">Entry to My Application</div>
+            </div>
+            To begin your application, select an existing application from the list below.
+            <br /><br />Applicants are encouraged to apply as soon as possible. After you've submitted your application, you will have access to view your application checklist on your portal Home page which will have up-to-date tracking of your next
+            steps.
+            <br /> <br />If you have questions during the application process, please refer to the Home tab for contact information.<br /> <br />
+        </section>
+        <section ng-if="!appId&&application==undefined">
+            <div class="slds-section-title--divider">
+                <div class="slds-text-heading--small">Select Your Application</div>
+            </div>
+            <table class="slds-table slds-table--bordered slds-max-medium-table--stacked-horizontal">
+                <thead>
+                    <tr class=" slds-text-heading--label">
+                        <th scope="col">
+                            <span class="slds-truncate">Name</span>
+                        </th>
+                        <th scope="col">
+                            <span class="slds-truncate">Application Type</span>
+                        </th>
+                        <th scope="col">
+                            <span class="slds-truncate">Program</span>
+                        </th>
+                        <th scope="col">
+                            <span class="slds-truncate">Term of Admission</span>
+                        </th>
+                        <th scope="col">
+                            <span class="slds-truncate">Admission Status</span>
+                        </th>
+                        <th scope="col">
+                            <span class="slds-truncate">Date Started App</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="slds-hint-parent" ng-repeat="item in con.applications" ng-class="{'slds-is-selected':item.Id==application.Id}">
+                        <!--<td data-label="Name">
+                            <a ng-href="/MyApplication_ng?id={{item.Id}}" target="_parent" class="slds-truncate">
+                                {{item.Name}}
+                            </a>
+                        </td>-->
+                        <td data-label="Name">
+                            <a class="slds-truncate" ng-click="applicationRedirection(item,false)" style="cursor:pointer">
+                                {{item.Name}}
+                            </a>
+                        </td>
+                        <td data-label="Application Type">
+                            <a class="slds-truncate" ng-click="application.Application_Submitted__c?return:applicationRedirection(item,true)" href="" ng-class="{ 'dz-not-clickable' : item.Application_Submitted__c}">
+                                {{item.App_Type__c.substring(0,item.App_Type__c.indexOf(":"))}}
+                            </a>
+                        </td>
+                        <td data-label="Program">
+                            <span class="slds-truncate" style="white-space: normal;">{{item.Program_Offered__r.Name}}</span>
+                        </td>
+                        <td data-label="Term of Admission">
+                            <span class="slds-truncate">{{item.Term__r.Name}}</span>
+                        </td>
+                        <td data-label="Admission Status">
+                            <span class="slds-truncate">{{item.Admissions_Status__c}}</span>
+                        </td>
+                        <td data-label="Date Started App">
+                            <span class="slds-truncate">{{item.Date_Started_App__c}}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--<div class="slds-x-small-buttons--horizontal" style=" text-align: center; margin-top: 1.5rem;">
+                <button class="slds-button slds-button--neutral" type="button" ng-click="createNewApplication()">Create New Application</button>
+            </div>-->
+        </section>
+        <div ng-if="appId||application">
+            <!--
+            <section ng-if="application.App_Type__c.indexOf('Adult Basic Education Student:') != -1">
+                <div class="slds-section-title--divider">
+                    <div class="slds-text-heading--small">
+                        Adult Education
+                    </div>
+                </div>
+                <fieldset class="slds-form--compound">
+                    <div class="form-element__group">
+
+                    </div>
+                </fieldset>
+            </section>
+        -->
+            <p style="font-size:20px" class="slds-p-top--small slds-p-bottom--small">
+                Weclome {{application.App_Type__c.substring(0, application.App_Type__c.indexOf(":"))}}!
+            </p>
+            <div ng-if="application.App_Type__c.indexOf('Community/Personal Development Student:') == -1&&application.App_Type__c.indexOf('Workforce/Professional Student:') == -1">
+                <section>
+                    <div class="slds-section-title--divider">
+                        <div class="slds-text-heading--small">
+                            Enrollment Questions
+                        </div>
+                    </div>
+                    <fieldset class="slds-form--compound">
+                        <div class="form-element__group">
+                            <!--slds-form-element__row START-->
+                            <!--<div class="slds-form-element__row">-->
+                            <!--slds-form-element__control START-->
+                            <!--<div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.App_Type__c.$invalid&&(userForm.App_Type__c.$dirty||userForm.$submitted)}">
+                        <span class="slds-form-element__label">What is your Application Type?</span>
+                        <div class="slds-select_container">
+                            <select class="slds-select" ng-model="application.App_Type__c" name="App_Type__c" ng-required="true">
+                                <option ng-repeat="item in con.Application_App_Type__cOptions" value="{{item.value}}">{{item.label}}</option>
+                            </select>
+                        </div>
+                        <div ng-messages="userForm.App_Type__c.$error" ng-if="userForm.App_Type__c.$invalid&&(userForm.App_Type__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                            <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                        </div>
+                    </div>-->
+                            <!--slds-form-element__control END-->
+                            <!--</div>-->
+                            <!--slds-form-element__row END-->
+                            <!--slds-form-element__row START-->
+                            <div class="slds-form-element__row">
+                                <!--slds-form-element__control START-->
+                                <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-if="application.App_Type__c.indexOf('International Student:') == -1 && application.App_Type__c.indexOf('Adult Basic Education Student:') == -1"
+                                    ng-class="{ 'slds-has-error' : userForm.Term_Semester__c.$invalid&&(userForm.Term_Semester__c.$dirty||userForm.$submitted)}">
+                                    <span class="slds-form-element__label">For which semester are you applying?</span>
+                                    <div class="slds-select_container">
+                                        <select class="slds-select" ng-model="application.Term_Semester__c" name="Term_Semester__c" ng-required="true" clear-hidden>
+                                            <option ng-repeat="item in con.Semester__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                                    </div>
+                                    <div ng-messages="userForm.Term_Semester__c.$error" ng-if="userForm.Term_Semester__c.$invalid&&(userForm.Term_Semester__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                        <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                                    </div>
+                                </div>
+                                <!--slds-form-element__control END-->
+                                <!--slds-form-element__control START-->
+                                <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-if="application.App_Type__c.indexOf('International Student:') != -1" ng-class="{ 'slds-has-error' : userForm.Term_Semester__c.$invalid&&(userForm.Term_Semester__c.$dirty||userForm.$submitted)}">
+                                    <span class="slds-form-element__label">For which semester are you applying?</span>
+                                    <div class="slds-select_container">
+                                        <select class="slds-select" ng-model="application.Term_Semester__c" name="Term_Semester__c" ng-required="true" clear-hidden>
+                                            <option ng-repeat="item in con.Semester__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                                    </div>
+                                    <div ng-messages="userForm.Term_Semester__c.$error" ng-if="userForm.Term_Semester__c.$invalid&&(userForm.Term_Semester__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                        <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                                    </div>
+                                </div>
+                                <!--slds-form-element__control END-->
+                                <!--slds-form-element__control START-->
+                                <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-if="application.App_Type__c.indexOf('Adult Basic Education Student:') == -1" ng-class="{ 'slds-has-error' : userForm.Term_Year__c.$invalid&&(userForm.Term_Year__c.$dirty||userForm.$submitted)}">
+                                    <span class="slds-form-element__label">For which year are you applying?</span>
+                                    <div class="slds-select_container">
+                                        <select class="slds-select" ng-model="application.Term_Year__c" name="Term_Year__c" ng-required="true">
+                                            <option ng-repeat="item in con.Year__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                                    </div>
+                                    <div ng-messages="userForm.Term_Year__c.$error" ng-if="userForm.Term_Year__c.$invalid&&(userForm.Term_Year__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                        <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                                    </div>
+                                </div>
+                                <!--slds-form-element__control END-->
+                            </div>
+                            <!--slds-form-element__row END-->
+                            <!--slds-form-element__row START-->
+                            <div class="slds-form-element__row" ng-if="application.App_Type__c.indexOf('New Student:') != -1 || application.App_Type__c.indexOf('Transfer Student:') != -1 || application.App_Type__c.indexOf('Returning Student:') != -1 || application.App_Type__c.indexOf('International Student:') != -1">
+                                <!--slds-form-element__control START-->
+                                <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Area_of_Study__c.$invalid&&(userForm.Area_of_Study__c.$dirty||userForm.$submitted)}">
+                                    <span class="slds-form-element__label">What area do you want to study?</span>
+                                    <input type="hidden" ng-model="application.Area_of_Study__c" />
+                                    <div class="slds-select_container">
+                                        <select class="slds-select" ng-model="con.Area_of_Study__c" name="Area_of_Study__c" ng-required="true" ng-change="setDependentListModel('application.Area_of_Study__c','Area_of_Study__c')" ng-options="Area_of_Study__c for (Area_of_Study__c, Area_of_Major__c) in con.Area_of_Study__cDependentList">
+                                            <option value="">--None--</option>
+                                        </select>
+                                    </div>
+                                    <div ng-messages="userForm.Area_of_Study__c.$error" ng-if="userForm.Area_of_Study__c.$invalid&&(userForm.Area_of_Study__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                        <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                                    </div>
+                                </div>
+                                <!--slds-form-element__control END-->
+                                <!--slds-form-element__control START-->
+                                <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Area_of_Major__c.$invalid&&(userForm.Area_of_Major__c.$dirty||userForm.$submitted)}">
+                                    <span class="slds-form-element__label">What area do you want to major in?</span>
+                                    <div class="slds-select_container">
+                                        <select class="slds-select" ng-model="application.Area_of_Major__c" ng-change="filterProgramOffered()" ng-options="Area_of_Major__c for Area_of_Major__c in con.Area_of_Study__c" ng-disabled="!con.Area_of_Study__c" name="Area_of_Major__c" ng-required="true">
+                                            <option value="">--None--</option>
+                                        </select>
+                                    </div>
+                                    <div ng-messages="userForm.Area_of_Major__c.$error" ng-if="userForm.Area_of_Major__c.$invalid&&(userForm.Area_of_Major__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                        <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                                    </div>
+                                </div>
+                                <!--slds-form-element__control END-->
+                            </div>
+                            <!--slds-form-element__row END-->
+                            <!--slds-form-element__row START-->
+                            <div class="slds-form-element__row" ng-if="application.App_Type__c.indexOf('New Student:') != -1 || application.App_Type__c.indexOf('Transfer Student:') != -1 || application.App_Type__c.indexOf('Returning Student:') != -1 || application.App_Type__c.indexOf('International Student:') != -1">
+                                <!--slds-form-element__control START-->
+                                <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Program_Offered__c.$invalid&&(userForm.Program_Offered__c.$dirty||userForm.$submitted)}">
+                                    <div class="slds-dropdown-trigger dz-popover-size">
+                                        <span class="slds-form-element__label">Possible Degrees/Certificates Include</span>
+                                        <div class="slds-select_container">
+                                            <select class="slds-select" ng-model="application.Program_Offered__c" ng-change="filterConcentration()" onchange="showERxPopoverMessge(this)" onblur="hideERxPopoverMessge(this)" name="Program_Offered__c" ng-disabled="!con.Area_of_Study__c||!application.Area_of_Major__c"
+                                                ng-required="true">
+                                                <option value="">--None--</option>
+                                                <option ng-repeat="item in con.programOfferdOptions" value="{{item.Id}}">{{item.Program_Offered_Name__c}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="slds-dropdown slds-dropdown--bottom slds-nubbin--bottom slds-dropdown--menu dz-form-popover-message" ng-show="isSelectiveAdmission(application.Program_Offered__c)">
+                                            <ul class="slds-dropdown__list">
+                                                <li class="slds-dropdown__item">
+                                                    <p>You have chosen a Selective Admissions program. Please see an advisor for specific admissions criteria for this program and select an alternative program below.</p>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div ng-messages="userForm.Program_Offered__c.$error" ng-if="userForm.Program_Offered__c.$invalid&&(userForm.Program_Offered__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                        <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                                    </div>
+                                </div>
+                                <!--slds-form-element__control END-->
+                                <!--slds-form-element__control START-->
+                                <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-if="con.Concentration__cOptions.length>0&&application.Program_Offered__c" ng-class="{ 'slds-has-error' : userForm.Concentration__c.$invalid&&(userForm.Concentration__c.$dirty||userForm.$submitted)}">
+                                    <span class="slds-form-element__label">Available Concentrations</span>
+                                    <div class="slds-select_container">
+                                        <select class="slds-select" ng-model="application.Concentration__c" name="Concentration__c" ng-required="true" clear-hidden ng-disabled="application.Application_Submitted__c">
+                                            <option value="">--None--</option>
+                                            <option ng-repeat="item in con.Concentration__cOptions" value="{{item.Id}}">{{item.Name}}</option>
+                                        </select>
+                                    </div>
+                                    <div ng-messages="userForm.Concentration__c.$error" ng-if="userForm.Concentration__c.$invalid&&(userForm.Concentration__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                        <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                                    </div>
+                                </div>
+                                <!--slds-form-element__control END-->
+                            </div>
+                            <!--slds-form-element__row END-->
+                            <div ng-if="isSelectiveAdmission(application.Program_Offered__c)">
+                                <div class="slds-text-heading--small">
+                                    Please select an alternate major. Students who are not eligible for admission to their first choice major because of Selective Admissions criteria, will be admitted into their alternate major.
+                                </div>
+                                <!--slds-form-element__row START-->
+                                <div class="slds-form-element__row">
+                                    <!--slds-form-element__control START-->
+                                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Area_of_Study_Alternate__c.$invalid&&(userForm.Area_of_Study_Alternate__c.$dirty||userForm.$submitted)}">
+                                        <span class="slds-form-element__label">What alternate area do you want to study?</span>
+                                        <input type="hidden" ng-model="application.Area_of_Study_Alternate__c" clear-hidden />
+                                        <div class="slds-select_container">
+                                            <select class="slds-select" ng-model="con.Area_of_Study_Alternate__c" name="Area_of_Study_Alternate__c" ng-required="true" ng-change="setDependentListModel('application.Area_of_Study_Alternate__c','Area_of_Study_Alternate__c')" ng-options="Area_of_Study_Alternate__c for (Area_of_Study_Alternate__c, Area_of_Major_Alternate__c) in con.Area_of_Study_Alternate__cDependentList"
+                                                clear-hidden>
+                                                <option value="">--None--</option>
+                                            </select>
+                                        </div>
+                                        <div ng-messages="userForm.Area_of_Study_Alternate__c.$error" ng-if="userForm.Area_of_Study_Alternate__c.$invalid&&(userForm.Area_of_Study_Alternate__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                            <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                                        </div>
+                                    </div>
+                                    <!--slds-form-element__control END-->
+                                    <!--slds-form-element__control START-->
+                                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Area_of_Major_Alternate__c.$invalid&&(userForm.Area_of_Major_Alternate__c.$dirty||userForm.$submitted)}">
+                                        <span class="slds-form-element__label">What alternate area do you want to major in?</span>
+                                        <div class="slds-select_container">
+                                            <select class="slds-select" ng-model="application.Area_of_Major_Alternate__c" ng-change="filterProgramOfferedAlternate()" ng-options="Area_of_Major_Alternate__c for Area_of_Major_Alternate__c in con.Area_of_Study_Alternate__c" ng-disabled="!con.Area_of_Study_Alternate__c"
+                                                name="Area_of_Major_Alternate__c" ng-required="true" clear-hidden>
+                                                <option value="">--None--</option>
+                                            </select>
+                                        </div>
+                                        <div ng-messages="userForm.Area_of_Major_Alternate__c.$error" ng-if="userForm.Area_of_Major_Alternate__c.$invalid&&(userForm.Area_of_Major_Alternate__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                            <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                                        </div>
+                                    </div>
+                                    <!--slds-form-element__control END-->
+                                </div>
+                                <!--slds-form-element__row END-->
+                                <!--slds-form-element__row START-->
+                                <div class="slds-form-element__row" ng-if="application.App_Type__c.indexOf('New Student:') != -1 || application.App_Type__c.indexOf('Transfer Student:') != -1 || application.App_Type__c.indexOf('Returning Student:') != -1 || application.App_Type__c.indexOf('International Student:') != -1 || application.App_Type__c.indexOf('Guest Student:') != -1 || application.App_Type__c.indexOf('High School Student') != -1">
+                                    <!--slds-form-element__control START-->
+                                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Program_Offered_Alternate__c.$invalid&&(userForm.Program_Offered_Alternate__c.$dirty||userForm.$submitted)}">
+                                        <div class="slds-dropdown-trigger dz-popover-size">
+                                            <span class="slds-form-element__label">Possible Degrees/Certificates Include</span>
+                                            <div class="slds-select_container">
+                                                <select class="slds-select" ng-model="application.Program_Offered_Alternate__c" ng-change="filterConcentrationAlternate()" onchange="showERxPopoverMessge(this)" onblur="hideERxPopoverMessge(this)" name="Program_Offered_Alternate__c" ng-disabled="!con.Area_of_Study_Alternate__c||!application.Area_of_Major_Alternate__c"
+                                                    ng-required="true" clear-hidden>
+                                                    <option value="">--None--</option>
+                                                    <option ng-repeat="item in con.programOfferdOptionsAlternate" value="{{item.Id}}">{{item.Program_Offered_Name__c}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="slds-dropdown slds-dropdown--bottom slds-nubbin--bottom slds-dropdown--menu dz-form-popover-message" ng-show="isSelectiveAdmission(application.Program_Offered_Alternate__c)">
+                                                <ul class="slds-dropdown__list">
+                                                    <li class="slds-dropdown__item">
+                                                        <p>You have chosen a Selective Admissions program. Please see an advisor for specific admissions criteria for this program</p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div ng-messages="userForm.Program_Offered_Alternate__c.$error" ng-if="userForm.Program_Offered_Alternate__c.$invalid&&(userForm.Program_Offered_Alternate__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                            <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                                        </div>
+                                    </div>
+                                    <!--slds-form-element__control END-->
+                                    <!--slds-form-element__control START-->
+                                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-if="con.Concentration__cOptionsAlternate.length>0&&application.Program_Offered_Alternate__c" ng-class="{ 'slds-has-error' : userForm.Concentration_Alternate__c.$invalid&&(userForm.Concentration_Alternate__c.$dirty||userForm.$submitted)}">
+                                        <span class="slds-form-element__label">Available Concentrations</span>
+                                        <div class="slds-select_container">
+                                            <select class="slds-select" ng-model="application.Concentration_Alternate__c" name="Concentration_Alternate__c" ng-required="true" clear-hidden ng-disabled="application.Application_Submitted__c">
+                                                <option value="">--None--</option>
+                                                <option ng-repeat="item in con.Concentration__cOptionsAlternate" value="{{item.Id}}">{{item.Name}}</option>
+                                            </select>
+                                        </div>
+                                        <div ng-messages="userForm.Concentration_Alternate__c.$error" ng-if="userForm.Concentration_Alternate__c.$invalid&&(userForm.Concentration_Alternate__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                            <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                                        </div>
+                                    </div>
+                                    <!--slds-form-element__control END-->
+                                </div>
+                                <!--slds-form-element__row END-->
+                            </div>
+                            <!--slds-form-element__row START-->
+                            <div class="slds-form-element__row">
+                                <!--slds-form-element__control START-->
+                                <div class="slds-max-medium-size--1-of-1">
+                                    <span class="slds-form-element__label">Ultimate Career Goal</span>
+                                    <textarea class="slds-textarea" ng-model="application.Ultimate_Career_Goal__c" style="height: 6rem;" />
+                                </div>
+                                <!--slds-form-element__control END-->
+                            </div>
+                            <!--slds-form-element__row END-->
+                            <!--slds-form-element__row START-->
+                            <div class="slds-form-element__row">
+                <div class="slds-form-element" ng-class="{ 'slds-has-error' : userForm.Enrollment_Questions_Section__c.$invalid && (userForm.Enrollment_Questions_Section__c.$dirty || userForm.$submitted)}">
+                    <label class="slds-checkbox slds-is-required">
+                                <input type="checkbox" ng-model="application.Enrollment_Questions_Section__c" name="Enrollment_Questions_Section__c" check-required ng-model-options="{ allowInvalid: true }"/>
+                                <span class="slds-checkbox--faux"></span>
+                                <span class="slds-form-element__label">I have completed this section of the application. Selecting this box will update this section as complete on the application checklist.</span>
+                            </label>
+                    <div ng-messages="userForm.Enrollment_Questions_Section__c.$error" ng-if="userForm.Enrollment_Questions_Section__c.$invalid &&(userForm.Enrollment_Questions_Section__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                        <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                    </div>
+                </div>
+            </div>
+                            <!--slds-form-element__row END-->
+                        </div>
+                    </fieldset>
+                </section>
+                <section>
+                    <div class="slds-section-title--divider">
+                        <div class="slds-text-heading--small">
+                            Academic History
+                        </div>
+                    </div>
+                    <fieldset class="slds-form--compound">
+                        <div class="slds-text-heading--small">High School/Equivalency</div>
+                        <div class="form-element__group">
+                            <!--slds-form-element__row START-->
+                            <div class="slds-form-element__row">
+                                <!--slds-form-element__control START-->
+                                <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Diploma_or_GED__c.$invalid&&(userForm.Diploma_or_GED__c.$dirty||userForm.$submitted)}">
+                                    <span class="slds-form-element__label">Which high school credential did you receive?</span>
+                                    <div class="slds-select_container">
+                                        <select class="slds-select" ng-model="contact.Diploma_or_GED__c" name="Diploma_or_GED__c" ng-change="" ng-required="true">
+                                            <option ng-repeat="item in con.Diploma_or_GED__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                                    </div>
+                                    <div ng-messages="userForm.Diploma_or_GED__c.$error" ng-if="userForm.Diploma_or_GED__c.$invalid&&(userForm.Diploma_or_GED__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                        <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                                    </div>
+                                </div>
+                                <!--slds-form-element__control END-->
+                            </div>
+                            <!--slds-form-element__row END-->
+                            <span ng-if="contact.Diploma_or_GED__c=='I received a High School diploma'||contact.Diploma_or_GED__c=='I received a High School Equivalency certificate like the GED, HiSET or TASC'">
+                                <!--slds-form-element__row START-->
+                                <div class="slds-form-element__row dz-typeahead">
+                                    <!--slds-form-element__control START-->
+                                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.highSchoolTypeAhead.$invalid&&(userForm.highSchoolTypeAhead.$dirty||userForm.$submitted)}" ng-if="contact.Diploma_or_GED__c=='I received a High School diploma'">
+                                        <span class="slds-form-element__label">High School Name</span>
+                            <div class="slds-input-has-icon slds-input-has-icon--right">
+                                <svg aria-hidden="true" class="slds-input__icon">
+                                                <use xlink:href="" ng-href="{{con.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+                                            </svg>
+                                <input class="slds-input" ng-model="con.highSchoolTypeAhead" name="highSchoolTypeAhead" type="text" uib-typeahead="item as item.Name for item in searchHighSchool($viewValue)" typeahead-loading="loadingSchools" typeahead-no-results="noResults" placeholder="Search by school name"
+                                    ng-required="true" clear-hidden>
+                            </div>
+                            <i ng-show="loadingSchools" class="fa fa-refresh fa-spin"></i>
+                            <div ng-show="noResults">
+                                <i class="glyphicon glyphicon-remove"></i> No Results Found, Please manually type in
+                            </div>
+                            <div ng-messages="userForm.highSchoolTypeAhead.$error" ng-if="userForm.highSchoolTypeAhead.$invalid&&(userForm.highSchoolTypeAhead.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+            </div>
+            <!--slds-form-element__row END-->
+            <!--slds-form-element__row START-->
+            <div class="slds-form-element__row">
+                <!--slds-form-element__control START-->
+                <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                    <span class="slds-form-element__label">Country</span>
+                    <div class="slds-select_container">
+                        <select class="slds-select" ng-model="highSchoolEH.Country__c" clear-hidden>
+                                                <option ng-repeat="item in con.Country__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                            </select>
+                    </div>
+                </div>
+                <!--slds-form-element__control END-->
+                <!--slds-form-element__control START-->
+                <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                    <span class="slds-form-element__label">City</span>
+                    <input class="slds-input" ng-model="highSchoolEH.City__c" type="text" clear-hidden />
+                </div>
+                <!--slds-form-element__control END-->
+            </div>
+            <!--slds-form-element__row END-->
+            <!--slds-form-element__row START-->
+            <div class="slds-form-element__row">
+                <!--slds-form-element__control START-->
+                <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                    <span class="slds-form-element__label">State</span>
+                    <div class="slds-select_container">
+                        <select class="slds-select" ng-model="highSchoolEH.State__c" clear-hidden>
+                                                <option ng-repeat="item in con.State__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                            </select>
+                    </div>
+                </div>
+                <!--slds-form-element__control END-->
+            </div>
+            <!--slds-form-element__row END-->
+            </span>
+            <!--slds-form-element__row START-->
+            <div class="slds-form-element__row">
+                <!--slds-form-element__control START-->
+                <div class="dz-date-picker slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Graduation_Date_mm_dd_yyyy__c.$invalid&&(userForm.Graduation_Date_mm_dd_yyyy__c.$dirty||userForm.$submitted)}"
+                    ng-if="contact.Diploma_or_GED__c=='I received a High School diploma'||contact.Diploma_or_GED__c=='I received a High School Equivalency certificate like the GED, HiSET or TASC'">
+                    <span class="slds-form-element__label">Graduation Date</span>
+                    <div class="slds-input-has-icon slds-input-has-icon--right">
+                        <svg aria-hidden="true" class="slds-input__icon" ng-click="openGraduation_Date_mm_dd_yyyy__cPicker($event)">
+                                            <use xlink:href="" ng-href="{{con.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
+                                        </svg>
+                        <input class="slds-input" ng-model="highSchoolEH.Graduation_Date_mm_dd_yyyy__c" datepicker-localdate ng-click="openGraduation_Date_mm_dd_yyyy__cPicker($event)" type="text" name="Graduation_Date_mm_dd_yyyy__c" uib-datepicker-popup="MM-dd-yyyy" is-open="datePickerStatus.openedGraduation_Date_mm_dd_yyyy__c"
+                            show-button-bar="false" show-weeks="false" on-open-focus="false" ng-required="true" placeholder="mm-dd-yyyy" clear-hidden />
+                    </div>
+                    <div ng-messages="userForm.Graduation_Date_mm_dd_yyyy__c.$error" ng-if="userForm.Graduation_Date_mm_dd_yyyy__c.$invalid&&(userForm.Graduation_Date_mm_dd_yyyy__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                        <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                    </div>
+                </div>
+                <!--slds-form-element__control END-->
+                <!--slds-form-element__control START-->
+                <div class="dz-date-picker slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2" ng-class="{ 'slds-has-error' : userForm.Expected_HS_Graduation_Date__c.$invalid&&(userForm.Expected_HS_Graduation_Date__c.$dirty||userForm.$submitted)}"
+                    ng-if="contact.Diploma_or_GED__c&&contact.Diploma_or_GED__c.indexOf('I did NOT') != -1">
+                    <span class="slds-form-element__label">Expected Graduation Date, if known.</span>
+                    <div class="slds-input-has-icon slds-input-has-icon--right">
+                        <svg aria-hidden="true" class="slds-input__icon" ng-click="openExpected_HS_Graduation_Date__cPicker($event)">
+                                            <use xlink:href="" ng-href="{{con.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
+                                        </svg>
+                        <input class="slds-input" ng-model="contact.Expected_HS_Graduation_Date__c" name="Expected_HS_Graduation_Date__c" datepicker-localdate ng-click="openExpected_HS_Graduation_Date__cPicker($event)" type="text" uib-datepicker-popup="MM-dd-yyyy" is-open="datePickerStatus.openedExpected_HS_Graduation_Date__c"
+                            show-button-bar="false" show-weeks="false" on-open-focus="false" placeholder="mm-dd-yyyy" clear-hidden />
+                    </div>
+                    <div ng-messages="userForm.Expected_HS_Graduation_Date__c.$error" ng-if="userForm.Expected_HS_Graduation_Date__c.$invalid&&(userForm.Expected_HS_Graduation_Date__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                        <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                    </div>
+                </div>
+                <!--slds-form-element__control END-->
+                <!--slds-form-element__control START-->
+                <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2" ng-if="highSchoolEH.State__c == 'AZ - Arizona'&&highSchoolEH.Graduation_Date_mm_dd_yyyy__c&&highSchoolEH.Graduation_Date_mm_dd_yyyy__c.substr(0, 4) >= 2006&&contact.Diploma_or_GED__c=='I received a High School diploma'">
+                    <div class="slds-dropdown-trigger dz-popover-size">
+                        <span class="slds-form-element__label">SAIS#</span>
+                        <input class="slds-input" ng-model="highSchoolEH.SAIS__c" type="text" clear-hidden />
+                        <div class="slds-dropdown slds-dropdown--bottom slds-nubbin--bottom slds-dropdown--menu dz-form-popover-message">
+                            <ul class="slds-dropdown__list">
+                                <li class="slds-dropdown__item">
+                                    <p>The Student Accountability Information System (SAIS) # is an unique number assigned to every Arizona public school student by the Arizona Department of Education, to track student enrollment across the state. It is
+                                        often found on your high school transcript, or by contacting your high school directly.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--slds-form-element__control END-->
+            </div>
+            <!--slds-form-element__row END-->
+            <!--slds-form-element__row START-->
+            <div class="slds-form-element__row">
+                <!--slds-form-element__control START-->
+                <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2" ng-if="contact.Diploma_or_GED__c&&contact.Diploma_or_GED__c.indexOf('I did NOT') != -1">
+                    <span class="slds-form-element__label">Are you in High School Now?</span>
+                    <div class="slds-select_container">
+                        <select class="slds-select" ng-model="contact.Are_you_in_HIgh_School_Now__c" clear-hidden>
+                                            <option ng-repeat="item in con.Are_you_in_HIgh_School_Now__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                    </div>
+                </div>
+                <!--slds-form-element__control END-->
+            </div>
+            <!--slds-form-element__row END-->
+            <!--slds-form-element__row START-->
+            <div class="slds-form-element__row">
+                <!--slds-form-element__control START-->
+                <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2" ng-if="contact.Diploma_or_GED__c&&contact.Diploma_or_GED__c.indexOf('I did NOT') != -1">
+                    <span class="slds-form-element__label">What grade did you finish?</span>
+                    <div class="slds-select_container">
+                        <select class="slds-select" ng-model="contact.What_grade_did_you_finish__c" name="What_grade_did_you_finish__c" clear-hidden>
+                                            <option ng-repeat="item in con.What_grade_did_you_finish__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                    </div>
+                </div>
+                <!--slds-form-element__control END-->
+                <!--slds-form-element__control START-->
+                <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2" ng-if="contact.What_grade_did_you_finish__c == 'Other'">
+                    <span class="slds-form-element__label">Other Grade</span>
+                    <input class="slds-input" ng-model="contact.Other_Grade__c" type="text" clear-hidden />
+                </div>
+                <!--slds-form-element__control END-->
+            </div>
+            <!--slds-form-element__row END-->
+        </div>
+        </fieldset>
+        <fieldset class="slds-form--compound" ng-if="application.App_Type__c.indexOf('Transfer Student:') != -1|| application.App_Type__c.indexOf('Guest Student:') != -1|| application.App_Type__c.indexOf('Returning Student:') != -1|| application.App_Type__c.indexOf('International Student:') != -1">
+            <div class="slds-text-heading--small">College</div>
+            <div class="form-element__group">
+                <!--slds-form-element__row START-->
+                <div class="slds-form-element__row" ng-if="application.App_Type__c.indexOf('International Student:') != -1">
+                    <!--slds-form-element__control START-->
+                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Attended_College_or_University__c.$invalid&&(userForm.Attended_College_or_University__c.$dirty||userForm.$submitted)}">
+                        <span class="slds-form-element__label">Have you attended another College or University?</span>
+                        <div class="slds-select_container">
+                            <select class="slds-select" ng-model="contact.Attended_College_or_University__c" name="Attended_College_or_University__c" ng-required="true" clear-hidden>
+                                            <option ng-repeat="item in con.Attended_College_or_University__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                        </div>
+                        <div ng-messages="userForm.Attended_College_or_University__c.$error" ng-if="userForm.Attended_College_or_University__c.$invalid&&(userForm.Attended_College_or_University__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                            <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                        </div>
+                    </div>
+                    <!--slds-form-element__control END-->
+                </div>
+                <!--slds-form-element__row END-->
+                <!--style="border-radius: .25rem; border: 1px solid rgb(216, 221, 230);"-->
+                <div ng-if="application.App_Type__c&&((contact.Attended_College_or_University__c=='Yes'&&application.App_Type__c.indexOf('International Student:') != -1)||(application.App_Type__c.indexOf('Transfer Student:') != -1|| application.App_Type__c.indexOf('Guest Student:') != -1|| application.App_Type__c.indexOf('Returning Student:') != -1 ))">
+                    <div style="padding: 0.5rem 0 0.25rem 0; ">
+                        <button class="slds-button slds-button--neutral" ng-click="newRow()" type="button">
+                                        <svg aria-hidden="true" class="slds-button__icon--stateful slds-button__icon--left">
+                                            <use xlink:href="" ng-href="{{con.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                                        </svg>Add colleges you have attended</span>
+                                    </button>
+                    </div>
+                    <table class="slds-table slds-table--bordered slds-max-medium-table--stacked-horizontal" ng-if="con.collegesEH.length>0" style="margin-bottom:1rem">
+                        <thead>
+                            <tr class=" slds-text-heading--label">
+                                <th scope="col">
+                                    <span class="slds-truncate">School Name</span>
+                                </th>
+                                <th scope="col">
+                                    <span class="slds-truncate">City</span>
+                                </th>
+                                <th scope="col">
+                                    <span class="slds-truncate">State</span>
+                                </th>
+                                <th scope="col">
+                                    <span class="slds-truncate">Action</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="slds-hint-parent" ng-repeat="item in con.collegesEH">
+                                <td data-label="School Name">
+                                    <a ng-click="application.Application_Submitted__c?return:editRow(item)" href="" class="slds-truncate" ng-class="{ 'dz-not-clickable' : application.Application_Submitted__c}">
+                                                    {{item.School__c? item.School__r.Name : item.School_Name_Not_Found__c}}
+                                                </a>
+                                </td>
+                                <td data-label="City">
+                                    <span class="slds-truncate">{{item.City__c}}</span>
+                                </td>
+                                <td data-label="State">
+                                    <span class="slds-truncate">{{item.State__c}}</span>
+                                </td>
+                                <td data-label="Action">
+                                    <div class="slds-dropdown-trigger">
+                                        <button type="button" ng-click="editRow(item)" class="slds-button slds-button--neutral dz-dz-action-button ">
+                                                        <img ng-src="{{con.NGD_SLDS}}/assets/icons/utility/edit_120.png" class="dz-dz-action-img" />
+                                                    </button>
+                                        <div class="slds-dropdown slds-dropdown--bottom slds-nubbin--bottom slds-dropdown--menu dz-popover-action">
+                                            <ul class="slds-dropdown__list">
+                                                <li class="slds-dropdown__item">
+                                                    <p class="slds-truncate">Edit</p>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="slds-dropdown-trigger">
+                                        <button type="button" ng-click="removeRow(item)" class="slds-button slds-button--neutral dz-dz-action-button">
+                                                        <img ng-src="{{con.NGD_SLDS}}/assets/icons/utility/delete_120.png" class="dz-dz-action-img" />
+                                                    </button>
+                                        <div class="slds-dropdown slds-dropdown--bottom slds-nubbin--bottom slds-dropdown--menu dz-popover-action">
+                                            <ul class="slds-dropdown__list">
+                                                <li class="slds-dropdown__item">
+                                                    <p class="slds-truncate">Delete</p>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="slds-form--compound">
+            <div class="form-element__group">
+                <!--slds-form-element__row START-->
+                <div class="slds-form-element__row">
+                <div class="slds-form-element" ng-class="{ 'slds-has-error' : userForm.Academic_History_Section__c.$invalid && (userForm.Academic_History_Section__c.$dirty || userForm.$submitted)}">
+                    <label class="slds-checkbox slds-is-required">
+                                <input type="checkbox" ng-model="application.Academic_History_Section__c" name="Academic_History_Section__c" check-required ng-model-options="{ allowInvalid: true }"/>
+                                <span class="slds-checkbox--faux"></span>
+                                <span class="slds-form-element__label">I have completed this section of the application. Selecting this box will update this section as complete on the application checklist.</span>
+                            </label>
+                    <div ng-messages="userForm.Academic_History_Section__c.$error" ng-if="userForm.Academic_History_Section__c.$invalid &&(userForm.Academic_History_Section__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                        <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                    </div>
+                </div>
+            </div>
+                <!--slds-form-element__row END-->
+            </div>
+        </fieldset>
+        </section>
+        <section ng-if="(contact.Citizenship__c=='U.S. Citizen'||contact.Citizenship__c=='U.S. Permanent Resident'||contact.Citizenship__c=='Refugee'||contact.Citizenship__c=='Asylee')&&application.App_Type__c.indexOf('Adult Basic Education Student:') == -1">
+            <div class="slds-section-title--divider">
+                <div class="slds-text-heading--small">
+                    Financial Aid
+                </div>
+            </div>
+            <fieldset class="slds-form--compound">
+                <div class="form-element__group">
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row">
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Do_You_Plan_to_Apply_For_Financial_Aid__c.$invalid&&(userForm.Do_You_Plan_to_Apply_For_Financial_Aid__c.$dirty||userForm.$submitted)}">
+                            <span class="slds-form-element__label">Will you apply for financial aid?</span>
+                            <div class="slds-select_container">
+                                <select class="slds-select" ng-model="application.Do_You_Plan_to_Apply_For_Financial_Aid__c" name="Do_You_Plan_to_Apply_For_Financial_Aid__c" ng-required="true">
+                                            <option ng-repeat="item in con.Do_You_Plan_to_Apply_For_Financial_Aid__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                            </div>
+                            <div ng-messages="userForm.Do_You_Plan_to_Apply_For_Financial_Aid__c.$error" ng-if="userForm.Do_You_Plan_to_Apply_For_Financial_Aid__c.$invalid&&(userForm.Do_You_Plan_to_Apply_For_Financial_Aid__c.$dirty||userForm.$submitted)"
+                                class="slds-form-element__help">
+                                <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                    </div>
+                    <!--slds-form-element__row END-->
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row">
+                <div class="slds-form-element" ng-class="{ 'slds-has-error' : userForm.Financial_Aid_Section__c.$invalid && (userForm.Financial_Aid_Section__c.$dirty || userForm.$submitted)}">
+                    <label class="slds-checkbox slds-is-required">
+                                <input type="checkbox" ng-model="application.Financial_Aid_Section__c" name="Financial_Aid_Section__c" check-required ng-model-options="{ allowInvalid: true }"/>
+                                <span class="slds-checkbox--faux"></span>
+                                <span class="slds-form-element__label">I have completed this section of the application. Selecting this box will update this section as complete on the application checklist.</span>
+                            </label>
+                    <div ng-messages="userForm.Financial_Aid_Section__c.$error" ng-if="userForm.Financial_Aid_Section__c.$invalid &&(userForm.Financial_Aid_Section__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                        <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                    </div>
+                </div>
+            </div>
+                    <!--slds-form-element__row END-->
+                </div>
+            </fieldset>
+        </section>
+        <section ng-if="(contact.Citizenship__c=='U.S. Citizen'||contact.Citizenship__c=='U.S. Permanent Resident'||contact.Citizenship__c=='Refugee'||contact.Citizenship__c=='Asylee')&&application.App_Type__c.indexOf('Adult Basic Education Student:') == -1">
+            <div class="slds-section-title--divider">
+                <div class="slds-text-heading--small">
+                    Veterans Services
+                </div>
+            </div>
+            <fieldset class="slds-form--compound">
+                <div class="form-element__group">
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row">
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Military_Status__c.$invalid&&(userForm.Military_Status__c.$dirty||userForm.$submitted)}"
+                            ng-if="contact.Citizenship__c=='U.S. Citizen'||contact.Citizenship__c=='U.S. Permanent Resident'||contact.Citizenship__c=='Refugee'||contact.Citizenship__c=='Asylee'">
+                            <span class="slds-form-element__label">Are you a Veteran, Active Duty, Reservist, or National Guard Member?</span>
+                            <div class="slds-select_container">
+                                <select class="slds-select" ng-model="application.Military_Status__c" name="Military_Status__c" ng-required="true">
+                                            <option ng-repeat="item in con.Military_Status__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                            </div>
+                            <div ng-messages="userForm.Military_Status__c.$error" ng-if="userForm.Military_Status__c.$invalid&&(userForm.Military_Status__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2" ng-if="application.Military_Status__c == 'Yes'">
+                            <span class="slds-form-element__label">Will you utilize Veterans Educational Benefits?</span>
+                            <div class="slds-select_container">
+                                <select class="slds-select" ng-model="application.Veterans_Educational_Benefits__c">
+                                            <option ng-repeat="item in con.Veterans_Educational_Benefits__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                    </div>
+                    <!--slds-form-element__row END-->
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row">
+                <div class="slds-form-element" ng-class="{ 'slds-has-error' : userForm.Veterans_Services_Section__c.$invalid && (userForm.Veterans_Services_Section__c.$dirty || userForm.$submitted)}">
+                    <label class="slds-checkbox slds-is-required">
+                                <input type="checkbox" ng-model="application.Veterans_Services_Section__c" name="Veterans_Services_Section__c" check-required ng-model-options="{ allowInvalid: true }"/>
+                                <span class="slds-checkbox--faux"></span>
+                                <span class="slds-form-element__label">I have completed this section of the application. Selecting this box will update this section as complete on the application checklist.</span>
+                            </label>
+                    <div ng-messages="userForm.Veterans_Services_Section__c.$error" ng-if="userForm.Veterans_Services_Section__c.$invalid &&(userForm.Veterans_Services_Section__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                        <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                    </div>
+                </div>
+            </div>
+                    <!--slds-form-element__row END-->
+                </div>
+            </fieldset>
+        </section>
+        <section ng-if="application.App_Type__c.indexOf('International Student:') != -1">
+            <div class="slds-section-title--divider">
+                <div class="slds-text-heading--small">
+                    International Student
+                </div>
+            </div>
+            <fieldset class="slds-form--compound">
+                <div class="form-element__group">
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row">
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Accompanying_Family_to_U_S__c.$invalid&&(userForm.Accompanying_Family_to_U_S__c.$dirty||userForm.$submitted)}">
+                            <span class="slds-form-element__label">Will your spouse and/or child(ren) be accompanying you to the U.S.?</span>
+                            <div class="slds-select_container">
+                                <select class="slds-select" ng-model="application.Accompanying_Family_to_U_S__c" name="Accompanying_Family_to_U_S__c" ng-required="true">
+                                            <option ng-repeat="item in con.Accompanying_Family_to_U_S__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                            </div>
+                            <div ng-messages="userForm.Accompanying_Family_to_U_S__c.$error" ng-if="userForm.Accompanying_Family_to_U_S__c.$invalid&&(userForm.Accompanying_Family_to_U_S__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                    </div>
+                    <!--slds-form-element__row END-->
+                    <div ng-if="application.Accompanying_Family_to_U_S__c =='Yes'">
+                        <div style="padding: 0.5rem 0 0.25rem 0; ">
+                            <button class="slds-button slds-button--neutral" ng-click="newFamily()" type="button">
+                                        <span class="slds-text-not-selected">
+                                            <svg aria-hidden="true" class="slds-button__icon--stateful slds-button__icon--left">
+                                                <use xlink:href="" ng-href="{{con.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#add"></use>
+                                            </svg>Add Family Member
+                                        </span>
+                                    </button>
+                        </div>
+                        <table class="slds-table slds-table--bordered slds-max-medium-table--stacked-horizontal" ng-if="con.families.length>0" style="margin-bottom:1rem">
+                            <thead>
+                                <tr class=" slds-text-heading--label">
+                                    <th scope="col">
+                                        <span class="slds-truncate">Relationship</span>
+                                    </th>
+                                    <th scope="col">
+                                        <span class="slds-truncate">Name</span>
+                                    </th>
+                                    <!--<th scope="col">
+                                        <span class="slds-truncate">From which country is this person's passport issued?</span>
+                                    </th>
+                                    <th scope="col">
+                                        <span class="slds-truncate">Passport Number</span>
+                                    </th>
+                                    <th scope="col">
+                                        <span class="slds-truncate">Passport Expiration Date</span>
+                                    </th>-->
+                                    <th scope="col">
+                                        <span class="slds-truncate">Action</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="slds-hint-parent" ng-repeat="item in con.families">
+                                    <td data-label="Relationship">
+                                        <a ng-click="application.Application_Submitted__c?return:editFamily(item)" href="" class="slds-truncate" ng-class="{ 'dz-not-clickable' : application.Application_Submitted__c}">
+                                                    {{item.Relationship__c}}
+                                                </a>
+                                    </td>
+                                    <td data-label="Name">
+                                        <span class="slds-truncate">{{item.First_Name__c}} {{item.Last_Name__c}}</span>
+                                    </td>
+                                    <!--<td data-label="From which country is this person's passport issued?">
+                                        <span class="slds-truncate">{{item.Passport_Country_of_Issue__c}}</span>
+                                    </td>
+                                    <td data-label="Passport Number">
+                                        <span class="slds-truncate">{{item.Passport_Number__c}}</span>
+                                    </td>
+                                    <td data-label="Passport Expiration Date">
+                                        <span class="slds-truncate">{{item.Passport_Expiration_Date__c}}</span>
+                                    </td>-->
+                                    <td data-label="Action">
+                                        <div class="slds-dropdown-trigger">
+                                            <button type="button" ng-click="editFamily(item)" class="slds-button slds-button--neutral dz-dz-action-button ">
+                                                        <img ng-src="{{con.NGD_SLDS}}/assets/icons/utility/edit_120.png" class="dz-dz-action-img" />
+                                                    </button>
+                                            <div class="slds-dropdown slds-dropdown--bottom slds-nubbin--bottom slds-dropdown--menu dz-popover-action">
+                                                <ul class="slds-dropdown__list">
+                                                    <li class="slds-dropdown__item">
+                                                        <p class="slds-truncate">Edit</p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="slds-dropdown-trigger">
+                                            <button type="button" ng-click="removeFamily(item)" class="slds-button slds-button--neutral dz-dz-action-button">
+                                                        <img ng-src="{{con.NGD_SLDS}}/assets/icons/utility/delete_120.png" class="dz-dz-action-img" />
+                                                    </button>
+                                            <div class="slds-dropdown slds-dropdown--bottom slds-nubbin--bottom slds-dropdown--menu dz-popover-action">
+                                                <ul class="slds-dropdown__list">
+                                                    <li class="slds-dropdown__item">
+                                                        <p class="slds-truncate">Delete</p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!--slds-form-element__row START-->
+                        <div class="slds-form-element__row">
+                            <!--slds-form-element__control START-->
+                            <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Third_Party_Sponsor__c.$invalid&&(userForm.Third_Party_Sponsor__c.$dirty||userForm.$submitted)}">
+                                <span class="slds-form-element__label">Will a Third Party be sponsoring your studies in the U.S.?</span>
+                                <div class="slds-select_container">
+                                    <select class="slds-select" ng-model="application.Third_Party_Sponsor__c" name="Third_Party_Sponsor__c" ng-required="true" clear-hidden>
+                                                <option ng-repeat="item in con.Third_Party_Sponsor__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                            </select>
+                                </div>
+                                <div ng-messages="userForm.Third_Party_Sponsor__c.$error" ng-if="userForm.Third_Party_Sponsor__c.$invalid&&(userForm.Third_Party_Sponsor__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                    <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                                </div>
+                            </div>
+                            <!--slds-form-element__control END-->
+                            <!--slds-form-element__control START-->
+                            <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Third_Party_Sponsor_Name__c.$invalid && (userForm.Third_Party_Sponsor_Name__c.$dirty || userForm.$submitted)}"
+                                ng-if="application.Third_Party_Sponsor__c=='Yes'">
+                                <span class="slds-form-element__label">Name of Third Party Sponsor</span>
+                                <input class="slds-input" ng-model="application.Third_Party_Sponsor_Name__c" name="Third_Party_Sponsor_Name__c" type="text" ng-required="true" clear-hidden />
+                                <div ng-messages="userForm.Third_Party_Sponsor_Name__c.$error" ng-if="userForm.Third_Party_Sponsor_Name__c.$invalid &&(userForm.Third_Party_Sponsor_Name__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                    <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                                </div>
+                            </div>
+                            <!--slds-form-element__control END-->
+                        </div>
+                        <!--slds-form-element__row END-->
+                        <!--slds-form-element__row START-->
+                        <div class="slds-form-element__row">
+                            <!--slds-form-element__control START-->
+                            <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.International_Agent_Aided_Application__c.$invalid&&(userForm.International_Agent_Aided_Application__c.$dirty||userForm.$submitted)}">
+                                <span class="slds-form-element__label">Has an International Agent worked with you in applying to study in the U.S.?</span>
+                                <div class="slds-select_container">
+                                    <select class="slds-select" ng-model="application.International_Agent_Aided_Application__c" name="International_Agent_Aided_Application__c" ng-required="true" clear-hidden>
+                                                <option ng-repeat="item in con.International_Agent_Aided_Application__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                            </select>
+                                </div>
+                                <div ng-messages="userForm.International_Agent_Aided_Application__c.$error" ng-if="userForm.International_Agent_Aided_Application__c.$invalid&&(userForm.International_Agent_Aided_Application__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                    <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                                </div>
+                            </div>
+                            <!--slds-form-element__control END-->
+                            <!--slds-form-element__control START-->
+                            <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.International_Agent_Name__c.$invalid && (userForm.International_Agent_Name__c.$dirty || userForm.$submitted)}"
+                                ng-if="application.International_Agent_Aided_Application__c=='Yes'">
+                                <span class="slds-form-element__label">Name of International Agent</span>
+                                <input class="slds-input" ng-model="application.International_Agent_Name__c" name="International_Agent_Name__c" type="text" ng-required="true" clear-hidden />
+                                <div ng-messages="userForm.International_Agent_Name__c.$error" ng-if="userForm.International_Agent_Name__c.$invalid &&(userForm.International_Agent_Name__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                    <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                                </div>
+                            </div>
+                            <!--slds-form-element__control END-->
+                        </div>
+                        <!--slds-form-element__row END-->
+                    </div>
+                    <!--ng-if="application.Accompanying_Family_to_U_S__c =='Yes'" END-->
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row">
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.I_20_Form_Release_Method__c.$invalid&&(userForm.I_20_Form_Release_Method__c.$dirty||userForm.$submitted)}">
+                            <span class="slds-form-element__label">How would you like your I-20 Form released?</span>
+                            <div class="slds-select_container">
+                                <select class="slds-select" ng-model="application.I_20_Form_Release_Method__c" name="I_20_Form_Release_Method__c" ng-required="true">
+                                            <option ng-repeat="item in con.I_20_Form_Release_Method__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                            </div>
+                            <div ng-messages="userForm.I_20_Form_Release_Method__c.$error" ng-if="userForm.I_20_Form_Release_Method__c.$invalid&&(userForm.I_20_Form_Release_Method__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Length_of_Study_at_PIMA__c.$invalid&&(userForm.Length_of_Study_at_PIMA__c.$dirty||userForm.$submitted)}">
+                            <span class="slds-form-element__label">How long do you plan to study at Pima Community College?</span>
+                            <div class="slds-select_container">
+                                <select class="slds-select" ng-model="application.Length_of_Study_at_PIMA__c" name="Length_of_Study_at_PIMA__c" ng-required="true">
+                                            <option ng-repeat="item in con.Length_of_Study_at_PIMA__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                            </div>
+                            <div ng-messages="userForm.Length_of_Study_at_PIMA__c.$error" ng-if="userForm.Length_of_Study_at_PIMA__c.$invalid&&(userForm.Length_of_Study_at_PIMA__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                    </div>
+                    <!--slds-form-element__row END-->
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row">
+                <div class="slds-form-element" ng-class="{ 'slds-has-error' : userForm.International_Section__c.$invalid && (userForm.International_Section__c.$dirty || userForm.$submitted)}">
+                    <label class="slds-checkbox slds-is-required">
+                                <input type="checkbox" ng-model="application.International_Section__c" name="International_Section__c" check-required ng-model-options="{ allowInvalid: true }"/>
+                                <span class="slds-checkbox--faux"></span>
+                                <span class="slds-form-element__label">I have completed this section of the application. Selecting this box will update this section as complete on the application checklist.</span>
+                            </label>
+                    <div ng-messages="userForm.International_Section__c.$error" ng-if="userForm.International_Section__c.$invalid &&(userForm.International_Section__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                        <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                    </div>
+                </div>
+            </div>
+                    <!--slds-form-element__row END-->
+                </div>
+            </fieldset>
+        </section>
+        <section ng-if="(contact.Citizenship__c == 'U.S. Citizen' || contact.Citizenship__c == 'U.S. Permanent Resident' || contact.Citizenship__c == 'Refugee' || contact.Citizenship__c == 'Asylee' || (contact.Citizenship__c == 'Non-Permanent Resident of the U.S.' && (contact.Visa_Type__c.indexOf('H1B')!=-1 || contact.Visa_Type__c.indexOf('H1C')!=-1 || contact.Visa_Type__c.indexOf('H4')!=-1 || contact.Visa_Type__c.indexOf('L1')!=-1 || contact.Visa_Type__c.indexOf('L2')!=-1 || contact.Visa_Type__c.indexOf('K1')!=-1 || contact.Visa_Type__c.indexOf('K2')!=-1 || contact.Visa_Type__c.indexOf('K3')!=-1 || contact.Visa_Type__c.indexOf('K4')!=-1 || contact.Visa_Type__c.indexOf('O1')!=-1 || contact.Visa_Type__c.indexOf('O3')!=-1 || contact.Visa_Type__c.indexOf('T1')!=-1 || contact.Visa_Type__c.indexOf('T2')!=-1 || contact.Visa_Type__c.indexOf('T3')!=-1 || contact.Visa_Type__c.indexOf('T4')!=-1 || contact.Visa_Type__c.indexOf('U1')!=-1 || contact.Visa_Type__c.indexOf('U2')!=-1 || contact.Visa_Type__c.indexOf('U3')!=-1 || contact.Visa_Type__c.indexOf('U4')!=-1 || contact.Visa_Type__c.indexOf('U5')!=-1 || contact.Visa_Type__c.indexOf('V1')!=-1 || contact.Visa_Type__c.indexOf('V2')!=-1 || contact.Visa_Type__c.indexOf('V3')!=-1 || contact.Visa_Type__c.indexOf('DACA')!=-1))) && (application.App_Type__c.indexOf('Adult Basic Education Student:') == -1 && application.App_Type__c.indexOf('Community/Personal Development Student:') == -1 && application.App_Type__c.indexOf('Workforce/Professional Student:') == -1)">
+            <div class="slds-section-title--divider">
+                <div class="slds-text-heading--small">
+                    Residency Status
+                </div>
+            </div>
+            <fieldset class="slds-form--compound">
+                <div class="form-element__group">
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row">
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Active_Duty__c.$invalid&&(userForm.Active_Duty__c.$dirty||userForm.$submitted)}">
+                            <div class="slds-dropdown-trigger dz-popover-size">
+                                <span class="slds-form-element__label">Are you, your spouse, or your parent, if a dependent,  on active duty in the U.S. Armed Forces and stationed in Arizona?</span>
+                                <div class="slds-select_container">
+                                    <select class="slds-select" ng-model="application.Active_Duty__c" name="Active_Duty__c" ng-required="true">
+                                            <option ng-repeat="item in con.Active_Duty__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                                </div>
+                                <div ng-messages="userForm.Active_Duty__c.$error" ng-if="userForm.Active_Duty__c.$invalid&&(userForm.Active_Duty__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                    <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                                </div>
+                                <div class="slds-dropdown slds-dropdown--bottom slds-nubbin--bottom slds-dropdown--menu dz-form-popover-message">
+                                    <ul class="slds-dropdown__list">
+                                        <li class="slds-dropdown__item">
+                                            <p>The Armed Forces are the Air Force, Army, Coast Guard, Marine Corps and Navy</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-if="application.Active_Duty__c == 'No'" ng-class="{ 'slds-has-error' : userForm.Honorably_Discharged__c.$invalid&&(userForm.Honorably_Discharged__c.$dirty||userForm.$submitted)}">
+                            <span class="slds-form-element__label">Are you an Honorably Discharged Veteran?</span>
+                            <div class="slds-select_container">
+                                <select class="slds-select" ng-model="application.Honorably_Discharged__c" name="Honorably_Discharged__c" ng-required="true" clear-hidden>
+                                            <option ng-repeat="item in con.Honorably_Discharged__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                            </div>
+                            <div ng-messages="userForm.Honorably_Discharged__c.$error" ng-if="userForm.Honorably_Discharged__c.$invalid&&(userForm.Honorably_Discharged__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                    </div>
+                    <!--slds-form-element__row END-->
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row" ng-if="application.Honorably_Discharged__c == 'No'">
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.AF_Reserves_of_National_Guard__c.$invalid&&(userForm.AF_Reserves_of_National_Guard__c.$dirty||userForm.$submitted)}">
+                            <div class="slds-dropdown-trigger dz-popover-size">
+                                <span class="slds-form-element__label">Were you honorably discharged from the Uniformed Services, Reserves or National Guard?</span>
+                                <div class="slds-select_container">
+                                    <select class="slds-select" ng-model="application.AF_Reserves_of_National_Guard__c" name="AF_Reserves_of_National_Guard__c" ng-required="true" clear-hidden>
+                                            <option ng-repeat="item in con.AF_Reserves_of_National_Guard__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                                </div>
+                                <div ng-messages="userForm.AF_Reserves_of_National_Guard__c.$error" ng-if="userForm.AF_Reserves_of_National_Guard__c.$invalid&&(userForm.AF_Reserves_of_National_Guard__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                    <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                                </div>
+                                <div class="slds-dropdown slds-dropdown--bottom slds-nubbin--bottom slds-dropdown--menu dz-form-popover-message">
+                                    <ul class="slds-dropdown__list">
+                                        <li class="slds-dropdown__item">
+                                            <p>The Uniformed Services are the Air Force, Army, Coast Guard, Marine Corps and Navy, Public Health Service Commissioned Corps, and National Oceanic and Atmospheric Administration Commissioned Corps</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+
+
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-if="application.AF_Reserves_of_National_Guard__c == 'No'" ng-class="{ 'slds-has-error' : userForm.Refugee_Status_in_AZ__c.$invalid&&(userForm.Refugee_Status_in_AZ__c.$dirty||userForm.$submitted)}">
+                            <span class="slds-form-element__label">Have you been granted United States Refugee Status?</span>
+                            <div class="slds-select_container">
+                                <select class="slds-select" ng-model="application.Refugee_Status_in_AZ__c" name="Refugee_Status_in_AZ__c" ng-required="true" clear-hidden>
+                                            <option ng-repeat="item in con.Refugee_Status_in_AZ__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                            </div>
+                            <div ng-messages="userForm.Refugee_Status_in_AZ__c.$error" ng-if="userForm.Refugee_Status_in_AZ__c.$invalid&&(userForm.Refugee_Status_in_AZ__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                    </div>
+                    <!--slds-form-element__row END-->
+
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row" ng-if="application.AF_Reserves_of_National_Guard__c == 'Yes'|| application.Refugee_Status_in_AZ__c=='Yes'">
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                            <span class="slds-form-element__label">Do you have documentation that shows that you intend to make Arizona your permanent residence (eg. Arizona Driver's License/State ID, Arizona Voter Registration Card, Arizona Lease agreement, or Arizona Motor Vehicle Registration)?</span>
+                            <div class="slds-select_container">
+                                <select class="slds-select" ng-model="application.Doc_Show_Arizona_Perm__c" name="Doc_Show_Arizona_Perm__c" clear-hidden>
+                                        <option ng-repeat="item in con.Doc_Show_Arizona_Perm__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                    </select>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                    </div>
+                    <!--slds-form-element__row END-->
+
+
+
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row" ng-if="application.Refugee_Status_in_AZ__c == 'No'">
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Employer_Transfer__c.$invalid&&(userForm.Employer_Transfer__c.$dirty||userForm.$submitted)}">
+                            <span class="slds-form-element__label">Did an employer require you, your spouse, or your parent to transfer to Arizona and pay for moving expenses?</span>
+                            <div class="slds-select_container">
+                                <select class="slds-select" ng-model="application.Employer_Transfer__c" name="Employer_Transfer__c" ng-required="true" clear-hidden>
+                                            <option ng-repeat="item in con.Employer_Transfer__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                            </div>
+                            <div ng-messages="userForm.Employer_Transfer__c.$error" ng-if="userForm.Employer_Transfer__c.$invalid&&(userForm.Employer_Transfer__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-if="application.Employer_Transfer__c  == 'No'" ng-class="{ 'slds-has-error' : userForm.Teacher_s_Contract__c.$invalid&&(userForm.Teacher_s_Contract__c.$dirty||userForm.$submitted)}">
+                            <span class="slds-form-element__label">Do you have a contract to serve full-time as a Teacher or Classroom Aide in an Arizona School District?</span>
+                            <div class="slds-select_container">
+                                <select class="slds-select" ng-model="application.Teacher_s_Contract__c" name="Teacher_s_Contract__c" ng-required="true" clear-hidden>
+                                            <option ng-repeat="item in con.Teacher_s_Contract__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                            </div>
+                            <div ng-messages="userForm.Teacher_s_Contract__c.$error" ng-if="userForm.Teacher_s_Contract__c.$invalid&&(userForm.Teacher_s_Contract__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                    </div>
+                    <!--slds-form-element__row END-->
+
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row" ng-if="application.Employer_Transfer__c  == 'Yes'||application.Teacher_s_Contract__c=='Yes'">
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                            <span class="slds-form-element__label">Do/Will you file Arizona State Tax returns or can you be claimed as a dependent/spouse of an Arizona State Tax filer?</span>
+                            <div class="slds-select_container">
+                                <select class="slds-select" ng-model="application.Arizona_Tax_Filer__c" name="Arizona_Tax_Filer__c" clear-hidden>
+                                        <option ng-repeat="item in con.Arizona_Tax_Filer__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                    </select>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                    </div>
+                    <!--slds-form-element__row END-->
+
+
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row" ng-if="application.Teacher_s_Contract__c  == 'No'">
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Tribe_Member__c.$invalid&&(userForm.Tribe_Member__c.$dirty||userForm.$submitted)}">
+                            <span class="slds-form-element__label">Are you an enrolled member of a federally recognized tribe whose land lies in Arizona and extends into another state and who is a resident of the reservation?</span>
+                            <div class="slds-select_container">
+                                <select class="slds-select" ng-model="application.Tribe_Member__c" name="Tribe_Member__c" ng-required="true" clear-hidden>
+                                            <option ng-repeat="item in con.Tribe_Member__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                            </div>
+                            <div ng-messages="userForm.Tribe_Member__c.$error" ng-if="userForm.Tribe_Member__c.$invalid&&(userForm.Tribe_Member__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-if="application.Tribe_Member__c  == 'No'" ng-class="{ 'slds-has-error' : userForm.Temp_Housing__c.$invalid&&(userForm.Temp_Housing__c.$dirty||userForm.$submitted)}">
+                            <span class="slds-form-element__label">Are you a youth who lives in temporary housing due to hardship, homelessness, considered an unaccompanied youth or waiting for foster care placement?</span>
+                            <div class="slds-select_container">
+                                <select class="slds-select" ng-model="application.Temp_Housing__c" name="Temp_Housing__c" ng-required="true" clear-hidden>
+                                            <option ng-repeat="item in con.Temp_Housing__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                            </div>
+                            <div ng-messages="userForm.Temp_Housing__c.$error" ng-if="userForm.Temp_Housing__c.$invalid&&(userForm.Temp_Housing__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                    </div>
+                    <!--slds-form-element__row END-->
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row" ng-if="application.Temp_Housing__c  == 'No'">
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Lived_in_Arizona__c.$invalid&&(userForm.Lived_in_Arizona__c.$dirty||userForm.$submitted)}">
+                            <span class="slds-form-element__label">Have you lived in Arizona for at least 12 consecutive months before the start of class?</span>
+                            <div class="slds-select_container">
+                                <select class="slds-select" ng-model="application.Lived_in_Arizona__c" name="Lived_in_Arizona__c" ng-change="clearChecklist(Legal_Ties_w_Arizona__cChecklist)" ng-required="true" ng-change="con.Legal_Ties_w_Arizona__cChosen=[]" clear-hidden>
+                                            <option ng-repeat="item in con.Lived_in_Arizona__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                            </div>
+                            <div ng-messages="userForm.Lived_in_Arizona__c.$error" ng-if="userForm.Lived_in_Arizona__c.$invalid&&(userForm.Lived_in_Arizona__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                    </div>
+                    <!--slds-form-element__row END-->
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row" ng-if="application.Lived_in_Arizona__c =='Yes'">
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Legal_Ties_w_Arizona__c.$invalid && (Legal_Ties_w_Arizona__cChecklist.isDirty || userForm.$submitted)}">
+                            <span class="slds-form-element__label">Which of the following do you have that were issued over 12 months ago? (Choose all that apply)</span>
+                            <input type="hidden" ng-model="application.Legal_Ties_w_Arizona__c" name="Legal_Ties_w_Arizona__c" ng-required="true" clear-hidden />
+                            <div ng-repeat="item in Legal_Ties_w_Arizona__cChecklist.available">
+                                <label class="slds-checkbox">
+                                            <input type="checkbox" checklist-model="Legal_Ties_w_Arizona__cChecklist.chosen" checklist-value="item" ng-change="checklist(Legal_Ties_w_Arizona__cChecklist)" ng-disabled="Legal_Ties_w_Arizona__cChecklist.available.indexOf(item)!=Legal_Ties_w_Arizona__cChecklist.available.length-1&&Legal_Ties_w_Arizona__cChecklist.chosen.indexOf('None of the above')!=-1" />
+                                            <span class="slds-checkbox--faux"></span>
+                                            <span class="slds-form-element__helper">{{item}}</span>
+                                        </label>
+                            </div>
+                            <div ng-messages="userForm.Legal_Ties_w_Arizona__c.$error" ng-if="userForm.Legal_Ties_w_Arizona__c.$invalid&&(Legal_Ties_w_Arizona__cChecklist.isDirty||userForm.$submitted)" class="slds-form-element__help">
+                                <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                    </div>
+                    <!--slds-form-element__row END-->
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row" ng-if="application.Legal_Ties_w_Arizona__c&&application.Legal_Ties_w_Arizona__c.indexOf('Arizona Driver\'s License or State ID')!=-1">
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                            <span class="slds-form-element__label">Please indicate whether the driver's license license is for yourself or your parent/guardian.</span>
+                            <div class="slds-select_container">
+                                <select class="slds-select" ng-model="application.Indicate_Provided_License_ID__c">
+                                            <option ng-repeat="item in con.Indicate_Provided_License_ID__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                    </div>
+                    <!--slds-form-element__row END-->
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row" ng-if="application.Legal_Ties_w_Arizona__c&&application.Legal_Ties_w_Arizona__c.indexOf('Arizona Driver\'s License or State ID')!=-1&&(application.Indicate_Provided_License_ID__c =='Personal' || application.Indicate_Provided_License_ID__c =='Both' )">
+                        <!--slds-form-element__control START-->
+                        <div class=" slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Driver_License_State_ID_Number_Self__c.$invalid && (userForm.Driver_License_State_ID_Number_Self__c.$dirty || userForm.$submitted)}">
+                            <span class="slds-form-element__label">Personal Driver's License/State ID Number</span>
+                            <input class="slds-input" ng-model="application.Driver_License_State_ID_Number_Self__c" name="Driver_License_State_ID_Number_Self__c" type="text" ng-required="true" clear-hidden />
+                            <div ng-messages="userForm.Driver_License_State_ID_Number_Self__c.$error" ng-if="userForm.Driver_License_State_ID_Number_Self__c.$invalid &&(userForm.Driver_License_State_ID_Number_Self__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                        <!--slds-form-element__control START-->
+                        <div class="dz-date-picker slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Driver_License_State_ID_Issue_Date_Self__c.$invalid&&(userForm.Driver_License_State_ID_Issue_Date_Self__c.$dirty||userForm.$submitted)}">
+                            <span class="slds-form-element__label">Date Personal Driver's License Issued</span>
+                            <div class="slds-input-has-icon slds-input-has-icon--right">
+                                <svg aria-hidden="true" class="slds-input__icon" ng-click="openDriver_License_State_ID_Issue_Date_Self__cPicker($event)">
+                                            <use xlink:href="" ng-href="{{con.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
+                                        </svg>
+                                <input ng-click="openDriver_License_State_ID_Issue_Date_Self__cPicker($event)" class="slds-input" datepicker-localdate type="text" ng-model="application.Driver_License_State_ID_Issue_Date_Self__c" name="Driver_License_State_ID_Issue_Date_Self__c" uib-datepicker-popup="MM-dd-yyyy"
+                                    is-open="datePickerStatus.openedDriver_License_State_ID_Issue_Date_Self__c" show-button-bar="false" show-weeks="false" on-open-focus="false" placeholder="mm-dd-yyyy" ng-required="true" clear-hidden />
+                            </div>
+                            <div ng-messages="userForm.Driver_License_State_ID_Issue_Date_Self__c.$error" ng-if="userForm.Driver_License_State_ID_Issue_Date_Self__c.$invalid&&(userForm.Driver_License_State_ID_Issue_Date_Self__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                    </div>
+                    <!--slds-form-element__row END-->
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row" ng-if="application.Legal_Ties_w_Arizona__c&&application.Legal_Ties_w_Arizona__c.indexOf('Arizona Driver\'s License or State ID')!=-1&&(application.Indicate_Provided_License_ID__c =='Parent/Guardian' || application.Indicate_Provided_License_ID__c =='Both' )">
+                        <!--slds-form-element__control START-->
+                        <div class=" slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                            <span class="slds-form-element__label">Parent/Guardian Driver's License/State ID Number</span>
+                            <input class="slds-input" ng-model="application.Driver_License_State_ID_Number_P_G__c" type="text" clear-hidden />
+                        </div>
+                        <!--slds-form-element__control END-->
+                        <!--slds-form-element__control START-->
+                        <div class="dz-date-picker slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2" ng-class="{ 'slds-has-error' : userForm.Driver_License_State_ID_Issue_Date_P_G__c.$invalid&&(userForm.Driver_License_State_ID_Issue_Date_P_G__c.$dirty||userForm.$submitted)}">
+                            <span class="slds-form-element__label">Date Parent/Guardian Driver's License Issued</span>
+                            <div class="slds-input-has-icon slds-input-has-icon--right">
+                                <svg aria-hidden="true" class="slds-input__icon" ng-click="openDriver_License_State_ID_Issue_Date_P_G__cPicker($event)">
+                                            <use xlink:href="" ng-href="{{con.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
+                                        </svg>
+                                <input ng-click="openDriver_License_State_ID_Issue_Date_P_G__cPicker($event)" class="slds-input" datepicker-localdate type="text" ng-model="application.Driver_License_State_ID_Issue_Date_P_G__c" name="Driver_License_State_ID_Issue_Date_P_G__c" uib-datepicker-popup="MM-dd-yyyy"
+                                    is-open="datePickerStatus.openedDriver_License_State_ID_Issue_Date_P_G__c" show-button-bar="false" show-weeks="false" on-open-focus="false" placeholder="mm-dd-yyyy" clear-hidden />
+                            </div>
+                            <div ng-messages="userForm.Driver_License_State_ID_Issue_Date_P_G__c.$error" ng-if="userForm.Driver_License_State_ID_Issue_Date_P_G__c.$invalid&&(userForm.Driver_License_State_ID_Issue_Date_P_G__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                    </div>
+                    <!--slds-form-element__row END-->
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row" ng-if="application.Legal_Ties_w_Arizona__c&&application.Legal_Ties_w_Arizona__c.indexOf('State of Arizona Tax Forms')!=-1">
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                            <span class="slds-form-element__label">Please indicate whether the Arizona Tax Form 140 listed is for yourself or your parent/guardian.</span>
+                            <div class="slds-select_container">
+                                <select class="slds-select" ng-model="application.Indicate_Provided_140_Tax_Form__c">
+                                            <option ng-repeat="item in con.Indicate_Provided_140_Tax_Form__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                    </div>
+                    <!--slds-form-element__row END-->
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row" ng-if="application.Legal_Ties_w_Arizona__c&&application.Legal_Ties_w_Arizona__c.indexOf('State of Arizona Tax Forms')!=-1&&(application.Indicate_Provided_140_Tax_Form__c =='Personal' || application.Indicate_Provided_140_Tax_Form__c =='Parent/Guardian' || application.Indicate_Provided_140_Tax_Form__c =='Both' )">
+                        <!--slds-form-element__control START-->
+                        <div class=" slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2" ng-if="application.Legal_Ties_w_Arizona__c&&application.Legal_Ties_w_Arizona__c.indexOf('State of Arizona Tax Forms')!=-1&&(application.Indicate_Provided_140_Tax_Form__c =='Personal' || application.Indicate_Provided_140_Tax_Form__c =='Both' )">
+                            <span class="slds-form-element__label">List the two most recent years you filed State of Arizona Tax Form 140</span>
+                            <input class="slds-input" ng-model="application.Tax_Form_Recent_Years_Self__c" type="text" clear-hidden />
+                        </div>
+                        <!--slds-form-element__control END-->
+                        <!--slds-form-element__control START-->
+                        <div class=" slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2" ng-if="application.Legal_Ties_w_Arizona__c&&application.Legal_Ties_w_Arizona__c.indexOf('State of Arizona Tax Forms')!=-1&&(application.Indicate_Provided_140_Tax_Form__c =='Parent/Guardian' || application.Indicate_Provided_140_Tax_Form__c =='Both' )">
+                            <span class="slds-form-element__label">List the two most recent years your Parent/Guardian filed State of Arizona Tax Form 140</span>
+                            <input class="slds-input" ng-model="application.Tax_Form_Recent_Years_P_G__c" type="text" clear-hidden />
+                        </div>
+                        <!--slds-form-element__control END-->
+                    </div>
+                    <!--slds-form-element__row END-->
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row" ng-if="application.Legal_Ties_w_Arizona__c&&application.Legal_Ties_w_Arizona__c.indexOf('Arizona Voter Registration Card')!=-1">
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                            <span class="slds-form-element__label">Please indicate whether the voter registration date listed is for yourself or your parent/guardian.</span>
+                            <div class="slds-select_container">
+                                <select class="slds-select" ng-model="application.Indicate_Provided_Voter_Registration__c">
+                                            <option ng-repeat="item in con.Indicate_Provided_Voter_Registration__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                    </div>
+                    <!--slds-form-element__row END-->
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row" ng-if="application.Legal_Ties_w_Arizona__c&&application.Legal_Ties_w_Arizona__c.indexOf('Arizona Voter Registration Card')!=-1&&(application.Indicate_Provided_Voter_Registration__c =='Personal' || application.Indicate_Provided_Voter_Registration__c =='Parent/Guardian' || application.Indicate_Provided_Voter_Registration__c =='Both' )">
+                        <!--slds-form-element__control START-->
+                        <div class="dz-date-picker slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2" ng-class="{ 'slds-has-error' : userForm.Voter_Registration_Issue_Date_Self__c.$invalid&&(userForm.Voter_Registration_Issue_Date_Self__c.$dirty||userForm.$submitted)}"
+                            ng-if="application.Legal_Ties_w_Arizona__c&&application.Legal_Ties_w_Arizona__c.indexOf('Arizona Voter Registration Card')!=-1&&(application.Indicate_Provided_Voter_Registration__c =='Personal' || application.Indicate_Provided_Voter_Registration__c =='Both' )">
+                            <span class="slds-form-element__label">Date Personal Voter Registration Issued</span>
+                            <div class="slds-input-has-icon slds-input-has-icon--right">
+                                <svg aria-hidden="true" class="slds-input__icon" ng-click="openVoter_Registration_Issue_Date_Self__cPicker($event)">
+                                            <use xlink:href="" ng-href="{{con.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
+                                        </svg>
+                                <input class="slds-input" ng-model="application.Voter_Registration_Issue_Date_Self__c" datepicker-localdate ng-click="openVoter_Registration_Issue_Date_Self__cPicker($event)" type="text" name="Voter_Registration_Issue_Date_Self__c" uib-datepicker-popup="MM-dd-yyyy"
+                                    is-open="datePickerStatus.openedVoter_Registration_Issue_Date_Self__c" show-button-bar="false" show-weeks="false" on-open-focus="false" placeholder="mm-dd-yyyy" clear-hidden />
+                            </div>
+                            <div ng-messages="userForm.Voter_Registration_Issue_Date_Self__c.$error" ng-if="userForm.Voter_Registration_Issue_Date_Self__c.$invalid&&(userForm.Voter_Registration_Issue_Date_Self__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                        <!--slds-form-element__control START-->
+                        <div class="dz-date-picker slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2" ng-class="{ 'slds-has-error' : userForm.Voter_Registration_Issue_Date_P_G__c.$invalid&&(userForm.Voter_Registration_Issue_Date_P_G__c.$dirty||userForm.$submitted)}"
+                            ng-if="application.Legal_Ties_w_Arizona__c&&application.Legal_Ties_w_Arizona__c.indexOf('Arizona Voter Registration Card')!=-1&&(application.Indicate_Provided_Voter_Registration__c =='Parent/Guardian' || application.Indicate_Provided_Voter_Registration__c =='Both' )">
+                            <span class="slds-form-element__label">Date Parent/Guardian Voter Registration Issued</span>
+                            <div class="slds-input-has-icon slds-input-has-icon--right">
+                                <svg aria-hidden="true" class="slds-input__icon" ng-click="openVoter_Registration_Issue_Date_P_G__cPicker($event)">
+                                            <use xlink:href="" ng-href="{{con.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
+                                        </svg>
+                                <input class="slds-input" ng-model="application.Voter_Registration_Issue_Date_P_G__c" datepicker-localdate ng-click="openVoter_Registration_Issue_Date_P_G__cPicker($event)" type="text" name="Voter_Registration_Issue_Date_P_G__c" uib-datepicker-popup="MM-dd-yyyy"
+                                    is-open="datePickerStatus.openedVoter_Registration_Issue_Date_P_G__c" show-button-bar="false" show-weeks="false" on-open-focus="false" placeholder="mm-dd-yyyy" clear-hidden />
+                            </div>
+                            <div ng-messages="userForm.Voter_Registration_Issue_Date_P_G__c.$error" ng-if="userForm.Voter_Registration_Issue_Date_P_G__c.$invalid&&(userForm.Voter_Registration_Issue_Date_P_G__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                    </div>
+                    <!--slds-form-element__row END-->
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row" ng-if="application.Legal_Ties_w_Arizona__c&&application.Legal_Ties_w_Arizona__c.indexOf('Arizona Vehicle Registration Form')!=-1">
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                            <span class="slds-form-element__label">Please indicate whether the vehicle registration date listed is for yourself or your parent/guardian.</span>
+                            <div class="slds-select_container">
+                                <select class="slds-select" ng-model="application.Indicate_Provided_Vehicle_Registration__c">
+                                            <option ng-repeat="item in con.Indicate_Provided_Vehicle_Registration__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                    </div>
+                    <!--slds-form-element__row END-->
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row" ng-if="application.Legal_Ties_w_Arizona__c&&application.Legal_Ties_w_Arizona__c.indexOf('Arizona Vehicle Registration Form')!=-1&&(application.Indicate_Provided_Vehicle_Registration__c =='Personal' || application.Indicate_Provided_Vehicle_Registration__c =='Parent/Guardian' || application.Indicate_Provided_Vehicle_Registration__c =='Both' )">
+                        <!--slds-form-element__control START-->
+                        <div class="dz-date-picker slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2" ng-class="{ 'slds-has-error' : userForm.Vehicle_Registration_Issue_Date_Self__c.$invalid&&(userForm.Vehicle_Registration_Issue_Date_Self__c.$dirty||userForm.$submitted)}"
+                            ng-if="application.Legal_Ties_w_Arizona__c&&application.Legal_Ties_w_Arizona__c.indexOf('Arizona Vehicle Registration Form')!=-1&&(application.Indicate_Provided_Vehicle_Registration__c =='Personal' || application.Indicate_Provided_Vehicle_Registration__c =='Both' )">
+                            <span class="slds-form-element__label">Date Personal Vehicle Registration Issued</span>
+                            <div class="slds-input-has-icon slds-input-has-icon--right">
+                                <svg aria-hidden="true" class="slds-input__icon" ng-click="openVehicle_Registration_Issue_Date_Self__cPicker($event)">
+                                            <use xlink:href="" ng-href="{{con.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
+                                        </svg>
+                                <input class="slds-input" ng-model="application.Vehicle_Registration_Issue_Date_Self__c" datepicker-localdate ng-click="openVehicle_Registration_Issue_Date_Self__cPicker($event)" type="text" name="Vehicle_Registration_Issue_Date_Self__c" uib-datepicker-popup="MM-dd-yyyy"
+                                    is-open="datePickerStatus.openedVehicle_Registration_Issue_Date_Self__c" show-button-bar="false" show-weeks="false" on-open-focus="false" placeholder="mm-dd-yyyy" clear-hidden />
+                            </div>
+                            <div ng-messages="userForm.Vehicle_Registration_Issue_Date_Self__c.$error" ng-if="userForm.Vehicle_Registration_Issue_Date_Self__c.$invalid&&(userForm.Vehicle_Registration_Issue_Date_Self__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                        <!--slds-form-element__control START-->
+                        <div class="dz-date-picker slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2" ng-class="{ 'slds-has-error' : userForm.Vehicle_Registration_Issue_Date_P_G__c.$invalid&&(userForm.Vehicle_Registration_Issue_Date_P_G__c.$dirty||userForm.$submitted)}"
+                            ng-if="application.Legal_Ties_w_Arizona__c&&application.Legal_Ties_w_Arizona__c.indexOf('Arizona Vehicle Registration Form')!=-1&&(application.Indicate_Provided_Vehicle_Registration__c =='Parent/Guardian' || application.Indicate_Provided_Vehicle_Registration__c =='Both' )">
+                            <span class="slds-form-element__label">Date Parent/Guardian Vehicle Registration Issued</span>
+                            <div class="slds-input-has-icon slds-input-has-icon--right">
+                                <svg aria-hidden="true" class="slds-input__icon" ng-click="openVehicle_Registration_Issue_Date_P_G__cPicker($event)">
+                                            <use xlink:href="" ng-href="{{con.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
+                                        </svg>
+                                <input class="slds-input" ng-model="application.Vehicle_Registration_Issue_Date_P_G__c" datepicker-localdate ng-click="openVehicle_Registration_Issue_Date_P_G__cPicker($event)" type="text" name="Vehicle_Registration_Issue_Date_P_G__c" uib-datepicker-popup="MM-dd-yyyy"
+                                    is-open="datePickerStatus.openedVehicle_Registration_Issue_Date_P_G__c" show-button-bar="false" show-weeks="false" on-open-focus="false" placeholder="mm-dd-yyyy" clear-hidden />
+                            </div>
+                            <div ng-messages="userForm.Vehicle_Registration_Issue_Date_P_G__c.$error" ng-if="userForm.Vehicle_Registration_Issue_Date_P_G__c.$invalid&&(userForm.Vehicle_Registration_Issue_Date_P_G__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                    </div>
+                    <!--slds-form-element__row END-->
+                    <!--////////////-->
+                    <!--</div>
+                        </fieldset>
+                    </section>-->
+                    <!--multiselect START-->
+                    <!--<div class="slds-form--compound dz-multiselect" ng-controller="Application_Legal_Ties_w_Arizona__cCtrl" ng-if="application.Lived_in_Arizona__c =='Yes'">
+                        <div class="slds-form-element__control slds-size--1-of-1 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Legal_Ties_w_Arizona__c.$invalid &&(model.isDirty||userForm.$submitted)}">
+                            <span class="slds-form-element__label">Have you established legal ties with the State of Arizona by having the following? (Choose all that apply)</span>
+                            <input type="hidden" name="Legal_Ties_w_Arizona__c" ng-model="application.Legal_Ties_w_Arizona__c" ng-required="true" clear-hidden />
+                            <div ng-include="'/resource/Utilities/template/MultiselectTemplate.html'"></div>
+                            <div ng-messages="userForm.Legal_Ties_w_Arizona__c.$error" ng-if="userForm.Legal_Ties_w_Arizona__c.$invalid &&(model.isDirty||userForm.$submitted)" class="slds-form-element__help">
+                                <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                            </div>
+                        </div>
+                    </div>-->
+                    <!--multiselect END-->
+                    <!--<section>
+                    <fieldset class="slds-form--compound">
+                        <div class="form-element__group">-->
+                    <!--////////////-->
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row">
+                <div class="slds-form-element" ng-class="{ 'slds-has-error' : userForm.Residency_Status_Section__c.$invalid && (userForm.Residency_Status_Section__c.$dirty || userForm.$submitted)}">
+                    <label class="slds-checkbox slds-is-required">
+                                <input type="checkbox" ng-model="application.Residency_Status_Section__c" name="Residency_Status_Section__c" check-required ng-model-options="{ allowInvalid: true }"/>
+                                <span class="slds-checkbox--faux"></span>
+                                <span class="slds-form-element__label">I have completed this section of the application. Selecting this box will update this section as complete on the application checklist.</span>
+                            </label>
+                    <div ng-messages="userForm.Residency_Status_Section__c.$error" ng-if="userForm.Residency_Status_Section__c.$invalid &&(userForm.Residency_Status_Section__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                        <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                    </div>
+                </div>
+            </div>
+                    <!--slds-form-element__row END-->
+                </div>
+            </fieldset>
+        </section>
+        <section>
+            <div class="slds-section-title--divider">
+                <div class="slds-text-heading--small">
+                    Disability Resources
+                </div>
+            </div>
+            <fieldset class="slds-form--compound">
+                <div class="form-element__group">
+                    <div class="form-element__group">
+                        <!--slds-form-element__row START-->
+                        <div class="slds-form-element__row">
+                            <!--slds-form-element__control START-->
+                            <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                                <span class="slds-form-element__label">Would you like more information about Access and Disability Resources (ADR) at the college?</span>
+                                <div class="slds-select_container">
+                                    <select class="slds-select" ng-model="application.Info_about_ADR__c">
+                                                <option ng-repeat="item in con.Info_about_ADR__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                            </select>
+                                </div>
+                            </div>
+                            <!--slds-form-element__control END-->
+                        </div>
+                        <!--slds-form-element__row END-->
+                        <!--slds-form-element__row START-->
+                        <div class="slds-form-element__row">
+                <div class="slds-form-element" ng-class="{ 'slds-has-error' : userForm.Disability_Resources_Section__c.$invalid && (userForm.Disability_Resources_Section__c.$dirty || userForm.$submitted)}">
+                    <label class="slds-checkbox slds-is-required">
+                                <input type="checkbox" ng-model="application.Disability_Resources_Section__c" name="Disability_Resources_Section__c" check-required ng-model-options="{ allowInvalid: true }"/>
+                                <span class="slds-checkbox--faux"></span>
+                                <span class="slds-form-element__label">I have completed this section of the application. Selecting this box will update this section as complete on the application checklist.</span>
+                            </label>
+                    <div ng-messages="userForm.Disability_Resources_Section__c.$error" ng-if="userForm.Disability_Resources_Section__c.$invalid &&(userForm.Disability_Resources_Section__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                        <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                    </div>
+                </div>
+            </div>
+                        <!--slds-form-element__row END-->
+                    </div>
+                </div>
+            </fieldset>
+        </section>
+        <section>
+            <div class="slds-section-title--divider">
+                <div class="slds-text-heading--small">
+                    Family Status
+                </div>
+            </div>
+            <fieldset class="slds-form--compound">
+                <div class="slds-text-heading--small">
+                    Help us connect you to Scholarships, Grants and other Resources at the College.
+                </div>
+                <div class="form-element__group">
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row">
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                            <span class="slds-form-element__label">Marital Status</span>
+                            <div class="slds-select_container">
+                                <select class="slds-select" ng-model="application.Marital_Status__c">
+                                            <option ng-repeat="item in con.Marital_Status__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                            <div class="slds-dropdown-trigger dz-popover-size">
+                                <span class="slds-form-element__label">Are you a Single Parent?</span>
+                                <div class="slds-select_container">
+                                    <select class="slds-select" ng-model="application.Single_Parent__c">
+                                                <option ng-repeat="item in con.Single_Parent__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                            </select>
+                                </div>
+                                <div class="slds-dropdown slds-dropdown--bottom slds-nubbin--bottom slds-dropdown--menu dz-form-popover-message">
+                                    <ul class="slds-dropdown__list">
+                                        <li class="slds-dropdown__item">
+                                            <p>Parent with whom the child lives more than half of time. In the case when the child lives equal amount of time with each parent, single parent will be one who provides the most financial support to the child.
+                                                In the case when the child lives equal amount of time with each parent and both parents provide the same financial support to the child, single parent will be one with higher income.</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--slds-form-element__control END-->
+                    <!--slds-form-element__row END-->
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row">
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                            <span class="slds-form-element__label">Have either of your parents received a bachelor's degree or higher?</span>
+                            <div class="slds-select_container">
+                                <select class="slds-select" ng-model="application.Parent_Bachelor_s_or_Higher__c">
+                                            <option ng-repeat="item in con.Parent_Bachelor_s_or_Higher__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                            <span class="slds-form-element__label">What is the primary language spoken at home?</span>
+                            <div class="slds-select_container">
+                                <select class="slds-select" ng-model="application.Primary_Language__c">
+                                            <option ng-repeat="item in con.Primary_Language__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                    </div>
+                    <!--slds-form-element__row END-->
+                    <div class="slds-text-heading--small">
+                        Where were your parents/legal guardians born?
+                    </div>
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row">
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                            <span class="slds-form-element__label">Parent/Guardian 1</span>
+                            <div class="slds-select_container">
+                                <select class="slds-select" ng-model="application.Parent_1_Country__c">
+                                            <option ng-repeat="item in con.Parent_1_Country__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                            <span class="slds-form-element__label">Parent/Guardian 2</span>
+                            <div class="slds-select_container">
+                                <select class="slds-select" ng-model="application.Parent_2_Country__c">
+                                            <option ng-repeat="item in con.Parent_2_Country__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                    </div>
+                    <!--slds-form-element__row END-->
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row">
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                            <span class="slds-form-element__label">What is your current employment status?</span>
+                            <div class="slds-select_container">
+                                <select class="slds-select" ng-model="application.Current_Employment_Status__c">
+                                            <option ng-repeat="item in con.Current_Employment_Status__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                            <span class="slds-form-element__label">Do you intend to work during your first-year of school at Pima?</span>
+                            <div class="slds-select_container">
+                                <select class="slds-select" ng-model="application.Work_During_First_Year__c">
+                                            <option ng-repeat="item in con.Work_During_First_Year__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                    </div>
+                    <!--slds-form-element__row END-->
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row">
+                        <!--slds-form-element__control START-->
+                        <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                            <span class="slds-form-element__label">Do you have access to a computer with internet at home?</span>
+                            <div class="slds-select_container">
+                                <select class="slds-select" ng-model="application.Home_Computer_Access__c">
+                                            <option ng-repeat="item in con.Home_Computer_Access__cOptions" value="{{item.value}}">{{item.label}}</option>
+                                        </select>
+                            </div>
+                        </div>
+                        <!--slds-form-element__control END-->
+                    </div>
+                    <!--slds-form-element__row END-->
+                    <!--slds-form-element__row START-->
+                    <div class="slds-form-element__row">
+                <div class="slds-form-element" ng-class="{ 'slds-has-error' : userForm.Family_Status_Section__c.$invalid && (userForm.Family_Status_Section__c.$dirty || userForm.$submitted)}">
+                    <label class="slds-checkbox slds-is-required">
+                                <input type="checkbox" ng-model="application.Family_Status_Section__c" name="Family_Status_Section__c" check-required ng-model-options="{ allowInvalid: true }"/>
+                                <span class="slds-checkbox--faux"></span>
+                                <span class="slds-form-element__label">I have completed this section of the application. Selecting this box will update this section as complete on the application checklist.</span>
+                            </label>
+                    <div ng-messages="userForm.Family_Status_Section__c.$error" ng-if="userForm.Family_Status_Section__c.$invalid &&(userForm.Family_Status_Section__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                        <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                    </div>
+                </div>
+            </div>
+                    <!--slds-form-element__row END-->
+                </div>
+            </fieldset>
+        </section>
+    </div>
+    <!--Submit Application-->
+    <div class="slds-text-heading--small slds-p-vertical--medium" ng-if="application.App_Type__c.indexOf('Community/Personal Development Student:') != -1||application.App_Type__c.indexOf('Workforce/Professional Student:') != -1">
+        Thanks for choosing to apply at PIMA Community College. Upon completion of you application, you will be directed back to the home page where you can manage any additional required items during your application process.
+    </div>
+    <section>
+        <div class="slds-section-title--divider">
+            <div class="slds-text-heading--small">
+                Submit Application
+            </div>
+        </div>
+        <fieldset class="slds-form--compound">
+            <div class="form-element__group">
+                <!--slds-form-element__row START-->
+                <div class="slds-form-element__row">
+                    <div class="slds-form-element" ng-class="{ 'slds-has-error' : userForm.Submit_Application_Validation__c.$invalid && (userForm.Submit_Application_Validation__c.$dirty || userForm.$submitted)}">
+                        <label class="slds-checkbox slds-is-required">
+                                <input type="checkbox" ng-model="application.Submit_Application_Validation__c" name="Submit_Application_Validation__c" check-required ng-model-options="{ allowInvalid: true }"/>
+                                <span class="slds-checkbox--faux"></span>
+                                <span class="slds-form-element__label">I hereby certify that to the best of my knowledge the information furnished in this application is true and complete without the intent of evasion or misrepresentation. I understand that if the above information submitted is found to be false or misrepresented it is subject to penalty of perjury and is sufficient cause for tuition reclassification or dismissal.</span>
+                            </label>
+                            <div ng-messages="userForm.Submit_Application_Validation__c.$error" ng-if="userForm.Submit_Application_Validation__c.$invalid &&(userForm.Submit_Application_Validation__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                                <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                            </div>
+                    </div>
+                </div>
+                <!--slds-form-element__row END-->
+            </div>
+        </fieldset>
+    </section>
+    <div class="slds-x-small-buttons--horizontal">
+        <button class="slds-button slds-button--brand" type="button" ng-click="submit(false)" ng-if="application.App_Type__c.indexOf('Community/Personal Development Student:') == -1&&application.App_Type__c.indexOf('Workforce/Professional Student:') == -1">Save</button>
+        <button class="slds-button slds-button--brand" type="submit">Submit</button>
+        <!--<button class="slds-button slds-button--brand" type="button" ng-if="application.App_Type__c.indexOf('International Student:') != -1">Pay Now</button>-->
+    </div>
+    </div>
+    </div>
+</form>

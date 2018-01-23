@@ -1,0 +1,17 @@
+﻿
+
+.classpath
+.DS_Store
+.sfdx
+.project
+.salesforce
+node_modules
+.idea
+.tern-project
+.settings
+selenium-client-jars/
+test/artifacts
+
+
+mdapipkg/*
+deploy/*

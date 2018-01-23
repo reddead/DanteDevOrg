@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Legal_Ties_w_Arizona__c</fullName>
+    <externalId>false</externalId>
+    <label>Legal Ties w Arizona</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Arizona Driver's License or State ID</fullName>
+                <default>false</default>
+                <label>Arizona Driver's License or State ID</label>
+            </value>
+            <value>
+                <fullName>State of Arizona Tax Forms (For yourself, or listing you as a dependent/spouse) showing 12 months of residence</fullName>
+                <default>false</default>
+                <label>State of Arizona Tax Forms (For yourself, or listing you as a dependent/spouse) showing 12 months of residence</label>
+            </value>
+            <value>
+                <fullName>Arizona Voter Registration Card</fullName>
+                <default>false</default>
+                <label>Arizona Voter Registration Card</label>
+            </value>
+            <value>
+                <fullName>Arizona Vehicle Registration Form</fullName>
+                <default>false</default>
+                <label>Arizona Vehicle Registration Form</label>
+            </value>
+            <value>
+                <fullName>Arizona Lease agreement</fullName>
+                <default>false</default>
+                <label>Arizona Lease agreement</label>
+            </value>
+            <value>
+                <fullName>Arizona High School Transcripts, if graduated within the last year</fullName>
+                <default>false</default>
+                <label>Arizona High School Transcripts, if graduated within the last year</label>
+            </value>
+            <value>
+                <fullName>Arizona Employment Verification</fullName>
+                <default>false</default>
+                <label>Arizona Employment Verification</label>
+            </value>
+            <value>
+                <fullName>None of the above</fullName>
+                <default>false</default>
+                <label>None of the above</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

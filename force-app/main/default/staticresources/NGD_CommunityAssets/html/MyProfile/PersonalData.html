@@ -1,0 +1,92 @@
+<form name="form" dz-column="2" ng-submit="next(true)" novalidate onsubmit="debugValidation();" dz-form-read-only="application.Application_Submitted__c">
+    <input style="display:none" />
+    <dz-page-message ng-if="form.$invalid&&form.$submitted">
+        Please review the validation errors
+    </dz-page-message>
+    <section>
+        <div class="slds-section-title--divider">
+            <div class="slds-text-heading--medium">
+                Personal Data
+            </div>
+        </div>
+        <!--
+        <fieldset class="slds-form--compound">
+            <div class="slds-form-element__group"> -->
+        <div class="slds-grid grid-column-2">
+            <div dz-input label="Legal First Name" ng-model="contact.FirstName">
+            </div>
+
+            <div dz-input label="Preferred First Name (ex. Your legal name is Daniel, but you go by Dan)" ng-model="contact.Preferred_First_Name__c">
+            </div>
+
+            <div dz-input label="Middle Name" ng-model="contact.Middle_Initial__c" dz-line-break="true">
+            </div>
+
+            <div dz-input label="Last Name" ng-model="contact.LastName" ng-required="true">
+            </div>
+
+            <div dz-input label="Previous Last Name" ng-model="contact.Previous_Last_Name__c">
+            </div>
+
+            <div div dz-select label="Suffix (Jr., Sr., III)" ng-model="contact.Suffix__c" dz-line-break="true">
+            </div>
+
+            <div dz-date-picker label="Date of Birth MM-DD-YYYY" ng-model="contact.Date_of_Birth__c" ng-required="true" dz-line-break="true">
+            </div>
+
+            <div dz-select label="Gender" ng-model="contact.Gender__c" ng-required="true">
+            </div>
+
+            <div dz-input label="Other Gender" ng-model="contact.Other_Gender__c" ng-if="contact.Gender__c=='Other'">
+            </div>
+
+            <div dz-select label="Are you Hispanic or Latino?" ng-model="contact.Hispanic_or_Latino__c">
+            </div>
+
+            <div dz-multiselect label="Select from following races" ng-model="contact.Multi_Ethnicity__c" ng-required="true">
+            </div>
+
+            <div dz-select-radio label="Select one of the following races" ng-model="contact.Ethnicity__c" ng-required="true">
+            </div>
+
+            <div dz-select label="Citizenship Status" ng-model="contact.Citizenship__c" ng-required="true">
+            </div>
+
+            <div dz-select label="What Visa type do you plan to study on?" ng-model="contact.Visa_Type__c" ng-required="true" ng-if="contact.Citizenship__c=='Non-Permanent Resident of the U.S.'">
+            </div>
+
+            <div dz-input label="Social Security Number" ng-model="contact.SSN__c" ssn-mask="true" placeholder="###-##-####" ng-if="contact.Citizenship__c=='U.S. Citizen'||contact.Citizenship__c=='U.S. Permanent Resident'||contact.Citizenship__c=='Refugee'||contact.Citizenship__c=='Asylee'">
+            </div>
+
+            <div dz-select label="Do you hold dual citizenship?" ng-model="contact.Dual_Citizen__c" ng-required="true" ng-if="contact.Citizenship__c=='Non-Permanent Resident of the U.S.'" dz-line-break="true">
+            </div>
+
+            <div dz-select label="What is your country of citizenship?" ng-model="contact.Non_US_Country_of_Citizenship__c" ng-required="true" ng-if="contact.Citizenship__c=='Non-Permanent Resident of the U.S.'&&contact.Dual_Citizen__c=='No'">
+            </div>
+
+            <div dz-select label="Select the first country in which you hold dual citizenship." ng-model="contact.Dual_Citizenship_Country_1__c" ng-if="contact.Dual_Citizen__c=='Yes'">
+            </div>
+
+            <div dz-select label="Select the second country in which you hold dual citizenship." ng-model="contact.Dual_Citizenship_Country_2__c" ng-if="contact.Dual_Citizen__c=='Yes'">
+            </div>
+
+            <div dz-select label="Under what country's passport do you plan to study in the U.S.?" ng-model="contact.Primary_Dual_Passport__c" ng-if="contact.Dual_Citizen__c=='Yes'">
+            </div>
+
+            <div dz-input label="Passport Number" ng-model="contact.Passport_Number__c" ng-if="contact.Dual_Citizen__c=='No'">
+            </div>
+
+            <div dz-date-picker label="Passport Expiration" ng-model="contact.Passport_Expiration_Date__c" ng-if="contact.Dual_Citizen__c=='No'" class="dz-date-picker-top">
+            </div>
+
+            <div dz-checkbox label="I have completed this section of the application. Selecting this box will update this section as complete on the application checklist." ng-model="contact.Personal_Data_Section__c" ng-required="true">
+            </div>
+        </div>
+        <!-- </div>
+        </fieldset> -->
+    </section>
+    <div class="slds-x-small-buttons--horizontal">
+        <button class="slds-button slds-button--brand" type="button" ng-click="next(false)">Save</button>
+        <button class="slds-button slds-button--brand" type="submit">Next</button>
+    </div>
+</form>

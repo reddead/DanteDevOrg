@@ -1,0 +1,20 @@
+<div ng-class="{ 'slds-has-error' : currentField.$invalid&&(currentField.$dirty||currentForm.$submitted)}">
+        <label class="slds-form-element__label" ng-show="label">
+            <span>{{label}}</span>
+        </label>
+        <label class="slds-form-element__label" ng-show="!label">
+            <span ng-transclude></span>
+        </label>
+        <div class="slds-input-has-icon slds-input-has-icon--right">
+            <svg class="slds-input__icon" ng-click="clear($event)" ng-if="ngModel">
+                <use xlink:href="" ng-href="{{NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#clear"></use>
+            </svg>
+            <svg class="slds-input__icon" ng-click="openDatePicker($event)" ng-if="!ngModel">
+                <use xlink:href="" ng-href="{{NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#event"></use>
+            </svg>
+            <input class="slds-input" type="text" ng-model="ngModel" ng-model-options="{ allowInvalid: true }" ng-required="ngRequired" ng-init="ngInit()" ng-click="openDatePicker($event);ngClick()" ng-change="setFieldDirty(currentField);ngChange();" datepicker-localdate is-open="status" uib-datepicker-popup="MM-dd-yyyy" show-button-bar="false" show-weeks="false" on-open-focus="false" placeholder="mm-dd-yyyy" dz-read-only clear-hidden/>
+        </div>
+    <div ng-messages="currentField.$error" ng-if="currentField.$invalid&&(currentField.$dirty||currentForm.$submitted)" class="slds-form-element__help">
+        <div ng-messages-include="{{NGD_Utilities}}/template/MessageTemplate.html"></div>
+    </div>
+</div>

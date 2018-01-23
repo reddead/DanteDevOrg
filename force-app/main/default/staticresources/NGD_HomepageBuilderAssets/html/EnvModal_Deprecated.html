@@ -1,0 +1,36 @@
+<div type="text/ng-template" class="slds">
+    <div aria-hidden="false" role="dialog" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container" style="width: 65%; max-width: inherit; margin: 0 auto;">
+            <div class="slds-modal__header">
+                <h2 class="slds-text-heading--medium">Select Environment</h2>
+                <button class="slds-button slds-button--icon-inverse slds-modal__close" ng-click="cancel()" type="button">
+                    <svg aria-hidden="true" class="slds-button__icon slds-button__icon--large">
+                        <use xlink:href="/resource/SLDS/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    </svg>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+            </div>
+            <div class="slds-modal__content">
+                <div class="row" ng-repeat="envGroup in con.envGroup">
+                    <div class="col-md-4" ng-repeat="env in envGroup.envs">
+                        <div class="dz-env" ng-click="setEnv(env)" ng-style="env.selection">
+                            <h3>
+                                <p style="margin-top: 30px; text-align: center; color: antiquewhite" class="slds-text-heading--medium">{{env.Name}}</p>
+                            </h3>
+                            <h3>
+                                <p style="text-align: center;color: white" class="slds-text-heading--small">{{env.Env_Status__c}}</p>
+                        </div>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-modal__footer slds-modal__footer--directional">
+                <div class="slds-x-small-buttons--horizontal">
+                    <button class="slds-button slds-button--neutral" ng-click="cancel()" type="button">Back</button>
+                    <!--<button class="slds-button slds-button--brand" type="submit">Save</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slds-backdrop slds-backdrop--open"></div>
+</div>

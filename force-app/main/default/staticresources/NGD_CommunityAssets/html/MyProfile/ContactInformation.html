@@ -1,0 +1,141 @@
+<form name="form" dz-column="2" ng-submit="next(true)" novalidate onsubmit="debugValidation();" dz-form-read-only="application.Application_Submitted__c">
+    <input style="display:none" />
+    <dz-page-message ng-if="form.$invalid&&form.$submitted">
+        Please review the validation errors
+    </dz-page-message>
+    <section>
+        <div class="slds-section-title--divider">
+            <div class="slds-text-heading--medium">
+                Contact Information
+            </div>
+        </div>
+
+        <fieldset class="slds-form--compound">
+            <div class="slds-text-heading--small">Primary (Permanent/Home) Address</div>
+            <div class="slds-form-element__group">
+                <div class="slds-form-element__row">
+                    <dz-input label="Address Line 1" ng-model="contact.MailingStreetLine1__c" required="true" show-tip="contact.MailingStreetLine1__c=='test'">
+                        <dz-tip>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        </dz-tip>
+                    </dz-input>
+
+                    <dz-input label="Address Line 2" ng-model="contact.MailingStreetLine2__c">
+                    </dz-input>
+
+                    <dz-select label="Country" ng-model="contact.Mailing_Country__c" required="true">
+                    </dz-select>
+
+                    <dz-input label="City" ng-model="contact.Mailing_City__c" required="true">
+                    </dz-input>
+
+                    <span ng-if="contact.Mailing_Country__c=='UNITED STATES OF AMERICA'">
+                        <dz-select label="State" ng-model="contact.Mailing_State__c" required="true" show-tip="contact.Mailing_State__c.toLowerCase()=='al'||
+                                 contact.Mailing_State__c.toLowerCase()=='ct'||contact.Mailing_State__c.toLowerCase()=='de'||
+                                 contact.Mailing_State__c.toLowerCase()=='ky'||contact.Mailing_State__c.toLowerCase()=='me'||
+                                 contact.Mailing_State__c.toLowerCase()=='md'||contact.Mailing_State__c.toLowerCase()=='ms'||
+                                 contact.Mailing_State__c.toLowerCase()=='nj'||contact.Mailing_State__c.toLowerCase()=='ny'||
+                                 contact.Mailing_State__c.toLowerCase()=='nc'||contact.Mailing_State__c.toLowerCase()=='pa'||
+                                 contact.Mailing_State__c.toLowerCase()=='ut'">
+                            <dz-tip>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            </dz-tip>
+                        </dz-select>
+
+                        <dz-input label="Zip Code" ng-model="contact.Mailing_Zip_Code__c" required="true">
+                        </dz-input>
+                    </span>
+
+                    <span ng-if="contact.Mailing_Country__c!='UNITED STATES OF AMERICA'&&contact.Mailing_Country__c">
+                        <dz-input label="State/Province" ng-model="contact.Mailing_State_Province__c">
+                        </dz-input>
+
+                        <dz-input label="Zip/Postal Code" ng-model="contact.Mailing_Postal_Code__c">
+                        </dz-input>
+                    </span>
+                </div>
+            </div>
+
+            <div class="slds-text-heading--small">Secondary (Local/Mailing) Address</div>
+            <div class="slds-form-element__group">
+                <div class="slds-form-element__row">
+                    <dz-checkbox label="Is your local mailing address the same as your permanent address?" ng-model="contact.Mailing_Same_as_Perm__c">
+                    </dz-checkbox>
+
+                    <span ng-if="!contact.Mailing_Same_as_Perm__c">
+                        <dz-input label="Address Line 1" ng-model="contact.OtherStreetLine1__c" required="true">
+                        </dz-input>
+
+                        <dz-input label="Address Line 2" ng-model="contact.OtherStreetLine2__c">
+                        </dz-input>
+
+
+                        <dz-select label="Country" ng-model="contact.Perm_Country__c" required="true">
+                        </dz-select>
+
+                        <dz-input label="City" ng-model="contact.Perm_City__c" required="true">
+                        </dz-input>
+
+                        <span ng-if="contact.Perm_Country__c=='UNITED STATES OF AMERICA'">
+                            <dz-select label="State" ng-model="contact.Perm_State__c" required="true" show-tip="contact.Perm_State__c.toLowerCase()=='al'||
+                                     contact.Perm_State__c.toLowerCase()=='ct'||contact.Perm_State__c.toLowerCase()=='de'||
+                                     contact.Perm_State__c.toLowerCase()=='ky'||contact.Perm_State__c.toLowerCase()=='me'||
+                                     contact.Perm_State__c.toLowerCase()=='md'||contact.MailingPerm_State__c_State__c.toLowerCase()=='ms'||
+                                     contact.Perm_State__c.toLowerCase()=='nj'||contact.Perm_State__c.toLowerCase()=='ny'||
+                                     contact.Perm_State__c.toLowerCase()=='nc'||contact.Perm_State__c.toLowerCase()=='pa'||
+                                     contact.toLowerCase()=='ut'">
+                                <dz-tip>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                </dz-tip>
+                            </dz-select>
+
+                            <dz-input label="Zip Code" ng-model="contact.Perm_Zip_Code__c" required="true">
+                            </dz-input>
+                        </span>
+
+                        <span ng-if="contact.Perm_Country__c!='UNITED STATES OF AMERICA'&&contact.Perm_Country__c">
+                            <dz-input label="State/Province" ng-model="contact.Perm_State_Province__c">
+                            </dz-input>
+
+                            <dz-input label="Zip/Postal Code" ng-model="contact.Perm_Postal_Code__c">
+                            </dz-input>
+                        </span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="slds-text-heading--small">Contact Info</div>
+            <div class="slds-form-element__group">
+                <div class="slds-form-element__row">
+                    <dz-input label="Personal Email Address" ng-model="contact.Email" required="true" dz-line-break="true">
+                    </dz-input>
+
+                    <dz-select label="Is your cell phone number an international number?" ng-model="contact.MobilePhoneInternational__c" required="true">
+                    </dz-select>
+
+                    <dz-input label="Cell Phone Number" ng-model="contact.MobilePhone" format-phone-number="contact.MobilePhoneInternational__c!='Yes'" required="true">
+                    </dz-input>
+
+                    <dz-checkbox label="Is your home phone number the same as your cell phone number?" ng-model="contact.Home_Phone_Same_as_Cell__c">
+                    </dz-checkbox>
+
+                    <span ng-if="!contact.Home_Phone_Same_as_Cell__c">
+
+                    <dz-select label="Is your home phone number an international number?" ng-model="contact.HomePhoneInternational__c" required="true">
+                    </dz-select>
+
+                    <dz-input label="Home Phone Number" ng-model="contact.HomePhone" format-phone-number="contact.HomePhoneInternational__c!='Yes'" required="true">
+                    </dz-input>
+                    </span>
+
+                </div>
+            </div>
+
+        </fieldset>
+    </section>
+    <div class="slds-x-small-buttons--horizontal">
+        <button class="slds-button slds-button--brand" type="button" ng-click="next(false)">Save</button>
+        <button class="slds-button slds-button--brand" type="button" ng-click="previous()">Previous</button>
+        <button class="slds-button slds-button--brand" type="submit">Next</button>
+    </div>
+</form>

@@ -1,0 +1,20 @@
+<div ng-class="{ 'slds-has-error' : currentField.$invalid && (currentField.$dirty || currentForm.$submitted)}">
+        <label class="slds-form-element__label" ng-show="label">
+            <span><dz-label>{{label}}</dz-label></span>
+        </label>
+        <label class="slds-form-element__label" ng-show="!label">
+            <span ng-transclude></span>
+        </label>
+        <input type="hidden" ng-model="ngModel" ng-model-options="{ allowInvalid: true }" ng-required="ngRequired" ng-init="ngInit()" clear-hidden/>
+        <label class="slds-radio" ng-repeat="item in picklistOptions">
+            <input type="radio" name="option" ng-model="$parent.ngModel" ng-click="$parent.ngClick()" ng-change="setFieldDirty(currentField);$parent.ngChange()" value="{{item.value}}" clear-hidden/>
+            <span class="slds-radio__label">
+                <span class="slds-radio--faux"></span>
+                <span class="slds-form-element__label">{{item.value}}</span>
+            </span>
+        </label>
+
+    <div ng-messages="currentField.$error" ng-if="currentField.$invalid && (currentField.$dirty || currentForm.$submitted)" class="slds-form-element__help">
+        <div ng-messages-include="{{NGD_Utilities}}/template/MessageTemplate.html"></div>
+    </div>
+</div>

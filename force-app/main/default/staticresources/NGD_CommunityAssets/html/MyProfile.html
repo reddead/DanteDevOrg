@@ -1,0 +1,572 @@
+<form name="userForm" ng-submit="submit(true)" novalidate onsubmit="debugValidation();">
+    <input style="display:none" />
+    <!--solve chrome autofill issue-->
+    <div class="dz-page-messages" ng-if="con.message&&userForm.$submitted" style="margin-top:0.5rem">
+        <svg aria-hidden="true" class="slds-icon slds-icon--small">
+            <use xlink:href="/resource/SLDS/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+        </svg> {{con.message}}
+    </div>
+    <section>
+        <div class="slds-section-title--divider">
+            <div class="slds-text-heading--small">
+                Personal Data
+            </div>
+        </div>
+
+        <fieldset class="slds-form--compound">
+            <div class="form-element__group">
+                <div class="slds-form-element__row">
+                    <dz-input label="Legal First Name" model="contact.FirstName">
+                    </dz-input>
+
+                    <dz-input label="Preferred First Name (ex. Your legal name is Daniel, but you go by Dan)" model="contact.Preferred_First_Name__c">
+                    </dz-input>
+                </div>
+                <div class="slds-form-element__row">
+                    <dz-input label="Middle Name" model="contact.Middle_Initial__c">
+                    </dz-input>
+                </div>
+                <div class="slds-form-element__row">
+                    <dz-input label="Last Name" model="contact.LastName" required="true">
+                    </dz-input>
+
+                    <dz-input label="Previous Last Name" model="contact.Previous_Last_Name__c">
+                    </dz-input>
+                </div>
+                <div class="slds-form-element__row">
+                    <div dz-select label="Suffix (Jr., Sr., III)" model="contact.Suffix__c">
+                    </div>
+                </div>
+                <div class="slds-form-element__row">
+                    <dz-date-picker label="Date of Birth MM-DD-YYYY" model="contact.Date_of_Birth__c" required="true">
+                    </dz-date-picker>
+                </div>
+                <div class="slds-form-element__row">
+                    <dz-select label="Gender" model="contact.Gender__c" required="true">
+                    </dz-select>
+
+                    <dz-input label="Other Gender" model="contact.Other_Gender__c" ng-if="contact.Gender__c=='Other'">
+                    </dz-input>
+                </div>
+                <div class="slds-form-element__row">
+                    <dz-select label="Are you Hispanic or Latino?" model="contact.Hispanic_or_Latino__c">
+                    </dz-select>
+                </div>
+
+                <!-- ///// -->
+                <!--</div>
+                        </fieldset>
+                    </section>-->
+                <!--multiselect START-->
+                <!--<div class="slds-form--compound dz-multiselect" ng-controller="Ethnicity__cCtrl">
+                        <div class="slds-form-element__control slds-size--1-of-1">
+                            <span class="slds-form-element__label">Select one of the following races:</span>
+                            <input type="hidden" ng-model="$parent.contact.Ethnicity__c" />
+                            <div ng-include="'/resource/Utilities/template/MultiselectTemplate.html'"></div>
+                        </div>
+                    </div>-->
+                <!--multiselect END-->
+                <!--<section>
+                        <fieldset class="slds-form--compound">
+                            <div class="form-element__group">-->
+                <!-- ///// -->
+
+                <div class="slds-form-element__row">
+                    <dz-select-radio label="Select one of the following races" model="contact.Ethnicity__c">
+                    </dz-select-radio>
+                </div>
+
+                <div class="slds-form-element__row">
+                    <dz-select label="Citizenship Status" model="contact.Citizenship__c" required="true">
+                    </dz-select>
+
+                    <dz-select label="What Visa type do you plan to study on?" model="contact.Visa_Type__c" required="true" ng-if="contact.Citizenship__c=='Non-Permanent Resident of the U.S.'">
+                    </dz-select>
+
+                    <dz-input label="Social Security Number" model="contact.SSN__c" ssn="true" placeholder="###-##-####" ng-if="contact.Citizenship__c=='U.S. Citizen'||contact.Citizenship__c=='U.S. Permanent Resident'||contact.Citizenship__c=='Refugee'||contact.Citizenship__c=='Asylee'">
+                    </dz-input>
+                </div>
+
+                <div class="slds-form-element__row" ng-if="contact.Citizenship__c=='Non-Permanent Resident of the U.S.'">
+                    <dz-select label="Do you hold dual citizenship?" model="contact.Dual_Citizen__c" required="true">
+                    </dz-select>
+
+                    <dz-select label="What is your country of citizenship?" model="contact.Non_US_Country_of_Citizenship__c" required="true" ng-if="contact.Dual_Citizen__c=='No'">
+                    </dz-select>
+                </div>
+
+                <div class="slds-form-element__row" ng-if="contact.Dual_Citizen__c=='Yes'">
+                    <dz-select label="Select the first country in which you hold dual citizenship." model="contact.Dual_Citizenship_Country_1__c">
+                    </dz-select>
+
+                    <dz-select label="Select the second country in which you hold dual citizenship." model="contact.Dual_Citizenship_Country_2__c">
+                    </dz-select>
+                </div>
+
+                <div class="slds-form-element__row" ng-if="contact.Dual_Citizen__c=='Yes'">
+                    <dz-select label="Under what country's passport do you plan to study in the U.S.?" model="contact.Primary_Dual_Passport__c">
+                    </dz-select>
+                </div>
+
+                <div class="slds-form-element__row" ng-if="contact.Dual_Citizen__c=='No'">
+                    <dz-input label="Passport Number" model="contact.Passport_Number__c">
+                    </dz-input>
+
+                    <dz-date-picker label="Passport Expiration" model="contact.Passport_Expiration_Date__c">
+                    </dz-date-picker>
+                </div>
+
+                <div class="slds-form-element__row">
+                    <dz-checkbox label="I have completed this section of the application. Selecting this box will update this section as complete on the application checklist." model="contact.Personal_Data_Section__c" required="true">
+                    </dz-checkbox>
+                </div>
+            </div>
+        </fieldset>
+    </section>
+    <section>
+        <div class="slds-section-title--divider">
+            <div class="slds-text-heading--small">Contact Information</div>
+        </div>
+        <fieldset class="slds-form--compound">
+            <div class="slds-text-heading--small">Primary (Permanent/Home) Address</div>
+            <div class="form-element__group">
+                <!--slds-form-element__row START-->
+                <div class="slds-form-element__row">
+                    <!--slds-form-element__control START-->
+                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.MailingStreetLine1__c.$invalid && (userForm.MailingStreetLine1__c.$dirty || userForm.$submitted)}">
+                        <span class="slds-form-element__label">Address Line 1</span>
+                        <input class="slds-input" type="text" ng-model="contact.MailingStreetLine1__c" ng-required="true" name="MailingStreetLine1__c" />
+                        <div ng-messages="userForm.MailingStreetLine1__c.$error" ng-if="userForm.MailingStreetLine1__c.$invalid &&(userForm.MailingStreetLine1__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                            <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                        </div>
+                    </div>
+                    <!--slds-form-element__control END-->
+                    <!--slds-form-element__control START-->
+                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                        <span class="slds-form-element__label">Address Line 2</span>
+                        <input class="slds-input" type="text" ng-model="contact.MailingStreetLine2__c" />
+                    </div>
+                    <!--slds-form-element__control END-->
+                </div>
+                <!--slds-form-element__row END-->
+                <!--slds-form-element__row START-->
+                <div class="slds-form-element__row">
+                    <!--slds-form-element__control START-->
+                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Mailing_Country__c.$invalid&&(userForm.Mailing_Country__c.$dirty||userForm.$submitted)}">
+                        <span class="slds-form-element__label">Country</span>
+                        <div class="slds-select_container">
+                            <select class="slds-select" ng-model="contact.Mailing_Country__c" name="Mailing_Country__c" ng-required="true">
+                                    <option ng-repeat="item in contactPicklistOptionsMap.Mailing_Country__c" value="{{item.value}}">{{item.label}}</option>
+                                </select>
+                        </div>
+                        <div ng-messages="userForm.Mailing_Country__c.$error" ng-if="userForm.Mailing_Country__c.$invalid&&(userForm.Mailing_Country__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                            <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                        </div>
+                    </div>
+                    <!--slds-form-element__control END-->
+                    <!--slds-form-element__control START-->
+                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Mailing_City__c.$invalid && (userForm.Mailing_City__c.$dirty || userForm.$submitted)}">
+                        <span class="slds-form-element__label">City</span>
+                        <input class="slds-input" ng-model="contact.Mailing_City__c" name="Mailing_City__c" type="text" ng-required="true" />
+                        <div ng-messages="userForm.Mailing_City__c.$error" ng-if="userForm.Mailing_City__c.$invalid &&(userForm.Mailing_City__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                            <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                        </div>
+                    </div>
+                    <!--slds-form-element__control END-->
+                </div>
+                <!--slds-form-element__row END-->
+                <!--slds-form-element__row START-->
+                <div class="slds-form-element__row" ng-if="contact.Mailing_Country__c=='UNITED STATES OF AMERICA'">
+                    <!--slds-form-element__control START-->
+                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Mailing_State__c.$invalid&&(userForm.Mailing_State__c.$dirty||userForm.$submitted)}">
+                        <div class="slds-dropdown-trigger dz-popover-size">
+                            <span class="slds-form-element__label">State</span>
+                            <div class="slds-select_container">
+                                <select class="slds-select" ng-model="contact.Mailing_State__c" onchange="showERxPopoverMessge(this)" onblur="hideERxPopoverMessge(this)" name="Mailing_State__c" ng-required="true" clear-hidden>
+                                        <option ng-repeat="item in contactPicklistOptionsMap.Mailing_State__c" value="{{item.value}}">{{item.label}}</option>
+                                    </select>
+                            </div>
+                            <div class="slds-dropdown slds-dropdown--bottom slds-nubbin--bottom slds-dropdown--menu dz-form-popover-message" ng-show="(contact.Mailing_State__c.toLowerCase()=='al - alabama'||
+                                 contact.Mailing_State__c.toLowerCase()=='ct - connecticut'||
+                                 contact.Mailing_State__c.toLowerCase()=='de - delaware'||
+                                 contact.Mailing_State__c.toLowerCase()=='ky - kentucky'||
+                                 contact.Mailing_State__c.toLowerCase()=='me - maine'||
+                                 contact.Mailing_State__c.toLowerCase()=='md - maryland'||
+                                 contact.Mailing_State__c.toLowerCase()=='ms - mississippi'||
+                                 contact.Mailing_State__c.toLowerCase()=='nj - new jersey'||
+                                 contact.Mailing_State__c.toLowerCase()=='ny - new york'||
+                                 contact.Mailing_State__c.toLowerCase()=='nc - north carolina'||
+                                 contact.Mailing_State__c.toLowerCase()=='pa - pennsylvania'||
+                                 contact.Mailing_State__c.toLowerCase()=='ut - utah')&&contact.Mailing_State__c">
+                                <ul class="slds-dropdown__list">
+                                    <li class="slds-dropdown__item">
+                                        <p>Pima Community College is not authorized to offer online instruction in your state. More information can be found at:https://www.pima.edu/new-students/apply/state-authorization.html If you feel this determination
+                                            was made in error, please contact the Community Campus Student Services Center at (520) 206-6468.</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div ng-messages="userForm.Mailing_State__c.$error" ng-if="userForm.Mailing_State__c.$invalid&&(userForm.Mailing_State__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                            <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                        </div>
+                    </div>
+                    <!--slds-form-element__control END-->
+                    <!--slds-form-element__control START-->
+                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Mailing_Zip_Code__c.$invalid && (userForm.Mailing_Zip_Code__c.$dirty || userForm.$submitted)}">
+                        <span class="slds-form-element__label">Zip Code</span>
+                        <input class="slds-input" ng-model="contact.Mailing_Zip_Code__c" name="Mailing_Zip_Code__c" type="text" ng-required="true" clear-hidden />
+                        <div ng-messages="userForm.Mailing_Zip_Code__c.$error" ng-if="userForm.Mailing_Zip_Code__c.$invalid &&(userForm.Mailing_Zip_Code__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                            <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                        </div>
+                    </div>
+                    <!--slds-form-element__control END-->
+                </div>
+                <!--slds-form-element__row END-->
+                <!--slds-form-element__row START-->
+                <div class="slds-form-element__row" ng-if="contact.Mailing_Country__c!='UNITED STATES OF AMERICA'&&contact.Mailing_Country__c">
+                    <!--slds-form-element__control START-->
+                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                        <span class="slds-form-element__label">State/Province</span>
+                        <input class="slds-input" ng-model="contact.Mailing_State_Province__c" type="text" clear-hidden />
+                    </div>
+                    <!--slds-form-element__control END-->
+                    <!--slds-form-element__control START-->
+                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                        <span class="slds-form-element__label">Zip/Postal Code</span>
+                        <input class="slds-input" ng-model="contact.Mailing_Postal_Code__c" type="text" clear-hidden />
+                    </div>
+                    <!--slds-form-element__control END-->
+                </div>
+                <!--slds-form-element__row END-->
+            </div>
+            <div class="slds-text-heading--small">Secondary (Local/Mailing) Address</div>
+            <div class="form-element__group">
+                <!--slds-form-element__row START-->
+                <div class="slds-form-element slds-form-element__row">
+                    <div class="slds-form-element slds-form-element__label">
+                        <label class="slds-checkbox">
+                                <input ng-model="contact.Mailing_Same_as_Perm__c" type="checkbox" />
+                                <span class="slds-checkbox--faux"></span>
+                                <span class="slds-form-element__helper">Is your local mailing address the same as your permanent address?</span>
+                            </label>
+                    </div>
+                </div>
+                <!--slds-form-element__row END-->
+                <span ng-if="!contact.Mailing_Same_as_Perm__c">
+                        <!--slds-form-element__row START-->
+                        <div class="slds-form-element__row">
+                            <!--slds-form-element__control START-->
+                            <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.OtherStreetLine1__c.$invalid && (userForm.OtherStreetLine1__c.$dirty || userForm.$submitted)}">
+                                <span class="slds-form-element__label">Address Line 1</span>
+                <input class="slds-input" ng-model="contact.OtherStreetLine1__c" name="OtherStreetLine1__c" type="text" ng-required="true" clear-hidden />
+                <div ng-messages="userForm.OtherStreetLine1__c.$error" ng-if="userForm.OtherStreetLine1__c.$invalid &&(userForm.OtherStreetLine1__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                    <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                </div>
+            </div>
+            <!--slds-form-element__control END-->
+            <!--slds-form-element__control START-->
+            <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                <span class="slds-form-element__label">Address Line 2</span>
+                <input class="slds-input" ng-model="contact.OtherStreetLine2__c" type="text" clear-hidden />
+            </div>
+            <!--slds-form-element__control END-->
+            </div>
+            <!--slds-form-element__row END-->
+            <!--slds-form-element__row START-->
+            <div class="slds-form-element__row">
+                <!--slds-form-element__control START-->
+                <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Perm_Country__c.$invalid&&(userForm.Perm_Country__c.$dirty||userForm.$submitted)}">
+                    <span class="slds-form-element__label">Country</span>
+                    <div class="slds-select_container">
+                        <select class="slds-select" ng-model="contact.Perm_Country__c" name="Perm_Country__c" ng-required="true" clear-hidden>
+                                        <option ng-repeat="item in contactPicklistOptionsMap.Perm_Country__c" value="{{item.value}}">{{item.label}}</option>
+                                    </select>
+                    </div>
+                    <div ng-messages="userForm.Perm_Country__c.$error" ng-if="userForm.Perm_Country__c.$invalid&&(userForm.Perm_Country__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                        <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                    </div>
+                </div>
+                <!--slds-form-element__control END-->
+                <!--slds-form-element__control START-->
+                <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Perm_City__c.$invalid && (userForm.Perm_City__c.$dirty || userForm.$submitted)}">
+                    <span class="slds-form-element__label">City</span>
+                    <input class="slds-input" ng-model="contact.Perm_City__c" type="text" name="Perm_City__c" ng-required="true" clear-hidden />
+                    <div ng-messages="userForm.Perm_City__c.$error" ng-if="userForm.Perm_City__c.$invalid &&(userForm.Perm_City__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                        <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                    </div>
+                </div>
+                <!--slds-form-element__control END-->
+            </div>
+            <!--slds-form-element__row END-->
+            <!--slds-form-element__row START-->
+            <div class="slds-form-element__row" ng-if="contact.Perm_Country__c=='UNITED STATES OF AMERICA'">
+                <!--slds-form-element__control START-->
+                <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Perm_State__c.$invalid&&(userForm.Perm_State__c.$dirty||userForm.$submitted)}">
+                    <span class="slds-form-element__label">State</span>
+                    <div class="slds-select_container">
+                        <select class="slds-select" ng-model="contact.Perm_State__c" name="Perm_State__c" ng-required="true" clear-hidden>
+                                        <option ng-repeat="item in contactPicklistOptionsMap.Perm_State__c" value="{{item.value}}">{{item.label}}</option>
+                                    </select>
+                    </div>
+                    <div ng-messages="userForm.Perm_State__c.$error" ng-if="userForm.Perm_State__c.$invalid&&(userForm.Perm_State__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                        <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                    </div>
+                </div>
+                <!--slds-form-element__control END-->
+                <!--slds-form-element__control START-->
+                <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Perm_Zip_Code__c.$invalid && (userForm.Perm_Zip_Code__c.$dirty || userForm.$submitted)}">
+                    <span class="slds-form-element__label">Zip Code</span>
+                    <input class="slds-input" ng-model="contact.Perm_Zip_Code__c" name="Perm_Zip_Code__c" type="text" ng-required="true" clear-hidden />
+                    <div ng-messages="userForm.Perm_Zip_Code__c.$error" ng-if="userForm.Perm_Zip_Code__c.$invalid &&(userForm.Perm_Zip_Code__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                        <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                    </div>
+                </div>
+                <!--slds-form-element__control END-->
+            </div>
+            <!--slds-form-element__row END-->
+            <!--slds-form-element__row START-->
+            <div class="slds-form-element__row" ng-if="contact.Perm_Country__c!='UNITED STATES OF AMERICA'&&contact.Perm_Country__c">
+                <!--slds-form-element__control START-->
+                <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                    <span class="slds-form-element__label">State/Province</span>
+                    <input class="slds-input" ng-model="contact.Perm_State_Province__c" type="text" clear-hidden />
+                </div>
+                <!--slds-form-element__control END-->
+                <!--slds-form-element__control START-->
+                <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                    <span class="slds-form-element__label">Zip/Postal Code</span>
+                    <input class="slds-input" ng-model="contact.Perm_Postal_Code__c" type="text" clear-hidden />
+                </div>
+                <!--slds-form-element__control END-->
+            </div>
+            <!--slds-form-element__row END-->
+            </span>
+            </div>
+            <div class="slds-text-heading--small">Contact Info</div>
+            <div class="form-element__group">
+                <!--slds-form-element__row START-->
+                <div class="slds-form-element__row">
+                    <!--slds-form-element__control START-->
+                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.Email.$invalid && (userForm.Email.$dirty || userForm.$submitted)}">
+                        <span class="slds-form-element__label">Personal Email Address</span>
+                        <input class="slds-input" ng-model="contact.Email" name="Email" type="email" ng-required="true" />
+                        <div ng-messages="userForm.Email.$error" ng-if="userForm.Email.$invalid &&(userForm.Email.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                            <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                        </div>
+                    </div>
+                    <!--slds-form-element__control END-->
+                </div>
+                <!--slds-form-element__row END-->
+                <!--slds-form-element__row START-->
+                <div class="slds-form-element__row">
+                    <!--slds-form-element__control START-->
+                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.MobilePhoneInternational__c.$invalid&&(userForm.MobilePhoneInternational__c.$dirty||userForm.$submitted)}">
+                        <span class="slds-form-element__label">Is your cell phone number an international number?</span>
+                        <div class="slds-select_container">
+                            <select class="slds-select" ng-model="contact.MobilePhoneInternational__c" name="MobilePhoneInternational__c" ng-required="true" clear-hidden>
+                                    <option ng-repeat="item in contactPicklistOptionsMap.MobilePhoneInternational__c" value="{{item.value}}">{{item.label}}</option>
+                                </select>
+                        </div>
+                        <div ng-messages="userForm.MobilePhoneInternational__c.$error" ng-if="userForm.MobilePhoneInternational__c.$invalid&&(userForm.MobilePhoneInternational__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                            <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                        </div>
+                    </div>
+                    <!--slds-form-element__control END-->
+                    <!--slds-form-element__control START-->
+                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.MobilePhone.$invalid && (userForm.MobilePhone.$dirty || userForm.$submitted)}">
+                        <span class="slds-form-element__label">Cell Phone Number</span>
+                        <input class="slds-input" ng-model="contact.MobilePhone" name="MobilePhone" type="tel" format-phone-number="{{contact.MobilePhoneInternational__c!='Yes'}}" ng-required="true" ng-minlength="phoneMinLength(contact.MobilePhoneInternational__c=='Yes',userForm.MobilePhone.$viewValue)"
+                        />
+                        <div ng-messages="userForm.MobilePhone.$error" ng-if="userForm.MobilePhone.$invalid &&(userForm.MobilePhone.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                            <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                        </div>
+                    </div>
+                    <!--slds-form-element__control END-->
+                </div>
+                <!--slds-form-element__row END-->
+
+                <!--slds-form-element__row START-->
+                <div class="slds-form-element slds-form-element__row">
+                    <div class="slds-form-element slds-form-element__label">
+                        <label class="slds-checkbox">
+                                <input ng-model="contact.Home_Phone_Same_as_Cell__c" type="checkbox" />
+                                <span class="slds-checkbox--faux"></span>
+                                <span class="slds-form-element__helper">Is your home phone number the same as your cell phone number?</span>
+                            </label>
+                    </div>
+                </div>
+                <!--slds-form-element__row END-->
+
+                <!--slds-form-element__row START-->
+                <div class="slds-form-element__row" ng-if="!contact.Home_Phone_Same_as_Cell__c">
+                    <!--slds-form-element__control START-->
+                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.HomePhone.$invalid && (userForm.HomePhone.$dirty || userForm.$submitted)}">
+                        <span class="slds-form-element__label">Home Phone Number</span>
+                        <input class="slds-input" ng-model="contact.HomePhone" name="HomePhone" type="tel" format-phone-number="{{contact.HomePhoneInternational__c!='Yes'}}" ng-required="true" ng-minlength="phoneMinLength(contact.HomePhoneInternational__c=='Yes',userForm.HomePhone.$viewValue)"
+                        />
+                        <div ng-messages="userForm.HomePhone.$error" ng-if="userForm.HomePhone.$invalid &&(userForm.HomePhone.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                            <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                        </div>
+                    </div>
+                    <!--slds-form-element__control END-->
+                    <!--slds-form-element__control START-->
+                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.HomePhoneInternational__c.$invalid&&(userForm.HomePhoneInternational__c.$dirty||userForm.$submitted)}">
+                        <span class="slds-form-element__label">Is your home phone number an international number?</span>
+                        <div class="slds-select_container">
+                            <select class="slds-select" ng-model="contact.HomePhoneInternational__c" name="HomePhoneInternational__c" ng-required="true" clear-hidden>
+                                    <option ng-repeat="item in contactPicklistOptionsMap.HomePhoneInternational__c" value="{{item.value}}">{{item.label}}</option>
+                                </select>
+                        </div>
+                        <div ng-messages="userForm.HomePhoneInternational__c.$error" ng-if="userForm.HomePhoneInternational__c.$invalid&&(userForm.HomePhoneInternational__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                            <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                        </div>
+                    </div>
+                    <!--slds-form-element__control END-->
+                </div>
+                <!--slds-form-element__row END-->
+                <!--slds-form-element__row START-->
+                <div class="slds-form-element__row">
+                    <!--slds-form-element__control START-->
+                    <!-- <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                        <span class="slds-form-element__label">Do you want to receive Emergency Text Messages on your Cell Phone?</span>
+                        <div class="slds-select_container">
+                            <select class="slds-select" ng-model="contact.Receive_Emergency_Text_Primary__c" clear-hidden>
+                                    <option ng-repeat="item in contactPicklistOptionsMap.Receive_Emergency_Text_Primary__c" value="{{item.value}}">{{item.label}}</option>
+                                </select>
+                        </div>
+                    </div> -->
+                    <!--slds-form-element__control END-->
+                    <!--slds-form-element__control START-->
+                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                        <span class="slds-form-element__label">Do you want to receive College Text Messages on your Cell Phone?</span>
+                        <div class="slds-select_container">
+                            <select class="slds-select" ng-model="contact.Receive_College_Text_Primary__c" clear-hidden>
+                                    <option ng-repeat="item in contactPicklistOptionsMap.Receive_College_Text_Primary__c" value="{{item.value}}">{{item.label}}</option>
+                                </select>
+                        </div>
+                    </div>
+                    <!--slds-form-element__control END-->
+                </div>
+                <!--slds-form-element__row END-->
+
+                <!--slds-form-element__row START-->
+                <div class="slds-form-element slds-form-element__row">
+                    <div class="slds-form-element slds-form-element__label">
+                        <label class="slds-checkbox">
+                                <input ng-model="contact.Have_Alternate_Phone_Number__c" type="checkbox" />
+                                <span class="slds-checkbox--faux"></span>
+                                <span class="slds-form-element__helper">Do you have an alternate phone number for someone who can reach you?</span>
+                            </label>
+                    </div>
+                </div>
+                <!--slds-form-element__row END-->
+
+
+                <!--slds-form-element__row START-->
+                <div class="slds-form-element__row" ng-if="contact.Have_Alternate_Phone_Number__c">
+                    <!--slds-form-element__control START-->
+                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.OtherPhoneInternational__c.$invalid&&(userForm.OtherPhoneInternational__c.$dirty||userForm.$submitted)}">
+                        <span class="slds-form-element__label">Is your alternate phone number an international number?</span>
+                        <div class="slds-select_container">
+                            <select class="slds-select" ng-model="contact.OtherPhoneInternational__c" name="OtherPhoneInternational__c" ng-required="true" clear-hidden>
+                                    <option ng-repeat="item in contactPicklistOptionsMap.OtherPhoneInternational__c" value="{{item.value}}">{{item.label}}</option>
+                                </select>
+                        </div>
+                        <div ng-messages="userForm.OtherPhoneInternational__c.$error" ng-if="userForm.OtherPhoneInternational__c.$invalid&&(userForm.OtherPhoneInternational__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                            <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                        </div>
+                    </div>
+                    <!--slds-form-element__control END-->
+                    <!--slds-form-element__control START-->
+                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2" ng-class="{ 'slds-has-error' : userForm.OtherPhone.$invalid&&(userForm.OtherPhone.$dirty||userForm.$submitted)}">
+                        <span class="slds-form-element__label">Alternate Phone Number (For you, or someone who can reach you)</span>
+                        <input class="slds-input" ng-model="contact.OtherPhone" type="tel" name="OtherPhone" format-phone-number="{{contact.OtherPhoneInternational__c!='Yes'}}" ng-minlength="phoneMinLength(contact.OtherPhoneInternational__c=='Yes',userForm.OtherPhone.$viewValue)"
+                        />
+                        <div ng-messages="userForm.OtherPhone.$error" ng-if="userForm.OtherPhone.$invalid &&(userForm.OtherPhone.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                            <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                        </div>
+                    </div>
+                    <!--slds-form-element__control END-->
+                </div>
+                <!--slds-form-element__row END-->
+
+                <!--slds-form-element__row START-->
+                <div class="slds-form-element__row">
+                    <!--slds-form-element__control START-->
+                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                        <span class="slds-form-element__label">Emergency Contact First Name</span>
+                        <input class="slds-input" ng-model="contact.Emergency_Contact_First_Name__c" type="text" />
+                    </div>
+                    <!--slds-form-element__control END-->
+                    <!--slds-form-element__control START-->
+                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                        <span class="slds-form-element__label">Emergency Contact Last Name</span>
+                        <input class="slds-input" ng-model="contact.Emergency_Contact_Last_Name__c" type="text" />
+                    </div>
+                    <!--slds-form-element__control END-->
+                </div>
+                <!--slds-form-element__row END-->
+
+                <!--slds-form-element__row START-->
+                <div class="slds-form-element__row">
+                    <!--slds-form-element__control START-->
+                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2">
+                        <span class="slds-form-element__label">Emergency Contact Relationship</span>
+                        <div class="slds-select_container">
+                            <select class="slds-select" ng-model="contact.Emergency_Contact_Relationship__c">
+                                    <option ng-repeat="item in contactPicklistOptionsMap.Emergency_Contact_Relationship__c" value="{{item.value}}">{{item.label}}</option>
+                                </select>
+                        </div>
+                    </div>
+                    <!--slds-form-element__control END-->
+                </div>
+                <!--slds-form-element__row END-->
+                <!--slds-form-element__row START-->
+                <div class="slds-form-element__row">
+                    <!--slds-form-element__control START-->
+                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2 slds-is-required" ng-class="{ 'slds-has-error' : userForm.EmergencyPhoneInternational__c.$invalid&&(userForm.EmergencyPhoneInternational__c.$dirty||userForm.$submitted)}">
+                        <span class="slds-form-element__label">Is your emergency contact phone number an international number?</span>
+                        <div class="slds-select_container">
+                            <select class="slds-select" ng-model="contact.EmergencyPhoneInternational__c" name="EmergencyPhoneInternational__c" ng-required="true" clear-hidden>
+                                    <option ng-repeat="item in contactPicklistOptionsMap.EmergencyPhoneInternational__c" value="{{item.value}}">{{item.label}}</option>
+                                </select>
+                        </div>
+                        <div ng-messages="userForm.EmergencyPhoneInternational__c.$error" ng-if="userForm.EmergencyPhoneInternational__c.$invalid&&(userForm.EmergencyPhoneInternational__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                            <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                        </div>
+                    </div>
+                    <!--slds-form-element__control END-->
+                    <!--slds-form-element__control START-->
+                    <div class="slds-form-element__control slds-max-medium-size--1-of-1 slds-size--1-of-2" ng-class="{ 'slds-has-error' : userForm.Emergency_Contact_Phone_Number__c.$invalid && (userForm.Emergency_Contact_Phone_Number__c.$dirty || userForm.$submitted)}">
+                        <span class="slds-form-element__label">Emergency Contact Phone Number</span>
+                        <input class="slds-input" ng-model="contact.Emergency_Contact_Phone_Number__c" type="tel" name="Emergency_Contact_Phone_Number__c" format-phone-number="{{contact.EmergencyPhoneInternational__c!='Yes'}}" ng-minlength="phoneMinLength(contact.EmergencyPhoneInternational__c=='Yes',userForm.Emergency_Contact_Phone_Number__c.$viewValue)"
+                        />
+                        <div ng-messages="userForm.Emergency_Contact_Phone_Number__c.$error" ng-if="userForm.Emergency_Contact_Phone_Number__c.$invalid &&(userForm.Emergency_Contact_Phone_Number__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                            <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                        </div>
+                    </div>
+                    <!--slds-form-element__control END-->
+                </div>
+                <!--slds-form-element__row END-->
+                <!--slds-form-element__row START-->
+                <div class="slds-form-element__row">
+                    <div class="slds-form-element" ng-class="{ 'slds-has-error' : userForm.Contact_Info_Section__c.$invalid && (userForm.Contact_Info_Section__c.$dirty || userForm.$submitted)}">
+                        <label class="slds-checkbox slds-is-required">
+                                <input type="checkbox" ng-model="contact.Contact_Info_Section__c" name="Contact_Info_Section__c" check-required ng-model-options="{ allowInvalid: true }"/>
+                                <span class="slds-checkbox--faux"></span>
+                                <span class="slds-form-element__label">I have completed this section of the application. Selecting this box will update this section as complete on the application checklist.</span>
+                            </label>
+                        <div ng-messages="userForm.Contact_Info_Section__c.$error" ng-if="userForm.Contact_Info_Section__c.$invalid &&(userForm.Contact_Info_Section__c.$dirty||userForm.$submitted)" class="slds-form-element__help">
+                            <div ng-messages-include="{{con.NGD_Utilities}}/template/MessageTemplate.html"></div>
+                        </div>
+                    </div>
+                </div>
+                <!--slds-form-element__row END-->
+            </div>
+        </fieldset>
+    </section>
+    <div class="slds-x-small-buttons--horizontal">
+        <button class="slds-button slds-button--brand" type="button" ng-click="submit(false)">Save</button>
+        <button class="slds-button slds-button--brand" type="submit">Next</button>
+    </div>
+</form>

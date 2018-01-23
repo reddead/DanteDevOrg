@@ -1,0 +1,121 @@
+<div class="slds-page-header" style="margin-bottom:1rem;">
+	<div class="slds-grid">
+		<div class="slds-col slds-has-flexi-truncate">
+			<div class="slds-media">
+				<div class="slds-media__figure">
+					<span class="slds-avatar slds-avatar--square slds-avatar--medium" style="background-color: #6b9ee2;">
+						<img alt="Homepage Builder" src="/img/icon/t4v35/custom/custom9_120.png" title="Homepage Builder">
+					</span>
+				</div>
+				<div class="slds-media__body">
+					<h1 class="slds-page-header__title slds-truncate slds-align-middle">
+							Homepage Builder
+						</h1>
+				</div>
+			</div>
+		</div>
+		<div class="slds-col slds-no-flex slds-grid slds-align-top slds-p-bottom_xx-small">
+			<div class="slds-button-group" role="group">
+				<button class="slds-button slds-button_neutral" ng-click="new()">New</button>
+				<button class="slds-button slds-button_neutral" ng-click="back()">Back</button>
+				<button class="slds-button slds-button_neutral" title="Refresh" ng-click="refresh();">
+							<i class="fa fa-refresh"></i>
+					</button>
+			</div>
+		</div>
+	</div>
+	<div class="slds-grid">
+		<div class="slds-col slds-align-bottom">
+			<p class="slds-text-body_small"></p>
+		</div>
+		<div class="slds-col slds-no-flex slds-grid slds-align-bottom">
+		</div>
+	</div>
+</div>
+
+<div class="slds-grid page-content">
+	<div class="slds-grow">
+		<section st-table="hlList" st-safe-src="hlListSafe">
+			<div class="slds-grid" style="margin-bottom:1rem">
+				<div class="slds-grow slds-p-right_xx-large">
+					<span class="slds-input-has-icon slds-input-has-icon_right">
+							<svg class="slds-input__icon">
+								<use xlink:href="" ng-href="{{res.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+							</svg>
+							<input st-search="Name" placeholder="Search..." class="slds-input" type="search"/>
+					</span>
+				</div>
+				<!-- <button class="slds-button slds-button_neutral" title="Refresh" ng-click="refresh();">
+						<i class="fa fa-refresh"></i>
+				</button>
+				<button class="slds-button slds-button_neutral" ng-click="new()">New</button> -->
+			</div>
+
+			<form name="form" novalidate>
+				<table class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal">
+					<thead>
+						<tr class="slds-text-heading_label">
+							<th st-sort-default="true" st-sort="Name" class="slds-is-sortable">
+								<span class="slds-truncate">Name</span>
+							</th>
+							<th st-sort="Is_Active__c" class="slds-is-sortable">
+								<span class="slds-truncate">Active</span>
+							</th>
+							<th>
+								<span class="slds-truncate">Action</span>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr st-select-row="hl" ng-repeat="hl in hlList">
+							<td data-label="Name">
+								<div class="slds-truncate">
+									<a ng-click="edit(hl)">
+									{{hl.Name}}
+								</a>
+									<span class="slds-badge" ng-if="hl[namespacePrefix+'Default__c']">Default</span>
+								</div>
+							</td>
+							<td data-label="Active">
+								<div class="slds-truncate">
+									<div dz-checkbox ng-model="hl[namespacePrefix+'Is_Active__c']" ng-click="setActive(hl)" ng-disabled="hl[namespacePrefix+'Default__c']">
+									</div>
+								</div>
+							</td>
+							<td data-label="Action">
+								<div class="slds-button-group">
+									<button class="slds-button slds-button_icon-border" title="Edit" ng-click="edit(hl)">
+							    <svg class="slds-button__icon">
+							      <use xlink:href="" ng-href="{{res.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+							    </svg>
+							  </button>
+									<button class="slds-button slds-button_icon-border " title="Manage" ng-click="manage(hl)">
+							    <svg class="slds-button__icon">
+							      <use xlink:href="" ng-href="{{res.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#builder"></use>
+							    </svg>
+							  </button>
+									<button class="slds-button slds-button_icon-border" title="Copy" ng-click="copy(hl)">
+							    <svg class="slds-button__icon">
+							      <use xlink:href="" ng-href="{{res.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#copy"></use>
+							    </svg>
+							  </button>
+									<button class="slds-button slds-button_icon-more" title="Delete" ng-click="delete(hl)">
+							    <svg class="slds-button__icon">
+							      <use xlink:href="" ng-href="{{res.NGD_SLDS}}/assets/icons/utility-sprite/svg/symbols.svg#delete"></use>
+							    </svg>
+							  </button>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td class="text-center" colspan="5" st-pagination="" st-items-by-page="5" st-displayed-pages="5"></td>
+						</tr>
+					</tfoot>
+				</table>
+			</form>
+		</section>
+	</div>
+
+</div>

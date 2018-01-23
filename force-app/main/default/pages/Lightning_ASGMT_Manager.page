@@ -1,0 +1,5 @@
+<apex:page showHeader="false" sidebar="false">
+<script>
+window.location.replace("/one/one.app#/n/Assignment_Manager");
+</script>
+</apex:page>

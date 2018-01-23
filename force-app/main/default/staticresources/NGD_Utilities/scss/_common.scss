@@ -1,0 +1,50 @@
+$message-box-shadow-color: black;
+
+.slds-notify {
+	margin-bottom: 1rem;
+	box-shadow: 2px 2px 5px $message-box-shadow-color;
+	border-radius: 3px;
+	padding: 1rem;
+	font-weight: normal;
+	justify-content: flex-start;
+}
+
+.slds-section-title_divider {
+	margin-bottom: 0.75rem;
+}
+
+.slds-backdrop.loading-image {
+	background-color: transparent;
+}
+
+.slds-backdrop.loading-image img {
+	position: fixed;
+	top: 40%;
+	left: 46%;
+	width: 3.5rem;
+}
+
+.slds-grid {
+	flex-wrap: wrap;
+	align-items: flex-start;
+}
+
+.grid-column-1 > div {
+	flex-basis: 60%;
+}
+
+.grid-column-2 > div {
+	flex-basis: 50%;
+}
+
+.grid-column-2 > div:nth-child(odd) {
+	padding-right: 5%;
+}
+
+.grid-column-2 > div:nth-child(even) {
+	padding-left: 5%;
+}
+
+.slds-grid[class*='grid-column'] > * {
+	margin-bottom: 0.5rem;
+}
